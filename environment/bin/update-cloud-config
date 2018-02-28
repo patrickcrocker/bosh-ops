@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+# Usage:
+#
+# First, generate a cloud config, without variables interpolated, via:
+#
+#   $ ./bin/interpolate
+#
+# Then:
+#
+#   $ ./bin/update-cloud-config
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+echo "Updating Cloud Config"
+bosh -e prod update-cloud-config \
+  --vars-file  "${base}/secrets-prod/deployments/bosh/vars-file.yml" \
+  "${repo}/environment/cloud-config.yml"

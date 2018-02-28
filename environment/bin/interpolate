@@ -43,7 +43,6 @@ bosh interpolate "${base}/bosh-deployment/bosh.yml" \
 echo "Finished generating manifest"
 
 bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
-  --vars-file  "${base}/secrets-prod/deployments/bosh/vars-file.yml" \
   -o "${base}/bosh-deployment/misc/dns.yml" \
   > "${repo}/environment/cloud-config.yml"
 
