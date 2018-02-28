@@ -40,10 +40,10 @@ bosh interpolate "${base}/bosh-deployment/bosh.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
    > "${repo}/environment/bosh.yml"
 
-echo "Finished generating manifest"
+echo "Finished generating manifest: ${repo}/environment/bosh.yml"
 
 bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
   -o "${base}/bosh-deployment/misc/dns.yml" \
   > "${repo}/environment/cloud-config.yml"
 
-echo "Finished generating cloud config"
+echo "Finished generating cloud config: ${repo}/environment/cloud-config.yml"
