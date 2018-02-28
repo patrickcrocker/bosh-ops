@@ -1,0 +1,58 @@
+{
+    "director_id": "b8b5568b-e5e1-430b-5c62-f01b64c5f543",
+    "installation_id": "6646c9b4-44f3-42a3-6d98-0f5d837fcc7f",
+    "current_vm_cid": "vm-40b1bbd6-2e63-42b0-9b71-efe8b378c345",
+    "current_stemcell_id": "41e50990-58b9-458c-61fe-2dff50b9c8a5",
+    "current_disk_id": "69410e49-f96c-4ff8-7c2b-f5895efe5644",
+    "current_release_ids": [
+        "f44d1fec-0a15-48a6-440e-958f7b3fea2f",
+        "0db25ba6-860d-4465-64b6-894236fb729e",
+        "53100098-8eb8-4045-7ea7-d89bd9c79c7f",
+        "d6eb036f-7e7f-44df-7c55-419ec6ef7371",
+        "fccf4720-588f-4cff-7f74-bf38a2abdf33"
+    ],
+    "current_manifest_sha": "d2f4a13b93cb7d264cb4b2d8c0d13397c4dc3a67f097685665fbcfb0d94b86d65ec440d14506ae49caf2629aae5613a2f090d9544ff06d0b40803ada76984a0d",
+    "disks": [
+        {
+            "id": "69410e49-f96c-4ff8-7c2b-f5895efe5644",
+            "cid": "disk-f037f26c-323b-4bf5-ad2c-a2ce04f97915",
+            "size": 65536,
+            "cloud_properties": {}
+        }
+    ],
+    "stemcells": [
+        {
+            "id": "41e50990-58b9-458c-61fe-2dff50b9c8a5",
+            "name": "bosh-vsphere-esxi-ubuntu-trusty-go_agent",
+            "version": "3468.21",
+            "cid": "sc-557724cf-bfc1-41ef-8439-fc9bef0576d8"
+        }
+    ],
+    "releases": [
+        {
+            "id": "f44d1fec-0a15-48a6-440e-958f7b3fea2f",
+            "name": "bosh",
+            "version": "264.7.0"
+        },
+        {
+            "id": "0db25ba6-860d-4465-64b6-894236fb729e",
+            "name": "bosh-vsphere-cpi",
+            "version": "45.1.0"
+        },
+        {
+            "id": "53100098-8eb8-4045-7ea7-d89bd9c79c7f",
+            "name": "os-conf",
+            "version": "18"
+        },
+        {
+            "id": "d6eb036f-7e7f-44df-7c55-419ec6ef7371",
+            "name": "uaa",
+            "version": "52.7"
+        },
+        {
+            "id": "fccf4720-588f-4cff-7f74-bf38a2abdf33",
+            "name": "credhub",
+            "version": "1.6.5"
+        }
+    ]
+}
