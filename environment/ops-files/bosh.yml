@@ -1,0 +1,11 @@
+- type: replace
+  path: /instance_groups/name=bosh/properties/ntp?
+  value: &ntp
+  - 0.ubnt.pool.ntp.org
+  - 1.ubnt.pool.ntp.org
+  - 2.ubnt.pool.ntp.org
+  - 3.ubnt.pool.ntp.org
+
+- type: replace
+  path: /cloud_provider/properties/ntp?
+  value: *ntp

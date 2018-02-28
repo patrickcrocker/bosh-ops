@@ -1,0 +1,22 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+# Usage:
+#
+# First, generate a bosh manifest, without variables interpolated, via:
+#
+#   $ ./bin/interpolate
+#
+# Then:
+#
+#   $ ./bin/create-env
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+echo "Deploying BOSH"
+bosh -e prod create-env \
+  --state "${repo}/environment/bosh-state.json" \
+  --vars-file  "${base}/secrets-prod/deployments/bosh/vars-file.yml" \
+  --vars-store "${base}/secrets-prod/deployments/bosh/vars-store.yml" \
+  "${repo}/environment/bosh.yml"
