@@ -1,0 +1,23 @@
+---
+# Misc
+- type: replace
+  path: /instance_groups/name=worker/jobs/name=garden/properties/garden/dns_servers?
+  value: ((dns_servers))
+
+- type: replace
+  path: /instance_groups/name=worker/jobs/name=baggageclaim/properties/driver?
+  value: btrfs
+
+
+# change AZ
+- type: replace
+  path: /instance_groups/name=web/azs
+  value: ((azs))
+
+- type: replace
+  path: /instance_groups/name=db/azs
+  value: ((azs))
+
+- type: replace
+  path: /instance_groups/name=worker/azs
+  value: ((azs))

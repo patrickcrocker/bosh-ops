@@ -1,0 +1,34 @@
+#! /usr/bin/env bash
+#see: https://github.com/pivotal-cf/prod-aws/blob/master/deployments/concourse/bin/interpolate
+set -euo pipefail
+
+# To generate a manifest with variable interpolation placeholders intact,
+# suitable to be committed to source control
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+
+# make sure we have concourse-deployment
+if [[ ! -d "${base}/concourse-deployment" ]] ; then
+  pushd ${base} > /dev/null
+    git clone https://github.com/concourse/concourse-deployment.git &> /dev/null
+  popd > /dev/null
+fi
+
+# checkout specific version of concourse-deployment
+echo "Checking out to concourse-deployment commit:"
+pushd ${base}/concourse-deployment > /dev/null
+  git fetch &> /dev/null
+  git checkout 934b480f939145b98ce975ed124c39184b2dcf06  &> /dev/null
+  git log -1 --pretty=oneline
+popd > /dev/null
+
+bosh interpolate "${base}/concourse-deployment/cluster/concourse.yml" \
+  -l "${base}/concourse-deployment/versions.yml" \
+  -l "${repo}/deployments/concourse/ops-files/vars-file.yml" \
+  -o "${base}/concourse-deployment/cluster/operations/basic-auth.yml" \
+  -o "${base}/concourse-deployment/cluster/operations/scale.yml" \
+  -o "${repo}/deployments/concourse/ops-files/concourse.yml" \
+   > "${repo}/deployments/concourse/concourse.yml"
+
+echo "Finished generating manifest"
