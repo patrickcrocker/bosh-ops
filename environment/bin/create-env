@@ -17,6 +17,8 @@ repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 echo "Deploying BOSH"
 bosh -e prod create-env \
   --state "${repo}/environment/bosh-state.json" \
-  --vars-file  "${base}/secrets-prod/deployments/bosh/vars-file.yml" \
   --vars-store "${base}/secrets-prod/deployments/bosh/vars-store.yml" \
+  --vars-file  "${base}/secrets-prod/deployments/bosh/vars-file.yml" \
+  --var vcenter_user="$(lpass show vcsa.home.lan --username)" \
+  --var vcenter_password="$(lpass show vcsa.home.lan --password)" \
   "${repo}/environment/bosh.yml"
