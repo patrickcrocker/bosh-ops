@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+# Deploy Concourse
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
+
+bosh -e prod deploy -d concourse \
+  --vars-file "${base}/bosh-secrets/vars-concourse.yml" \
+  "${base}/bosh-secrets/manifests/concourse.yml"
+
+echo "Finished deploying"
