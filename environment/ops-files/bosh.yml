@@ -5,3 +5,20 @@
 - type: replace
   path: /cloud_provider/properties/ntp?
   value: ((ntp_servers))
+
+# Use Credhub!
+- type: replace
+  path: /instance_groups/name=bosh/properties/vcenter/user?
+  value: ((/vsphere/vcenter_user))
+
+- type: replace
+  path: /instance_groups/name=bosh/properties/vcenter/password?
+  value: ((/vsphere/vcenter_password))
+
+- type: replace
+  path: /cloud_provider/properties/vcenter/user?
+  value: ((/vsphere/vcenter_user))
+
+- type: replace
+  path: /cloud_provider/properties/vcenter/password?
+  value: ((/vsphere/vcenter_password))
