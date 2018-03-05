@@ -38,12 +38,12 @@ bosh interpolate "${base}/bosh-deployment/bosh.yml" \
   -o "${base}/bosh-deployment/credhub.yml" \
   -o "${base}/bosh-deployment/misc/dns.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
-   > "${repo}/environment/bosh.yml"
+   > "${base}/bosh-secrets/manifests/bosh.yml"
 
-echo "Finished generating manifest: ${repo}/environment/bosh.yml"
+echo "Generated bosh manifest: ${base}/bosh-secrets/manifests/bosh.yml"
 
 bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
   -o "${base}/bosh-deployment/misc/dns.yml" \
-  > "${repo}/environment/cloud-config.yml"
+  > "${base}/bosh-secrets/manifests/cloud-config.yml"
 
-echo "Finished generating cloud config: ${repo}/environment/cloud-config.yml"
+echo "Generated cloud config : ${base}/bosh-secrets/manifests/cloud-config.yml"

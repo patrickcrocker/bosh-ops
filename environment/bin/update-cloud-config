@@ -16,5 +16,5 @@ repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 echo "Updating Cloud Config"
 bosh -e prod update-cloud-config \
-  --vars-file  "${base}/secrets-prod/deployments/bosh/vars-file.yml" \
-  "${repo}/environment/cloud-config.yml"
+  --vars-file  "${base}/bosh-secrets/vars.yml" \
+  "${base}/bosh-secrets/manifests/cloud-config.yml"
