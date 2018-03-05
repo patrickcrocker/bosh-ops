@@ -2,7 +2,7 @@
 # Misc
 - type: replace
   path: /instance_groups/name=worker/jobs/name=garden/properties/garden/dns_servers?
-  value: ((dns_servers))
+  value: ((internal_dns))
 
 - type: replace
   path: /instance_groups/name=worker/jobs/name=baggageclaim/properties/driver?
