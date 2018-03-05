@@ -39,24 +39,24 @@ instance_groups:
         backends:
         - "https://10.0.10.2:443"
         insecure_skip_verify: true
-      - hostnames:
-        - api.run.nulldriver.com
-        - doppler.run.nulldriver.com
-        - p-spring-cloud-services.uaa.run.nulldriver.com
-        - spring-cloud-broker.cfapps.nulldriver.com
-        - spring-cloud-broker-venerable.cfapps.nulldriver.com
-        - pivotal-rabbitmq-broker.run.nulldriver.com
-        - redis-broker.run.nulldriver.com
-        - cfclitest-broker.cfapps.nulldriver.com
-        - login.run.nulldriver.com
-        - account.run.nulldriver.com
-        - apps.run.nulldriver.com
-        - aviato-profile.cfapps.nulldriver.com
-        backends:
-        - "https://10.0.20.10:443"
-        acme_url: ((acme_url))
-        websocket: true
-        insecure_skip_verify: true
+#      - hostnames:
+#        - api.run.nulldriver.com
+#        - doppler.run.nulldriver.com
+#        - p-spring-cloud-services.uaa.run.nulldriver.com
+#        - spring-cloud-broker.cfapps.nulldriver.com
+#        - spring-cloud-broker-venerable.cfapps.nulldriver.com
+#        - pivotal-rabbitmq-broker.run.nulldriver.com
+#        - redis-broker.run.nulldriver.com
+#        - cfclitest-broker.cfapps.nulldriver.com
+#        - login.run.nulldriver.com
+#        - account.run.nulldriver.com
+#        - apps.run.nulldriver.com
+#        - aviato-profile.cfapps.nulldriver.com
+#        backends:
+#        - "https://10.0.20.10:443"
+#        acme_url: ((acme_url))
+#        websocket: true
+#        insecure_skip_verify: true
       - hostnames:
         - "*.run.nulldriver.com"
         - "*.cfapps.nulldriver.com"
