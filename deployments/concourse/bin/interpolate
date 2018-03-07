@@ -15,10 +15,13 @@ if [[ ! -d "${base}/concourse-deployment" ]] ; then
 fi
 
 # checkout specific version of concourse-deployment
-echo "Checking out to concourse-deployment commit:"
-pushd ${base}/concourse-deployment > /dev/null
+CONCOURSE_REF="baa21d44ca24902b70fcb89e8de5c59a554b2b25"
+echo "Don't forget to edit this script to update CONCOURSE_REF"
+echo "Checking out to concourse-deployment to ref: ${CONCOURSE_REF}"
+
+pushd ${repo}/tmp/concourse-deployment > /dev/null
   git fetch &> /dev/null
-  git checkout 934b480f939145b98ce975ed124c39184b2dcf06  &> /dev/null
+  git checkout ${CONCOURSE_REF} &> /dev/null
   git log -1 --pretty=oneline
 popd > /dev/null
 
