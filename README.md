@@ -111,7 +111,7 @@ $ credhub set -n /vsphere/vcenter_password -t password -w "$BOSHOPS_vcenter_pass
 $ credhub set -n /bosh/instant-https/acme_url -t value -v https://acme-staging.api.letsencrypt.org/directory
 
 # Deploy
-$ bosh -e prod deploy -d instant-https bosh-ops/deployments/instant-https.yml --vars-file=bosh-secrets/vars.yml
+$ bosh -e prod deploy -d instant-https bosh-ops/deployments/instant-https.yml
 ```
 
 ## Deploy Concourse
