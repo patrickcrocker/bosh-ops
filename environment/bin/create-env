@@ -28,4 +28,4 @@ bosh -e prod create-env --vars-env BOSHOPS \
   --state "${base}/bosh-secrets/bosh/state.json" \
   --vars-store "${base}/bosh-secrets/bosh/creds.yml" \
   --vars-file  "${base}/bosh-secrets/vars.yml" \
-  "${base}/bosh-secrets/manifests/bosh.yml"
+  "${repo}/environment/bosh.yml"

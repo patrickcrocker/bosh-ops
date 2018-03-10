@@ -13,37 +13,38 @@ set -euo pipefail
 #
 #   $ ./bin/interpolate --vars-file <path> --vars-store <path>
 
-base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 # make sure we have bosh-deployment
-if [[ ! -d "${base}/bosh-deployment" ]] ; then
-  pushd ${base} > /dev/null
+if [[ ! -d "${repo}/tmp/bosh-deployment" ]] ; then
+  pushd ${repo}/tmp > /dev/null
     git clone https://github.com/cloudfoundry/bosh-deployment.git &> /dev/null
   popd > /dev/null
 fi
 
 # checkout specific version of bosh-deployment
-echo "Checking out to bosh-deployment commit:"
-pushd ${base}/bosh-deployment > /dev/null
+BOSH_REF="495e6f5b74f903dab8ba24f14d805a21060fdb41"
+echo "Checking out to bosh-deployment to ref: ${BOSH_REF}"
+
+pushd ${repo}/tmp/bosh-deployment > /dev/null
   git fetch &> /dev/null
-  git checkout 495e6f5b74f903dab8ba24f14d805a21060fdb41 &> /dev/null
+  git checkout ${BOSH_REF} &> /dev/null
   git log -1 --pretty=oneline
 popd > /dev/null
 
-bosh interpolate "${base}/bosh-deployment/bosh.yml" \
-  -o "${base}/bosh-deployment/vsphere/cpi.yml" \
-  -o "${base}/bosh-deployment/jumpbox-user.yml" \
-  -o "${base}/bosh-deployment/uaa.yml" \
-  -o "${base}/bosh-deployment/credhub.yml" \
-  -o "${base}/bosh-deployment/misc/dns.yml" \
+bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
+  -o "${repo}/tmp/bosh-deployment/vsphere/cpi.yml" \
+  -o "${repo}/tmp/bosh-deployment/jumpbox-user.yml" \
+  -o "${repo}/tmp/bosh-deployment/uaa.yml" \
+  -o "${repo}/tmp/bosh-deployment/credhub.yml" \
+  -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
-   > "${base}/bosh-secrets/manifests/bosh.yml"
+   > "${repo}/environment/bosh.yml"
 
-echo "Generated bosh manifest: ${base}/bosh-secrets/manifests/bosh.yml"
+echo "Generated bosh manifest: ${repo}/environment/bosh.yml"
 
 bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
-  -o "${base}/bosh-deployment/misc/dns.yml" \
-  > "${base}/bosh-secrets/manifests/cloud-config.yml"
+  -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
+  > "${repo}/environment/cloud-config.yml"
 
-echo "Generated cloud config : ${base}/bosh-secrets/manifests/cloud-config.yml"
+echo "Generated cloud config : ${repo}/environment/cloud-config.yml"
