@@ -100,14 +100,31 @@ $ credhub login --server https://10.0.8.2:8844 \
 ```
 
 ## Deploy instant-https
-```bash
-# Set the acme prod or staging URL
-# staging: https://acme-staging.api.letsencrypt.org/directory
-# prod   : https://acme-v01.api.letsencrypt.org/directory
-$ credhub set -n /bosh/instant-https/acme_url -t value -v https://acme-staging.api.letsencrypt.org/directory
+Example `bosh-secrets/vars-instant-https.yml`:
+```yml
+---
+# Staging url:
+#acme_url: https://acme-staging.api.letsencrypt.org/directory
+# Production url:
+acme_url: https://acme-v01.api.letsencrypt.org/directory
+contact_email: user@example.com
+ci_hostnames: [ci.example.com]
+ci_backends:
+- "http://192.168.1.10:8080"
+- "http://192.168.1.11:8080"
+opsman_hostnames: [opsman.example.com]
+opsman_backends: ["https://192.168.2.6:443"]
+pas_hostnames:
+- "*.sys.example.com"
+- "*.cfapps.example.com"
+pas_backends:
+- "https://192.168.3.10:443"
+- "https://192.168.3.11:443"
+```
 
+```bash
 # Deploy
-$ bosh -e prod deploy -d instant-https bosh-ops/deployments/instant-https.yml
+$ bosh-ops/deployments/instant-https/bin/deploy
 ```
 
 ## Deploy Concourse
