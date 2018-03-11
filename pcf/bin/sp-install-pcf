@@ -29,4 +29,4 @@ cat "${repo}/tmp/pcf-pipelines/install-pcf/vsphere/pipeline.yml" \
 fly -t prod set-pipeline \
     -p install-pcf \
     -c "${repo}/pcf/install-pcf-pipeline.yml" \
-    -l "${base}/bosh-secrets/params.yml"
+    -l "${base}/bosh-secrets/pcf/install-pcf-params.yml"

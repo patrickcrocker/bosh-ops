@@ -2,7 +2,7 @@
 # resources
 - op: replace
   path: /resources/name=pcf-pipelines/source/private_key
-  value: ((git_ssh.private_key))
+  value: ((git_key.private_key))
 
 - op: replace
   path: /resources/name=pcf-ops-manager/source/api_token
@@ -36,7 +36,7 @@
 
 - op: replace
   path: /jobs/name=configure-director/plan/task=config-opsman-auth/params/OM_DECRYPTION_PWD
-  value: ((opsman_decrypt.password))
+  value: ((opsman_decrypt_password))
 
 - op: replace
   path: /jobs/name=configure-director/plan/task=configure-director/params/OPS_MGR_USR
@@ -48,7 +48,7 @@
 
 - op: replace
   path: /jobs/name=configure-director/plan/task=configure-director/params/TRUSTED_CERTIFICATES
-  value: ((nulldriver_root_ca.certificate))
+  value: ((root_ca.certificate))
 
 - op: replace
   path: /jobs/name=configure-director/plan/task=configure-director/params/VCENTER_USR

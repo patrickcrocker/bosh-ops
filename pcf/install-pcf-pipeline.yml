@@ -46,7 +46,7 @@ jobs:
       trigger: false
   - file: pcf-pipelines/tasks/config-opsman/task.yml
     params:
-      OM_DECRYPTION_PWD: ((opsman_decrypt.password))
+      OM_DECRYPTION_PWD: ((opsman_decrypt_password))
       OPS_MGR_PWD: ((opsman.password))
       OPS_MGR_USR: ((opsman.username))
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
@@ -111,7 +111,7 @@ jobs:
       SERVICES_NW_DNS: {{services_nw_dns}}
       SERVICES_NW_GATEWAY: {{services_nw_gateway}}
       SERVICES_VCENTER_NETWORK: {{services_vsphere_network}}
-      TRUSTED_CERTIFICATES: ((nulldriver_root_ca.certificate))
+      TRUSTED_CERTIFICATES: ((root_ca.certificate))
       VCENTER_DATA_CENTER: {{vcenter_datacenter}}
       VCENTER_DISK_TYPE: {{vm_disk_type}}
       VCENTER_HOST: {{vcenter_host}}
@@ -384,7 +384,7 @@ resources:
 - name: pcf-pipelines
   source:
     branch: master
-    private_key: ((git_ssh.private_key))
+    private_key: ((git_key.private_key))
     uri: git@github.com:pivotal-cf/pcf-pipelines.git
   type: git
 - name: pcf-ops-manager

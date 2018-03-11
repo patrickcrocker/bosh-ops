@@ -7,12 +7,13 @@ instance_groups:
       basic_auth_password: ((atc_basic_auth.password))
       basic_auth_username: ((atc_basic_auth.username))
       credhub:
-        client_id: director_to_credhub
-        client_secret: ((uaa_clients_director_to_credhub))
+        client_id: concourse_to_credhub
+        client_secret: ((uaa_clients_concourse_to_credhub))
         tls:
           ca_cert:
-            certificate: ((credhub_ca.certificate))
-        url: https://((credhub_static_ip)):8844
+            certificate: ((credhub_tls.ca))((uaa_ssl.ca))
+          insecure_skip_verify: false
+        url: https://((credhub_static_ip)):8844/api/
       external_url: ((external_url))
       log_level: debug
       postgresql:

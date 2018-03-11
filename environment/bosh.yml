@@ -71,6 +71,13 @@ instance_groups:
             refresh-token-validity: 86400
             scope: openid,bosh.admin,bosh.read,bosh.*.admin,bosh.*.read
             secret: ""
+          concourse_to_credhub:
+            access-token-validity: 3600
+            authorities: credhub.read,credhub.write
+            authorized-grant-types: client_credentials
+            override: true
+            scope: ""
+            secret: ((uaa_clients_concourse_to_credhub))
           credhub-admin:
             access-token-validity: 3600
             authorities: credhub.read,credhub.write
@@ -422,4 +429,6 @@ variables:
 - name: uaa_clients_director_to_credhub
   type: password
 - name: credhub_admin_client_secret
+  type: password
+- name: uaa_clients_concourse_to_credhub
   type: password

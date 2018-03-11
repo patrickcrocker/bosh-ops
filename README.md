@@ -61,7 +61,7 @@ internal_dns:
 # Interpolate the bosh and cloud config manifests
 $ bosh-ops/environment/bin/interpolate
 
-# Export the vcenter credentials for the initial install (later we'll get these from credhub)
+# Export the vcenter credentials for the create-env script:
 $ export BOSHOPS_vcenter_user=some-user
 $ export BOSHOPS_vcenter_password=some-pass
 
@@ -97,10 +97,6 @@ $ credhub login --server https://10.0.8.2:8844 \
     --ca-cert=<(bosh int bosh-secrets/bosh/creds.yml --path /credhub_ca/ca) \
     --client-name=credhub-admin \
     --client-secret=$(bosh int bosh-secrets/bosh/creds.yml --path /credhub_admin_client_secret)
-
-# Migrate vcenter credentials to credhub:
-$ credhub set -n /vsphere/vcenter_user -t value -v "$BOSHOPS_vcenter_user"
-$ credhub set -n /vsphere/vcenter_password -t password -w "$BOSHOPS_vcenter_password"
 ```
 
 ## Deploy instant-https
@@ -116,14 +112,32 @@ $ bosh -e prod deploy -d instant-https bosh-ops/deployments/instant-https.yml
 
 ## Deploy Concourse
 ```bash
-# Set CredHub vars
-$ credhub set -n /bosh/concourse/atc_basic_auth -t 'some-user' -z admin -w 'some-pass'
-
 # Interpolate
 $ bosh-ops/deployments/concourse/bin/interpolate
 
+# Set CredHub vars
+$ credhub set -n /bosh/concourse/atc_basic_auth -t 'some-user' -z admin -w 'some-pass'
+$ credhub set -n /bosh/concourse/credhub_tls -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca)
+$ credhub set -n /bosh/concourse/uaa_ssl -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca)
+$ credhub set -n /bosh/concourse/uaa_clients_concourse_to_credhub -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
+
 # Deploy
 $ bosh-ops/deployments/concourse/bin/deploy
+```
+
+## PCF Pipelines
+```bash
+# Set pipeline credentials
+$ credhub generate -n /concourse/cloudops/git_key -t ssh # upload git_key.public_key to GitHub
+$ credhub set -n /concourse/cloudops/opsman -t user -z "<some-user>" -w "<some-pass>"
+$ credhub set -n /concourse/cloudops/opsman_decrypt_password -t password -w "<some-pass>"
+$ credhub set -n /concourse/cloudops/opsman_vm -t user -z "ubuntu" -w "<some-pass>"
+$ credhub set -n /concourse/cloudops/pivnet_api_token -t password -w "<pivnet-api-token>"
+$ credhub set -n /concourse/cloudops/root_ca -t certificate -c <(cat /path/to/root-ca.pem)
+$ credhub set -n /concourse/cloudops/vcenter -t user -z "<some-user>" -w "<some-pass>"
+
+# Set pipeline
+$ bosh-ops/pcf/bin/sp-install-pcf
 ```
 
 ## Re-deploy BOSH
@@ -134,8 +148,8 @@ If you need to redeploy bosh director:
 $ bosh-ops/environment/bin/interpolate
 
 # Set vcenter credentials:
-$ export BOSHOPS_vcenter_user=$(credhub get -n /vsphere/vcenter_user -j | jq -r .value)
-$ export BOSHOPS_vcenter_password=$(credhub get -n /vsphere/vcenter_password -j | jq -r .value)
+$ export BOSHOPS_vcenter_user=$(credhub get -n /concourse/cloudops/vcenter -j | jq -r .value.username)
+$ export BOSHOPS_vcenter_password=$(credhub get -n /concourse/cloudops/vcenter -j | jq -r .value.password)
 
 # Redeploy BOSH director
 $ bosh-ops/environment/bin/create-env

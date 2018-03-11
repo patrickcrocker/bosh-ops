@@ -1,11 +1,11 @@
 ---
-# Add credhub property to Concourse Web instance
 - type: replace
   path: /instance_groups/name=web/jobs/name=atc/properties/credhub?
   value:
-    url: https://((credhub_static_ip)):8844
+    url: "https://((credhub_static_ip)):8844/api/"
     tls:
+      insecure_skip_verify: false
       ca_cert:
-        certificate: ((credhub_ca.certificate))
-    client_id: director_to_credhub
-    client_secret: ((uaa_clients_director_to_credhub))
+        certificate: ((credhub_tls.ca))((uaa_ssl.ca))
+    client_id: concourse_to_credhub
+    client_secret: ((uaa_clients_concourse_to_credhub))
