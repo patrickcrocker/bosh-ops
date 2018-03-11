@@ -10,7 +10,7 @@ releases:
 stemcells:
 - alias: default
   os: ubuntu-trusty
-  version: 3468.25
+  version: 3468.latest
 
 instance_groups:
 - name: https_proxy
