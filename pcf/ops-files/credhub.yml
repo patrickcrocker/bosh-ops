@@ -1,0 +1,132 @@
+---
+# resources
+- op: replace
+  path: /resources/name=pcf-pipelines/source/private_key
+  value: ((git_ssh.private_key))
+
+- op: replace
+  path: /resources/name=pcf-ops-manager/source/api_token
+  value: ((pivnet_api_token))
+
+- op: replace
+  path: /resources/name=elastic-runtime/source/api_token
+  value: ((pivnet_api_token))
+
+# deploy-opsman
+- op: replace
+  path: /jobs/name=deploy-opsman/plan/task=deploy/params/GOVC_USERNAME
+  value: ((vcenter.username))
+
+- op: replace
+  path: /jobs/name=deploy-opsman/plan/task=deploy/params/GOVC_PASSWORD
+  value: ((vcenter.password))
+
+- op: replace
+  path: /jobs/name=deploy-opsman/plan/task=deploy/params/OPS_MGR_SSH_PWD
+  value: ((opsman_vm.password))
+
+# configure-director
+- op: replace
+  path: /jobs/name=configure-director/plan/task=config-opsman-auth/params/OPS_MGR_USR
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=config-opsman-auth/params/OPS_MGR_PWD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=config-opsman-auth/params/OM_DECRYPTION_PWD
+  value: ((opsman_decrypt.password))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=configure-director/params/OPS_MGR_USR
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=configure-director/params/OPS_MGR_PWD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=configure-director/params/TRUSTED_CERTIFICATES
+  value: ((nulldriver_root_ca.certificate))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=configure-director/params/VCENTER_USR
+  value: ((vcenter.username))
+
+- op: replace
+  path: /jobs/name=configure-director/plan/task=configure-director/params/VCENTER_PWD
+  value: ((vcenter.password))
+
+# deploy-director
+- op: replace
+  path: /jobs/name=deploy-director/plan/task=apply-changes/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=deploy-director/plan/task=apply-changes/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+# upload-ert
+- op: replace
+  path: /jobs/name=upload-ert/plan/task=upload-tile/params/OPS_MGR_USR
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=upload-ert/plan/task=upload-tile/params/OPS_MGR_PWD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=upload-ert/plan/task=upload-tile/params/PIVNET_API_TOKEN
+  value: ((pivnet_api_token))
+
+# stage-ert
+- op: replace
+  path: /jobs/name=stage-ert/plan/task=stage/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=stage-ert/plan/task=stage/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+# deploy-ert
+- op: replace
+  path: /jobs/name=deploy-ert/plan/task=configure/params/OPS_MGR_USR
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=deploy-ert/plan/task=configure/params/OPS_MGR_PWD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=deploy-ert/plan/task=disable-errands/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=deploy-ert/plan/task=disable-errands/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=deploy-ert/plan/task=deploy/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=deploy-ert/plan/task=deploy/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+# wipe-env
+- op: replace
+  path: /jobs/name=wipe-env/plan/task=wipe/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=wipe-env/plan/task=wipe/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=wipe-env/plan/task=wipe/params/GOVC_USERNAME
+  value: ((vcenter.username))
+
+- op: replace
+  path: /jobs/name=wipe-env/plan/task=wipe/params/GOVC_PASSWORD
+  value: ((vcenter.password))

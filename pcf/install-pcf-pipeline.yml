@@ -1,0 +1,403 @@
+jobs:
+- name: deploy-opsman
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-opsman-product
+      params:
+        globs:
+        - '*.ova'
+      resource: pcf-ops-manager
+  - file: pcf-pipelines/install-pcf/vsphere/tasks/import-opsman/task.yml
+    params:
+      GOVC_CA_CERT: {{vcenter_ca_cert}}
+      GOVC_DATACENTER: {{vcenter_datacenter}}
+      GOVC_DATASTORE: {{vcenter_datastore}}
+      GOVC_HOST: {{om_vm_host}}
+      GOVC_INSECURE: {{vcenter_insecure}}
+      GOVC_NETWORK: {{om_vm_network}}
+      GOVC_PASSWORD: ((vcenter.password))
+      GOVC_RESOURCE_POOL: {{om_resource_pool}}
+      GOVC_URL: {{vcenter_host}}
+      GOVC_USERNAME: ((vcenter.username))
+      OM_DNS_SERVERS: {{om_dns_servers}}
+      OM_GATEWAY: {{om_gateway}}
+      OM_IP: {{om_ip}}
+      OM_NETMASK: {{om_netmask}}
+      OM_NTP_SERVERS: {{om_ntp_servers}}
+      OM_RESOURCE_POOL: {{om_resource_pool}}
+      OM_VM_FOLDER: {{om_vm_folder}}
+      OM_VM_NAME: {{om_vm_name}}
+      OM_VM_NETWORK: {{om_vm_network}}
+      OM_VM_POWER_STATE: {{om_vm_power_state}}
+      OPS_MGR_SSH_PWD: ((opsman_vm.password))
+      OPSMAN_DISK_TYPE: {{opsman_disk_type}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+    task: deploy
+- name: configure-director
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pcf-ops-manager
+      params:
+        globs: []
+      passed:
+      - deploy-opsman
+      trigger: false
+  - file: pcf-pipelines/tasks/config-opsman/task.yml
+    params:
+      OM_DECRYPTION_PWD: ((opsman_decrypt.password))
+      OPS_MGR_PWD: ((opsman.password))
+      OPS_MGR_USR: ((opsman.username))
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+    task: config-opsman-auth
+  - file: pcf-pipelines/install-pcf/vsphere/tasks/config-opsdir/task.yml
+    params:
+      AZ_1: {{az_1_name}}
+      AZ_1_CLUSTER_NAME: {{az_1_cluster_name}}
+      AZ_1_RP_NAME: {{az_1_rp_name}}
+      AZ_2: {{az_2_name}}
+      AZ_2_CLUSTER_NAME: {{az_2_cluster_name}}
+      AZ_2_RP_NAME: {{az_2_rp_name}}
+      AZ_3: {{az_3_name}}
+      AZ_3_CLUSTER_NAME: {{az_3_cluster_name}}
+      AZ_3_RP_NAME: {{az_3_rp_name}}
+      BOSH_DISK_PATH: {{bosh_disk_path}}
+      BOSH_TEMPLATE_FOLDER: {{bosh_template_folder}}
+      BOSH_VM_FOLDER: {{bosh_vm_folder}}
+      DEPLOYMENT_EXCLUDED_RANGE: {{deployment_excluded_range}}
+      DEPLOYMENT_NETWORK_NAME: {{deployment_network_name}}
+      DEPLOYMENT_NW_AZS: {{deployment_nw_azs}}
+      DEPLOYMENT_NW_CIDR: {{deployment_nw_cidr}}
+      DEPLOYMENT_NW_DNS: {{deployment_nw_dns}}
+      DEPLOYMENT_NW_GATEWAY: {{deployment_nw_gateway}}
+      DEPLOYMENT_VCENTER_NETWORK: {{deployment_vsphere_network}}
+      DYNAMIC_SERVICES_EXCLUDED_RANGE: {{dynamic_services_excluded_range}}
+      DYNAMIC_SERVICES_NETWORK_NAME: {{dynamic_services_network_name}}
+      DYNAMIC_SERVICES_NW_AZS: {{dynamic_services_nw_azs}}
+      DYNAMIC_SERVICES_NW_CIDR: {{dynamic_services_nw_cidr}}
+      DYNAMIC_SERVICES_NW_DNS: {{dynamic_services_nw_dns}}
+      DYNAMIC_SERVICES_NW_GATEWAY: {{dynamic_services_nw_gateway}}
+      DYNAMIC_SERVICES_VCENTER_NETWORK: {{dynamic_services_vsphere_network}}
+      ENABLE_VM_RESURRECTOR: {{enable_vm_resurrector}}
+      EPHEMERAL_STORAGE_NAMES: {{ephemeral_storage_names}}
+      ICMP_CHECKS_ENABLED: {{icmp_checks_enabled}}
+      INFRA_EXCLUDED_RANGE: {{infra_excluded_range}}
+      INFRA_NETWORK_NAME: {{infra_network_name}}
+      INFRA_NW_AZS: {{infra_nw_azs}}
+      INFRA_NW_CIDR: {{infra_nw_cidr}}
+      INFRA_NW_DNS: {{infra_nw_dns}}
+      INFRA_NW_GATEWAY: {{infra_nw_gateway}}
+      INFRA_VCENTER_NETWORK: {{infra_vsphere_network}}
+      IS_SERVICE_NETWORK: {{is_service_network}}
+      MAX_THREADS: {{max_threads}}
+      NSX_ADDRESS: {{nsx_address}}
+      NSX_CA_CERTIFICATE: {{nsx_ca_certificate}}
+      NSX_NETWORKING_ENABLED: {{nsx_networking_enabled}}
+      NSX_PASSWORD: {{nsx_password}}
+      NSX_USERNAME: {{nsx_username}}
+      NTP_SERVERS: {{ntp_servers}}
+      OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
+      OPS_MGR_PWD: ((opsman.password))
+      OPS_MGR_USR: ((opsman.username))
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      PERSISTENT_STORAGE_NAMES: {{persistent_storage_names}}
+      SERVICES_EXCLUDED_RANGE: {{services_excluded_range}}
+      SERVICES_NETWORK_NAME: {{services_network_name}}
+      SERVICES_NW_AZS: {{services_nw_azs}}
+      SERVICES_NW_CIDR: {{services_nw_cidr}}
+      SERVICES_NW_DNS: {{services_nw_dns}}
+      SERVICES_NW_GATEWAY: {{services_nw_gateway}}
+      SERVICES_VCENTER_NETWORK: {{services_vsphere_network}}
+      TRUSTED_CERTIFICATES: ((nulldriver_root_ca.certificate))
+      VCENTER_DATA_CENTER: {{vcenter_datacenter}}
+      VCENTER_DISK_TYPE: {{vm_disk_type}}
+      VCENTER_HOST: {{vcenter_host}}
+      VCENTER_PWD: ((vcenter.password))
+      VCENTER_USR: ((vcenter.username))
+    task: configure-director
+- name: deploy-director
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pcf-ops-manager
+      params:
+        globs: []
+      passed:
+      - configure-director
+      trigger: false
+  - file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: apply-changes
+- name: upload-ert
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-product
+      params:
+        globs:
+        - cf*.pivotal
+      resource: elastic-runtime
+    - get: pcf-ops-manager
+      params:
+        globs: []
+      passed:
+      - deploy-director
+      trigger: true
+  - file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
+    params:
+      IAAS: vsphere
+      NO_PROXY: {{company_proxy_domain}}
+      OM_IP: {{om_ip}}
+      OPS_MGR_PWD: ((opsman.password))
+      OPS_MGR_USR: ((opsman.username))
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      PIVNET_API_TOKEN: ((pivnet_api_token))
+    task: upload-tile
+- name: stage-ert
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pcf-ops-manager
+      params:
+        globs: []
+      passed:
+      - upload-ert
+      trigger: true
+    - get: pivnet-product
+      params:
+        globs:
+        - cf*.pivotal
+      passed:
+      - upload-ert
+      resource: elastic-runtime
+  - file: pcf-pipelines/tasks/stage-product/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: stage
+- name: deploy-ert
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pcf-ops-manager
+      params:
+        globs: []
+      passed:
+      - stage-ert
+      trigger: false
+    - get: pivnet-product
+      params:
+        globs:
+        - cf*.pivotal
+      passed:
+      - stage-ert
+      resource: elastic-runtime
+  - file: pcf-pipelines/tasks/config-ert/task.yml
+    params:
+      ALLOW_APP_SSH_ACCESS: {{allow_app_ssh_access}}
+      APPS_DOMAIN: {{apps_domain}}
+      AUTHENTICATION_MODE: {{authentication_mode}}
+      BACKUP_PREPARE_INSTANCES: {{backup_prepare_instances}}
+      CLOCK_GLOBAL_INSTANCES: {{clock_global_instances}}
+      CLOUD_CONTROLLER_INSTANCES: {{cloud_controller_instances}}
+      CLOUD_CONTROLLER_WORKER_INSTANCES: {{cloud_controller_worker_instances}}
+      COMPANY_NAME: {{company_name}}
+      CONSUL_SERVER_INSTANCES: {{consul_server_instances}}
+      CONTAINER_NETWORKING_NW_CIDR: {{container_networking_nw_cidr}}
+      CREDHUB_ENCRYPTION_KEYS: {{credhub_encryption_keys}}
+      CREDHUB_INSTANCES: {{credhub_instances}}
+      DEFAULT_QUOTA_MAX_SERVICES_COUNT: {{default_quota_max_number_services}}
+      DEFAULT_QUOTA_MEMORY_LIMIT_IN_MB: {{default_quota_memory_limit_mb}}
+      DEPLOYMENT_NW_AZS: {{deployment_nw_azs}}
+      DIEGO_BRAIN_INSTANCES: {{diego_brain_instances}}
+      DIEGO_BRAIN_NSX_LB_EDGE_NAME: {{diego_brain_nsx_lb_edge_name}}
+      DIEGO_BRAIN_NSX_LB_POOL_NAME: {{diego_brain_nsx_lb_pool_name}}
+      DIEGO_BRAIN_NSX_LB_PORT: {{diego_brain_nsx_lb_port}}
+      DIEGO_BRAIN_NSX_LB_SECURITY_GROUP: {{diego_brain_nsx_lb_security_group}}
+      DIEGO_BRAIN_NSX_SECURITY_GROUP: {{diego_brain_nsx_security_group}}
+      DIEGO_CELL_INSTANCES: {{diego_cell_instances}}
+      DIEGO_DATABASE_INSTANCES: {{diego_database_instances}}
+      DISABLE_HTTP_PROXY: {{disable_http_proxy}}
+      DISABLE_INSECURE_COOKIES: {{disable_insecure_cookies}}
+      DOPPLER_INSTANCES: {{doppler_instances}}
+      ENABLE_SECURITY_EVENT_LOGGING: {{enable_security_event_logging}}
+      ERT_SINGLETON_JOB_AZ: {{ert_singleton_job_az}}
+      FIRST_NAME_ATTR: {{first_name_attribute}}
+      GARDEN_NETWORK_MTU: {{garden_network_mtu}}
+      GARDEN_NETWORK_POOL_CIDR: {{garden_network_pool_cidr}}
+      GROUP_SEARCH_BASE: {{group_search_base}}
+      GROUP_SEARCH_FILTER: {{group_search_filter}}
+      HA_PROXY_INSTANCES: {{ha_proxy_instances}}
+      HA_PROXY_IPS: {{ha_proxy_ips}}
+      HA_PROXY_LB_NAME: ""
+      HAPROXY_BACKEND_CA: {{haproxy_backend_ca}}
+      HAPROXY_FLOATING_IPS: ""
+      HAPROXY_FORWARD_TLS: {{haproxy_forward_tls}}
+      HAPROXY_TLS_CIPHERS: {{haproxy_tls_ciphers}}
+      IAAS: vsphere
+      IGNORE_SSL_CERT: {{ignore_ssl_cert_verification}}
+      INTERNET_CONNECTED: {{internet_connected}}
+      LAST_NAME_ATTR: {{last_name_attribute}}
+      LDAP_PWD: {{ldap_pwd}}
+      LDAP_URL: {{ldap_url}}
+      LDAP_USER: {{ldap_user}}
+      LOGGREGATOR_ENDPOINT_PORT: {{loggregator_endpoint_port}}
+      LOGGREGATOR_TRAFFICCONTROLLER_INSTANCES: {{loggregator_trafficcontroller_instances}}
+      MAIL_ATTR_NAME: {{mail_attribute_name}}
+      MYSQL_BACKUPS: {{mysql_backups}}
+      MYSQL_BACKUPS_S3_ACCESS_KEY_ID: {{mysql_backups_s3_access_key_id}}
+      MYSQL_BACKUPS_S3_BUCKET_NAME: {{mysql_backups_s3_bucket_name}}
+      MYSQL_BACKUPS_S3_BUCKET_PATH: {{mysql_backups_s3_bucket_path}}
+      MYSQL_BACKUPS_S3_CRON_SCHEDULE: {{mysql_backups_s3_cron_schedule}}
+      MYSQL_BACKUPS_S3_ENDPOINT_URL: {{mysql_backups_s3_endpoint_url}}
+      MYSQL_BACKUPS_S3_SECRET_ACCESS_KEY: {{mysql_backups_s3_secret_access_key}}
+      MYSQL_BACKUPS_SCP_CRON_SCHEDULE: {{mysql_backups_scp_cron_schedule}}
+      MYSQL_BACKUPS_SCP_DESTINATION: {{mysql_backups_scp_destination}}
+      MYSQL_BACKUPS_SCP_KEY: {{mysql_backups_scp_key}}
+      MYSQL_BACKUPS_SCP_PORT: {{mysql_backups_scp_port}}
+      MYSQL_BACKUPS_SCP_SERVER: {{mysql_backups_scp_server}}
+      MYSQL_BACKUPS_SCP_USER: {{mysql_backups_scp_user}}
+      MYSQL_INSTANCES: {{mysql_instances}}
+      MYSQL_MONITOR_EMAIL: {{mysql_monitor_email}}
+      MYSQL_MONITOR_INSTANCES: {{mysql_monitor_instances}}
+      MYSQL_NSX_LB_EDGE_NAME: {{mysql_nsx_lb_edge_name}}
+      MYSQL_NSX_LB_POOL_NAME: {{mysql_nsx_lb_pool_name}}
+      MYSQL_NSX_LB_PORT: {{mysql_nsx_lb_port}}
+      MYSQL_NSX_LB_SECURITY_GROUP: {{mysql_nsx_lb_security_group}}
+      MYSQL_NSX_SECURITY_GROUP: {{mysql_nsx_security_group}}
+      MYSQL_PROXY_INSTANCES: {{mysql_proxy_instances}}
+      MYSQL_STATIC_IPS: {{mysql_static_ips}}
+      NATS_INSTANCES: {{nats_instances}}
+      NETWORK_NAME: {{deployment_network_name}}
+      NETWORKING_POE_SSL_CERTS: {{networking_poe_ssl_certs}}
+      NFS_SERVER_INSTANCES: {{nfs_server_instances}}
+      OPS_MGR_PWD: ((opsman.password))
+      OPS_MGR_USR: ((opsman.username))
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      ROUTE_SERVICES: {{route_services}}
+      ROUTER_INSTANCES: {{router_instances}}
+      ROUTER_NSX_LB_EDGE_NAME: {{router_nsx_lb_edge_name}}
+      ROUTER_NSX_LB_POOL_NAME: {{router_nsx_lb_pool_name}}
+      ROUTER_NSX_LB_PORT: {{router_nsx_lb_port}}
+      ROUTER_NSX_LB_SECURITY_GROUP: {{router_nsx_lb_security_group}}
+      ROUTER_NSX_SECURITY_GROUP: {{router_nsx_security_group}}
+      ROUTER_REQUEST_TIMEOUT_IN_SEC: {{router_request_timeout_in_seconds}}
+      ROUTER_STATIC_IPS: {{router_static_ips}}
+      ROUTER_TLS_CIPHERS: {{router_tls_ciphers}}
+      ROUTING_CUSTOM_CA_CERTIFICATES: {{routing_custom_ca_certificates}}
+      ROUTING_TLS_TERMINATION: {{routing_tls_termination}}
+      SAML_SSL_CERT: {{saml_ssl_cert}}
+      SAML_SSL_PRIVATE_KEY: {{saml_ssl_private_key}}
+      SEARCH_BASE: {{search_base}}
+      SEARCH_FILTER: {{search_filter}}
+      SECURITY_ACKNOWLEDGEMENT: {{security_acknowledgement}}
+      SKIP_CERT_VERIFY: {{skip_cert_verify}}
+      SMTP_ADDRESS: {{smtp_address}}
+      SMTP_AUTH_MECHANISM: {{smtp_auth_mechanism}}
+      SMTP_ENABLE_STARTTLS_AUTO: {{smtp_enable_starttls_auto}}
+      SMTP_FROM: {{smtp_from}}
+      SMTP_PORT: {{smtp_port}}
+      SMTP_PWD: {{smtp_pwd}}
+      SMTP_USER: {{smtp_user}}
+      SSH_STATIC_IPS: {{ssh_static_ips}}
+      SYSLOG_ADAPTER_INSTANCES: {{syslog_adapter_instances}}
+      SYSLOG_DRAIN_BUFFER_SIZE: {{syslog_drain_buffer_size}}
+      SYSLOG_HOST: {{syslog_host}}
+      SYSLOG_PORT: {{syslog_port}}
+      SYSLOG_PROTOCOL: {{syslog_protocol}}
+      SYSLOG_SCHEDULER_INSTANCES: {{syslog_scheduler_instances}}
+      SYSTEM_DOMAIN: {{system_domain}}
+      TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
+      TCP_ROUTER_NSX_LB_EDGE_NAME: {{tcp_router_nsx_lb_edge_name}}
+      TCP_ROUTER_NSX_LB_POOL_NAME: {{tcp_router_nsx_lb_pool_name}}
+      TCP_ROUTER_NSX_LB_PORT: {{tcp_router_nsx_lb_port}}
+      TCP_ROUTER_NSX_LB_SECURITY_GROUP: {{tcp_router_nsx_lb_security_group}}
+      TCP_ROUTER_NSX_SECURITY_GROUP: {{tcp_router_nsx_security_group}}
+      TCP_ROUTER_STATIC_IPS: {{tcp_router_static_ips}}
+      TCP_ROUTING: {{tcp_routing}}
+      TCP_ROUTING_PORTS: {{tcp_routing_ports}}
+      UAA_INSTANCES: {{uaa_instances}}
+    task: configure
+  - file: pcf-pipelines/tasks/disable-errands/task.yml
+    params:
+      ERRANDS_TO_DISABLE: {{ert_errands_to_disable}}
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+      PRODUCT_NAME: cf
+    task: disable-errands
+  - file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: deploy
+- name: wipe-env
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+  - file: pcf-pipelines/install-pcf/vsphere/tasks/wipe-env/task.yml
+    params:
+      GOVC_CA_CERT: {{vcenter_ca_cert}}
+      GOVC_DATACENTER: {{vcenter_datacenter}}
+      GOVC_DATASTORE: {{vcenter_datastore}}
+      GOVC_HOST: {{om_vm_host}}
+      GOVC_INSECURE: {{vcenter_insecure}}
+      GOVC_NETWORK: {{om_vm_network}}
+      GOVC_PASSWORD: ((vcenter.password))
+      GOVC_RESOURCE_POOL: {{om_resource_pool}}
+      GOVC_URL: {{vcenter_host}}
+      GOVC_USERNAME: ((vcenter.username))
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_IP: {{om_ip}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: wipe
+resource_types:
+- name: pivnet
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+  type: docker-image
+resources:
+- name: pcf-pipelines
+  source:
+    branch: master
+    private_key: ((git_ssh.private_key))
+    uri: git@github.com:pivotal-cf/pcf-pipelines.git
+  type: git
+- name: pcf-ops-manager
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: ops-manager
+    product_version: {{opsman_major_minor_version}}
+    sort_by: semver
+  type: pivnet
+- name: elastic-runtime
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: elastic-runtime
+    product_version: {{ert_major_minor_version}}
+    sort_by: semver
+  type: pivnet

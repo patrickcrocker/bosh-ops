@@ -1,0 +1,32 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+# make sure we have pcf-pipelines
+if [[ ! -d "${repo}/tmp/pcf-pipelines" ]] ; then
+  pushd ${repo}/tmp > /dev/null
+    git clone https://github.com/pivotal-cf/pcf-pipelines.git &> /dev/null
+  popd > /dev/null
+fi
+
+# checkout specific version of pcf-pipelines
+REF="9a8fa7db8ed1da76bc02b17b5391ffadc142ef4c" #v0.23.0
+echo "Checking out to pcf-pipelines to ref: ${REF}"
+
+pushd ${repo}/tmp/pcf-pipelines > /dev/null
+  git fetch &> /dev/null
+  git checkout ${REF} &> /dev/null
+  git log -1 --pretty=oneline
+popd > /dev/null
+
+cat "${repo}/tmp/pcf-pipelines/install-pcf/vsphere/pipeline.yml" \
+    | yaml-patch -o "${repo}/pcf/ops-files/credhub.yml" \
+    | yaml-patch -o "${repo}/pcf/ops-files/triggers.yml" \
+    > "${repo}/pcf/install-pcf-pipeline.yml"
+
+fly -t prod set-pipeline \
+    -p install-pcf \
+    -c "${repo}/pcf/install-pcf-pipeline.yml" \
+    -l "${base}/bosh-secrets/params.yml"
