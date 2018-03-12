@@ -155,13 +155,13 @@ $ bosh-ops/deployments/concourse/bin/deploy
 ## PCF Pipelines
 ```bash
 # Set pipeline credentials
-$ credhub generate -n /concourse/cloudops/git_key -t ssh # upload git_key.public_key to GitHub
-$ credhub set -n /concourse/cloudops/opsman -t user -z "<some-user>" -w "<some-pass>"
-$ credhub set -n /concourse/cloudops/opsman_decrypt_password -t password -w "<some-pass>"
-$ credhub set -n /concourse/cloudops/opsman_vm -t user -z "ubuntu" -w "<some-pass>"
-$ credhub set -n /concourse/cloudops/pivnet_api_token -t password -w "<pivnet-api-token>"
-$ credhub set -n /concourse/cloudops/root_ca -t certificate -c <(cat bosh-secrets/ssl/root-ca.pem)
-$ credhub set -n /concourse/cloudops/vcenter -t user -z "<some-user>" -w "<some-pass>"
+$ credhub generate -n /concourse/main/git_key -t ssh # upload git_key.public_key to GitHub
+$ credhub set -n /concourse/main/opsman -t user -z "<some-user>" -w "<some-pass>"
+$ credhub set -n /concourse/main/opsman_decrypt_password -t password -w "<some-pass>"
+$ credhub set -n /concourse/main/opsman_vm -t user -z "ubuntu" -w "<some-pass>"
+$ credhub set -n /concourse/main/pivnet_api_token -t password -w "<pivnet-api-token>"
+$ credhub set -n /concourse/main/root_ca -t certificate -c <(cat bosh-secrets/ssl/root-ca.pem)
+$ credhub set -n /concourse/main/vcenter -t user -z "<some-user>" -w "<some-pass>"
 
 # Set pipeline
 $ bosh-ops/pcf/bin/sp-install-pcf
