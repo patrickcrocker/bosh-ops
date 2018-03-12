@@ -1,0 +1,5 @@
+---
+github_auth:
+  authorize:
+    - organization: ((github_org))
+      teams: ((github_teams))

@@ -78,7 +78,6 @@ $ bosh-ops/environment/bin/update-cloud-config
 
 # Upload a stemcell
 $ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-3468.25-vsphere-esxi-ubuntu-trusty-go_agent.tgz
-
 ```
 
 ## Login to Credhub
@@ -134,8 +133,9 @@ web_instances: 1
 worker_instances: 1
 azs: [z1]
 credhub_static_ip: 10.0.8.6
-internal_dns:
-- 10.0.0.1
+internal_dns: [10.0.0.1]
+github_org: some-org
+github_teams: [some-team]
 ```
 
 ```bash
@@ -145,6 +145,7 @@ $ bosh-ops/deployments/concourse/bin/interpolate
 # Set CredHub vars
 $ credhub set -n /bosh/concourse/atc_basic_auth -t user -z 'some-user' -w 'some-pass'
 $ credhub set -n /bosh/concourse/credhub_tls -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca)
+$ credhub set -n /bosh/concourse/github_client -t user -z 'some-user' -w 'some-pass' # github auth client_id & client_secretFinished dinner hectic night
 $ credhub set -n /bosh/concourse/uaa_ssl -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca)
 $ credhub set -n /bosh/concourse/uaa_clients_concourse_to_credhub -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
 

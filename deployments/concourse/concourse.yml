@@ -15,6 +15,12 @@ instance_groups:
           insecure_skip_verify: false
         url: https://((credhub_static_ip)):8844/api/
       external_url: ((external_url))
+      github_auth:
+        authorize:
+        - organization: ((github_org))
+          teams: ((github_teams))
+        client_id: ((github_client.username))
+        client_secret: ((github_client.password))
       log_level: debug
       postgresql:
         database: atc
