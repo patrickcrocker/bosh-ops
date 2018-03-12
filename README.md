@@ -150,6 +150,9 @@ $ credhub set -n /bosh/concourse/uaa_clients_concourse_to_credhub -t password -w
 
 # Deploy
 $ bosh-ops/deployments/concourse/bin/deploy
+
+# Login to Concourse
+$ fly -t prod login -c https://ci.example.com
 ```
 
 ## PCF Pipelines
