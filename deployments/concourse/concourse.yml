@@ -126,3 +126,5 @@ variables:
   type: ssh
 - name: worker_key
   type: ssh
+- name: atc_basic_auth
+  type: user
