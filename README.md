@@ -1,20 +1,31 @@
 # BOSH Ops
 
-Create and manage a BOSH environment.
+Opinionated method to create and manage a BOSH environment.
 
-## Initial Setup
+## Overview
+
+The `bosh-ops` repo does all the heavy lifting with a sibling `bosh-secrets` folder
+for storing all the secret stuff.
+
+Start off by cloning the `bosh-ops` folder:
 ```bash
-# Clone bosh-ops
-$ git clone https://github.com/patrickcrocker/bosh-ops
-
-# Create your secrets folder
-$ mkdir -p bosh-secrets/bosh
-$ mkdir -p bosh-secrets/manifests
-$ touch bosh-secrets/vars.yml
-$ touch bosh-secrets/vars-concourse.yml
+$ git clone https://github.com/.../bosh-ops
 ```
 
-Example `vars.yml`:
+Please note, that throughout this guide, we never `cd bosh-ops`... rather we stay in the
+parent folder and execute commands from there.
+
+If you are starting fresh, you'll need to create a `bosh-secrets` folder in the same parent folder as `bosh-ops`.
+The `bosh-secrets` folder is where we store the bosh generated `creds.yml` and `state.json` as well as our base
+configuration files.  Later on, we'll also utilize credhub to store certain credentials.
+```bash
+$ mkdir -p bosh-secrets/bosh
+$ mkdir -p bosh-secrets/pcf
+$ mkdir -p bosh-secrets/ssl
+```
+
+## Deploy/Update BOSH
+Example `bosh-secrets/vars.yml`:
 ```yml
 ---
 director_name: bosh
@@ -38,25 +49,6 @@ ntp_servers:
 - 3.pool.ntp.org
 ```
 
-Example `vars-concourse.yml`:
-```yml
----
-deployment_name: concourse
-network_name: default
-external_url: "https://ci.example.com"
-web_vm_type: micro
-db_persistent_disk_type: 51200
-db_vm_type: micro
-worker_vm_type: micro
-web_instances: 1
-worker_instances: 1
-azs: [z1]
-credhub_static_ip: 10.0.8.6
-internal_dns:
-- 10.0.0.1
-```
-
-## Deploy BOSH
 ```bash
 # Interpolate the bosh and cloud config manifests
 $ bosh-ops/environment/bin/interpolate
@@ -67,13 +59,13 @@ $ export BOSHOPS_vcenter_password=some-pass
 
 # Deploy the director
 $ bosh-ops/environment/bin/create-env
-
-# Configure local alias
-$ bosh alias-env prod -e 10.0.8.2 --ca-cert <(bosh int bosh-secrets/bosh/creds.yml --path /director_ssl/ca)
 ```
 
 ## Login to BOSH
 ```bash
+# Configure local alias
+$ bosh alias-env prod -e 10.0.8.2 --ca-cert <(bosh int bosh-secrets/bosh/creds.yml --path /director_ssl/ca)
+
 # Log in to the Director
 $ export BOSH_CLIENT=admin
 $ export BOSH_CLIENT_SECRET=$(bosh int bosh-secrets/bosh/creds.yml --path /admin_password)
@@ -128,12 +120,30 @@ $ bosh-ops/deployments/instant-https/bin/deploy
 ```
 
 ## Deploy Concourse
+Create/Update `bosh-secrets/vars-concourse.yml`:
+```yml
+---
+deployment_name: concourse
+network_name: default
+external_url: "https://ci.example.com"
+web_vm_type: micro
+db_persistent_disk_type: 51200
+db_vm_type: micro
+worker_vm_type: micro
+web_instances: 1
+worker_instances: 1
+azs: [z1]
+credhub_static_ip: 10.0.8.6
+internal_dns:
+- 10.0.0.1
+```
+
 ```bash
 # Interpolate
 $ bosh-ops/deployments/concourse/bin/interpolate
 
 # Set CredHub vars
-$ credhub set -n /bosh/concourse/atc_basic_auth -t 'some-user' -z admin -w 'some-pass'
+$ credhub set -n /bosh/concourse/atc_basic_auth -t user -z 'some-user' -w 'some-pass'
 $ credhub set -n /bosh/concourse/credhub_tls -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca)
 $ credhub set -n /bosh/concourse/uaa_ssl -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca)
 $ credhub set -n /bosh/concourse/uaa_clients_concourse_to_credhub -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
@@ -155,19 +165,4 @@ $ credhub set -n /concourse/cloudops/vcenter -t user -z "<some-user>" -w "<some-
 
 # Set pipeline
 $ bosh-ops/pcf/bin/sp-install-pcf
-```
-
-## Re-deploy BOSH
-
-If you need to redeploy bosh director:
-```bash
-# Re-interpolate:
-$ bosh-ops/environment/bin/interpolate
-
-# Set vcenter credentials:
-$ export BOSHOPS_vcenter_user=$(credhub get -n /concourse/cloudops/vcenter -j | jq -r .value.username)
-$ export BOSHOPS_vcenter_password=$(credhub get -n /concourse/cloudops/vcenter -j | jq -r .value.password)
-
-# Redeploy BOSH director
-$ bosh-ops/environment/bin/create-env
 ```
