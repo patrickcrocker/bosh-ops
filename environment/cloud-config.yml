@@ -206,3 +206,18 @@ vm_types:
     disk: 65536
     ram: 16384
   name: 2xlarge.cpu
+- cloud_properties:
+    cpu: 1
+    disk: 8192
+    ram: 1024
+  name: ci.web
+- cloud_properties:
+    cpu: 1
+    disk: 8192
+    ram: 1024
+  name: ci.db
+- cloud_properties:
+    cpu: 4
+    disk: 65536
+    ram: 4096
+  name: ci.worker
