@@ -43,7 +43,7 @@ jobs:
         globs: []
       passed:
       - deploy-opsman
-      trigger: false
+      trigger: true
   - file: pcf-pipelines/tasks/config-opsman/task.yml
     params:
       OM_DECRYPTION_PWD: ((opsman_decrypt_password))
