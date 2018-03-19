@@ -8,6 +8,7 @@ repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 
 bosh -e prod deploy -d concourse \
   --vars-file "${base}/bosh-secrets/vars-concourse.yml" \
-  "${repo}/deployments/concourse/concourse.yml"
+  "${repo}/deployments/concourse/concourse.yml" \
+  "$@"
 
 echo "Finished deploying"
