@@ -14,7 +14,7 @@ if [[ ! -d "${repo}/tmp/concourse-deployment" ]] ; then
 fi
 
 # checkout specific version of concourse-deployment
-CONCOURSE_REF="baa21d44ca24902b70fcb89e8de5c59a554b2b25"
+CONCOURSE_REF="32443def2fd70e53014906c7c58b8094893055da"
 echo "Checking out to concourse-deployment to ref: ${CONCOURSE_REF}"
 
 pushd ${repo}/tmp/concourse-deployment > /dev/null
