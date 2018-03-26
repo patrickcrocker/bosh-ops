@@ -22,6 +22,7 @@ pushd ${repo}/tmp/pcf-pipelines > /dev/null
 popd > /dev/null
 
 cat "${repo}/tmp/pcf-pipelines/install-pcf/vsphere/pipeline.yml" \
+    | yaml-patch -o "${repo}/pcf/ops-files/install-pcf.yml" \
     | yaml-patch -o "${repo}/pcf/ops-files/credhub.yml" \
     | yaml-patch -o "${repo}/pcf/ops-files/triggers.yml" \
     > "${repo}/pcf/install-pcf-pipeline.yml"

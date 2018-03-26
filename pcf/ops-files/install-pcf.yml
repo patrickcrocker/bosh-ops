@@ -1,0 +1,4 @@
+---
+- op: add
+  path: /resources/name=pcf-pipelines/source/tag_filter
+  value: v0.23.1

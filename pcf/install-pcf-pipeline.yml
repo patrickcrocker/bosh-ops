@@ -394,6 +394,7 @@ resources:
   source:
     branch: master
     private_key: ((git_key.private_key))
+    tag_filter: v0.23.1
     uri: git@github.com:pivotal-cf/pcf-pipelines.git
   type: git
 - name: pcf-ops-manager
