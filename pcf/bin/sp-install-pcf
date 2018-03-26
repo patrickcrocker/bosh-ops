@@ -12,7 +12,7 @@ if [[ ! -d "${repo}/tmp/pcf-pipelines" ]] ; then
 fi
 
 # checkout specific version of pcf-pipelines
-REF="9a8fa7db8ed1da76bc02b17b5391ffadc142ef4c" #v0.23.1
+REF="eb519a3fd094d2da7eca9eb633292ef5e9fa79bd" #v0.23.1
 echo "Checking out to pcf-pipelines to ref: ${REF}"
 
 pushd ${repo}/tmp/pcf-pipelines > /dev/null
