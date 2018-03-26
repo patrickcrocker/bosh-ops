@@ -89,7 +89,6 @@ jobs:
       INFRA_NW_DNS: {{infra_nw_dns}}
       INFRA_NW_GATEWAY: {{infra_nw_gateway}}
       INFRA_VCENTER_NETWORK: {{infra_vsphere_network}}
-      IS_SERVICE_NETWORK: {{is_service_network}}
       MAX_THREADS: {{max_threads}}
       NSX_ADDRESS: {{nsx_address}}
       NSX_CA_CERTIFICATE: {{nsx_ca_certificate}}
@@ -100,8 +99,6 @@ jobs:
       OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
       OPS_MGR_PWD: ((opsman.password))
       OPS_MGR_USR: ((opsman.username))
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       PERSISTENT_STORAGE_NAMES: {{persistent_storage_names}}
       SERVICES_EXCLUDED_RANGE: {{services_excluded_range}}
@@ -130,8 +127,8 @@ jobs:
       trigger: false
   - file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_PASSWORD: ((opsman.password))
       OPSMAN_USERNAME: ((opsman.username))
@@ -158,8 +155,8 @@ jobs:
       OM_IP: {{om_ip}}
       OPS_MGR_PWD: ((opsman.password))
       OPS_MGR_USR: ((opsman.username))
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       PIVNET_API_TOKEN: ((pivnet_api_token))
     task: upload-tile
@@ -182,8 +179,8 @@ jobs:
       resource: elastic-runtime
   - file: pcf-pipelines/tasks/stage-product/task.yml
     params:
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_PASSWORD: ((opsman.password))
       OPSMAN_USERNAME: ((opsman.username))
@@ -217,8 +214,14 @@ jobs:
       COMPANY_NAME: {{company_name}}
       CONSUL_SERVER_INSTANCES: {{consul_server_instances}}
       CONTAINER_NETWORKING_NW_CIDR: {{container_networking_nw_cidr}}
-      CREDHUB_ENCRYPTION_KEYS: {{credhub_encryption_keys}}
       CREDHUB_INSTANCES: {{credhub_instances}}
+      CREDHUB_PRIMARY_ENCRYPTION_NAME: {{credhub_primary_encryption_name}}
+      CREDUB_ENCRYPTION_KEY_NAME1: {{credhub_encryption_key_name1}}
+      CREDUB_ENCRYPTION_KEY_NAME2: {{credhub_encryption_key_name2}}
+      CREDUB_ENCRYPTION_KEY_NAME3: {{credhub_encryption_key_name3}}
+      CREDUB_ENCRYPTION_KEY_SECRET1: {{credhub_encryption_key_secret1}}
+      CREDUB_ENCRYPTION_KEY_SECRET2: {{credhub_encryption_key_secret2}}
+      CREDUB_ENCRYPTION_KEY_SECRET3: {{credhub_encryption_key_secret3}}
       DEFAULT_QUOTA_MAX_SERVICES_COUNT: {{default_quota_max_number_services}}
       DEFAULT_QUOTA_MEMORY_LIMIT_IN_MB: {{default_quota_memory_limit_mb}}
       DEPLOYMENT_NW_AZS: {{deployment_nw_azs}}
@@ -282,13 +285,21 @@ jobs:
       MYSQL_STATIC_IPS: {{mysql_static_ips}}
       NATS_INSTANCES: {{nats_instances}}
       NETWORK_NAME: {{deployment_network_name}}
-      NETWORKING_POE_SSL_CERTS: {{networking_poe_ssl_certs}}
       NFS_SERVER_INSTANCES: {{nfs_server_instances}}
       OPS_MGR_PWD: ((opsman.password))
       OPS_MGR_USR: ((opsman.username))
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      POE_SSL_CERT1: {{poe_ssl_cert1}}
+      POE_SSL_CERT2: {{poe_ssl_cert2}}
+      POE_SSL_CERT3: {{poe_ssl_cert3}}
+      POE_SSL_KEY1: {{poe_ssl_key1}}
+      POE_SSL_KEY2: {{poe_ssl_key2}}
+      POE_SSL_KEY3: {{poe_ssl_key3}}
+      POE_SSL_NAME1: {{poe_ssl_name1}}
+      POE_SSL_NAME2: {{poe_ssl_name2}}
+      POE_SSL_NAME3: {{poe_ssl_name3}}
       ROUTE_SERVICES: {{route_services}}
       ROUTER_INSTANCES: {{router_instances}}
       ROUTER_NSX_LB_EDGE_NAME: {{router_nsx_lb_edge_name}}
@@ -336,8 +347,8 @@ jobs:
   - file: pcf-pipelines/tasks/disable-errands/task.yml
     params:
       ERRANDS_TO_DISABLE: {{ert_errands_to_disable}}
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_PASSWORD: ((opsman.password))
       OPSMAN_USERNAME: ((opsman.username))
@@ -345,8 +356,8 @@ jobs:
     task: disable-errands
   - file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_PASSWORD: ((opsman.password))
       OPSMAN_USERNAME: ((opsman.username))
@@ -367,8 +378,6 @@ jobs:
       GOVC_RESOURCE_POOL: {{om_resource_pool}}
       GOVC_URL: {{vcenter_host}}
       GOVC_USERNAME: ((vcenter.username))
-      OPSMAN_CLIENT_ID: {{opsman_client_id}}
-      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_IP: {{om_ip}}
       OPSMAN_PASSWORD: ((opsman.password))
