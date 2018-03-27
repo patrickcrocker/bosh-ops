@@ -1,0 +1,40 @@
+---
+name: nexus
+
+releases:
+- name: nexus
+  version: 0.8.0
+  url: https://github.com/making/nexus-boshrelease/releases/download/0.8.0/nexus-boshrelease-0.8.0.tgz
+  sha1: 148ca91914d23b58e5e1f0131e56dc25d3eae55a
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3468.latest
+
+instance_groups:
+- name: nexus
+  instances: 1
+  vm_type: micro
+  persist_disk: default
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: default
+#    static_ips: [((internal_ip))]
+  jobs:
+  - name: nexus
+    release: nexus
+    properties:
+      nexus:
+        heap_size: 768M
+        max_direct_memory_size: 512M
+  - name: nexus-backup
+    release: nexus
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000

@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+# Deploy instant-https
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+
+bosh -e prod deploy -d nexus \
+  "${repo}/deployments/nexus/nexus.yml"
+
+echo "Finished deploying: nexus"

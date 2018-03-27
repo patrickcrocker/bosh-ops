@@ -37,6 +37,9 @@ instance_groups:
         acme_url: ((acme_url))
         websocket: true
         insecure_skip_verify: true
+      # - hostnames: ((nexus_hostnames))
+      #   backends: ((nexus_backends))
+      #   acme_url: ((acme_url))
   vm_type: micro
   stemcell: default
 
