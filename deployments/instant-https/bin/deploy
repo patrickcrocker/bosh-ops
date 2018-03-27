@@ -8,6 +8,7 @@ repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 
 bosh -e prod deploy -d instant-https \
   --vars-file "${base}/bosh-secrets/vars-instant-https.yml" \
-  "${repo}/deployments/instant-https/instant-https.yml"
+  "${repo}/deployments/instant-https/instant-https.yml" \
+  "$@"
 
 echo "Finished deploying: instant-https"
