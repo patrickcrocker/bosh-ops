@@ -1,0 +1,27 @@
+DROP database account;
+DROP database app_usage_service;
+DROP database autoscale;
+DROP database ccdb;
+DROP database credhub;
+DROP database diego;
+DROP database locket;
+DROP database networkpolicyserver;
+DROP database nfsvolume;
+DROP database notifications;
+DROP database routing;
+DROP database silk;
+DROP database uaa;
+
+CREATE database account;
+CREATE database app_usage_service;
+CREATE database autoscale;
+CREATE database ccdb;
+CREATE database credhub;
+CREATE database diego;
+CREATE database locket;
+CREATE database networkpolicyserver;
+CREATE database nfsvolume;
+CREATE database notifications;
+CREATE database routing;
+CREATE database silk;
+CREATE database uaa;
