@@ -1,8 +1,0 @@
----
-- op: replace
-  path: /jobs/name=deploy-director/plan/0/aggregate/get=pcf-ops-manager/trigger
-  value: false
-
-- op: replace
-  path: /jobs/name=deploy-ert/plan/0/aggregate/get=pcf-ops-manager/trigger
-  value: false

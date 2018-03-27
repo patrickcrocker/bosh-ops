@@ -1,4 +1,46 @@
 ---
+# HACK: have problems with configure-director working correctly...
+- op: remove
+  path: /jobs/name=configure-director/plan/task=configure-director
+
+# Pin pipelines version
 - op: add
   path: /resources/name=pcf-pipelines/source/tag_filter
   value: v0.23.1
+
+# Triggers
+- op: replace
+  path: /jobs/name=deploy-director/plan/0/aggregate/get=pcf-ops-manager/trigger
+  value: false
+
+# Rename deploy-ert to configure-ert
+- op: replace
+  path: /jobs/5/name
+  value: configure-ert
+
+# Remove configure-ert deploy task
+- op: remove
+  path: /jobs/name=configure-ert/plan/task=deploy
+
+# Add new deploy-ert job
+- op: add
+  path: /jobs/-
+  value:
+    name: deploy-ert
+    plan:
+    - aggregate:
+      - get: pcf-pipelines
+      - get: pcf-ops-manager
+        params:
+          globs: []
+        passed:
+        - configure-ert
+        trigger: false
+    - file: pcf-pipelines/tasks/apply-changes/task.yml
+      params:
+        OPSMAN_CLIENT_ID: ""
+        OPSMAN_CLIENT_SECRET: ""
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        OPSMAN_PASSWORD: ((opsman.password))
+        OPSMAN_USERNAME: ((opsman.username))
+      task: deploy
