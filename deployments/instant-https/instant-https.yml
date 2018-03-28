@@ -1,50 +1,44 @@
----
+instance_groups:
+- azs:
+  - z1
+  instances: 1
+  jobs:
+  - name: proxy
+    properties:
+      contact_email: ((contact_email))
+      proxies:
+      - acme_url: ((acme_url))
+        backends: ((ci_backends))
+        hostnames: ((ci_hostnames))
+        websocket: true
+      - acme_url: ((acme_url))
+        backends: ((opsman_backends))
+        hostnames: ((opsman_hostnames))
+        insecure_skip_verify: true
+      - acme_url: ((acme_url))
+        backends: ((pas_backends))
+        hostnames: ((pas_hostnames))
+        insecure_skip_verify: true
+        websocket: true
+      - acme_url: ((acme_url))
+        backends: ((harbor_backends))
+        hostnames: ((harbor_hostnames))
+    release: instant-https
+  name: https_proxy
+  networks:
+  - name: default
+  stemcell: default
+  vm_type: micro
 name: instant-https
-
 releases:
 - name: instant-https
   version: latest
-  # sha1: 404a50accba52ee0d6e3d04b9da4ae1484646b2d
-  # url: https://github.com/govau/instant-https-boshrelease/releases/download/v4.1.0/instant-https-4.1.0.tgz
-
 stemcells:
 - alias: default
   os: ubuntu-trusty
   version: 3468.latest
-
-instance_groups:
-- name: https_proxy
-  instances: 1
-  azs: [z1]
-  networks:
-  - name: default
-  jobs:
-  - name: proxy
-    release: instant-https
-    properties:
-      contact_email: ((contact_email))
-      proxies:
-      - hostnames: ((ci_hostnames))
-        acme_url: ((acme_url))
-        backends: ((ci_backends))
-        websocket: true
-      - hostnames: ((opsman_hostnames))
-        acme_url: ((acme_url))
-        backends: ((opsman_backends))
-        insecure_skip_verify: true
-      - hostnames: ((pas_hostnames))
-        backends: ((pas_backends))
-        acme_url: ((acme_url))
-        websocket: true
-        insecure_skip_verify: true
-      # - hostnames: ((nexus_hostnames))
-      #   backends: ((nexus_backends))
-      #   acme_url: ((acme_url))
-  vm_type: micro
-  stemcell: default
-
 update:
   canaries: 1
-  max_in_flight: 1
   canary_watch_time: 1000-60000
+  max_in_flight: 1
   update_watch_time: 1000-60000

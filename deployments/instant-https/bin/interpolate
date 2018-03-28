@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+# To generate a manifest with variable interpolation placeholders intact,
+# suitable to be committed to source control
+
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+
+bosh -e prod interpolate "${repo}/deployments/instant-https/templates/instant-https.yml" \
+  > "${repo}/deployments/instant-https/instant-https.yml"
+
+echo "Generating manifest: ${repo}/deployments/instant-https/instant-https.yml"
