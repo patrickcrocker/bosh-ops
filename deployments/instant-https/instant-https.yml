@@ -1,3 +1,5 @@
+# Generated file - do not edit directly!
+---
 instance_groups:
 - azs:
   - z1
@@ -23,6 +25,7 @@ instance_groups:
       - acme_url: ((acme_url))
         backends: ((harbor_backends))
         hostnames: ((harbor_hostnames))
+        insecure_skip_verify: true
     release: instant-https
   name: https_proxy
   networks:

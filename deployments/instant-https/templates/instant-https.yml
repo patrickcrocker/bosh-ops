@@ -40,6 +40,7 @@ instance_groups:
       - hostnames: ((harbor_hostnames))
         backends: ((harbor_backends))
         acme_url: ((acme_url))
+        insecure_skip_verify: true
   vm_type: micro
   stemcell: default
 
