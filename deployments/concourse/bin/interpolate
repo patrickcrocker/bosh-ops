@@ -33,4 +33,4 @@ bosh -e prod interpolate "${repo}/tmp/concourse-deployment/cluster/concourse.yml
   -o "${repo}/deployments/concourse/ops-files/credhub.yml" \
    > "${repo}/deployments/concourse/concourse.yml"
 
-echo "Finished generating manifest"
+echo "Generated manifest: ${repo}/deployments/concourse/concourse.yml"

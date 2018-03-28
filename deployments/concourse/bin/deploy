@@ -11,4 +11,4 @@ bosh -e prod deploy -d concourse \
   "${repo}/deployments/concourse/concourse.yml" \
   "$@"
 
-echo "Finished deploying"
+echo "Finished deploying: concourse"
