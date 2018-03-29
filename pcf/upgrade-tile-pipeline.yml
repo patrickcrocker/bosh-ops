@@ -87,6 +87,35 @@ jobs:
       OPSMAN_PASSWORD: ((opsman.password))
       OPSMAN_USERNAME: ((opsman.username))
     task: delete-unused-products
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-product
+      params:
+        globs: []
+      passed:
+      - apply-changes
+      resource: tile
+      trigger: true
+  - file: pcf-pipelines/tasks/disable-errands/task.yml
+    params:
+      ERRANDS_TO_DISABLE: {{disable_errands}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+      PRODUCT_NAME: {{errands_product_name}}
+    task: disable-errands
+  - file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: apply-changes
 resource_types:
 - name: pivnet
   source:
