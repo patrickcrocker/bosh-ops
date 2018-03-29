@@ -4,6 +4,31 @@ set -euo pipefail
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
+script_name=$(basename ${0})
+usage_and_exit() {
+  local message=${1:-}
+  if [ -n "${message}" ]; then
+    echo "error: ${message}"
+  fi
+  cat <<EOF
+Usage: $script_name [tile-name]
+Examples:
+  $script_name pcf
+  $script_name redis
+EOF
+  exit 1
+}
+
+tile=${1:-}
+if [ -z "${tile}" ]; then
+  usage_and_exit
+fi
+
+config="${base}/bosh-secrets/pcf/upgrade-${tile}-params.yml"
+if [ ! -f "${config}" ]; then
+  usage_and_exit "no such file: ${config}"
+fi
+
 # make sure we have pcf-pipelines
 if [[ ! -d "${repo}/tmp/pcf-pipelines" ]] ; then
   pushd ${repo}/tmp > /dev/null
@@ -22,10 +47,10 @@ pushd ${repo}/tmp/pcf-pipelines > /dev/null
 popd > /dev/null
 
 cat "${repo}/tmp/pcf-pipelines/upgrade-tile/pipeline.yml" \
-    | yaml-patch -o "${repo}/pcf/ops-files/upgrade-pcf.yml" \
-    > "${repo}/pcf/upgrade-pcf-pipeline.yml"
+    | yaml-patch -o "${repo}/pcf/ops-files/upgrade-tile.yml" \
+    > "${repo}/pcf/upgrade-tile-pipeline.yml"
 
 fly -t prod set-pipeline \
-    -p upgrade-pcf \
-    -c "${repo}/pcf/upgrade-pcf-pipeline.yml" \
-    -l "${base}/bosh-secrets/pcf/upgrade-pcf-params.yml"
+    -p "upgrade-${tile}" \
+    -c "${repo}/pcf/upgrade-tile-pipeline.yml" \
+    -l "${config}"
