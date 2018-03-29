@@ -4,7 +4,7 @@ set -euo pipefail
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
-script_name=$(basename ${0})
+script_name="$(basename "${BASH_SOURCE[0]}")"
 usage_and_exit() {
   local message=${1:-}
   if [ -n "${message}" ]; then
