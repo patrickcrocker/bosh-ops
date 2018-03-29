@@ -1,0 +1,60 @@
+---
+- op: replace
+  path: /resources/name=pcf-pipelines/source/private_key
+  value: ((git_key.private_key))
+
+- op: replace
+  path: /resources/name=tile/source/api_token
+  value: ((pivnet_api_token))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=wait-opsman-clear/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=wait-opsman-clear/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=upload-tile-and-stemcell/params/OPS_MGR_USR
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=upload-tile-and-stemcell/params/OPS_MGR_PWD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=upload-tile-and-stemcell/params/PIVNET_API_TOKEN
+  value: ((pivnet_api_token))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=stage-tile/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=stage-tile/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=toggle-errands/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=upload-and-stage-tile/plan/task=toggle-errands/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=apply-changes/plan/task=apply-changes/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=apply-changes/plan/task=apply-changes/params/OPSMAN_PASSWORD
+  value: ((opsman.password))
+
+- op: replace
+  path: /jobs/name=delete-unused-products/plan/task=delete-unused-products/params/OPSMAN_USERNAME
+  value: ((opsman.username))
+
+- op: replace
+  path: /jobs/name=delete-unused-products/plan/task=delete-unused-products/params/OPSMAN_PASSWORD
+  value: ((opsman.password))

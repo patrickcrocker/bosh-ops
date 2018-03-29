@@ -1,0 +1,124 @@
+groups: []
+jobs:
+- name: regulator
+  plan:
+  - get: schedule
+    trigger: true
+  - get: tile
+    params:
+      globs: []
+- name: upload-and-stage-tile
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-product
+      params:
+        globs:
+        - {{product_globs}}
+      passed:
+      - regulator
+      resource: tile
+      trigger: true
+  - file: pcf-pipelines/tasks/wait-opsman-clear/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: wait-opsman-clear
+  - file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
+    params:
+      IAAS: {{iaas_type}}
+      NO_PROXY: ""
+      OM_IP: ""
+      OPS_MGR_PWD: ((opsman.password))
+      OPS_MGR_USR: ((opsman.username))
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      PIVNET_API_TOKEN: ((pivnet_api_token))
+    task: upload-tile-and-stemcell
+  - file: pcf-pipelines/tasks/stage-product/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: stage-tile
+  - file: pcf-pipelines/tasks/toggle-errands/task.yml
+    params:
+      ENABLE_ERRANDS: {{enable_errands}}
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: toggle-errands
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-product
+      params:
+        globs: []
+      passed:
+      - upload-and-stage-tile
+      resource: tile
+      trigger: true
+  - file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: apply-changes
+- name: delete-unused-products
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+  - file: pcf-pipelines/tasks/delete-unused-products/task.yml
+    params:
+      OPSMAN_CLIENT_ID: {{opsman_client_id}}
+      OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_PASSWORD: ((opsman.password))
+      OPSMAN_USERNAME: ((opsman.username))
+    task: delete-unused-products
+resource_types:
+- name: pivnet
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+  type: docker-image
+resources:
+- name: pcf-pipelines
+  source:
+    branch: master
+    private_key: ((git_key.private_key))
+    uri: git@github.com:pivotal-cf/pcf-pipelines.git
+  type: git
+- name: tile
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: {{product_slug}}
+    product_version: {{product_version_regex}}
+    sort_by: semver
+  type: pivnet
+- name: schedule
+  source:
+    days:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    interval: 30m
+    location: America/Los_Angeles
+    start: 12:00 AM
+    stop: 11:59 PM
+  type: time
