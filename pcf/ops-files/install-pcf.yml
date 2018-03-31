@@ -1,8 +1,4 @@
 ---
-# HACK: have problems with configure-director working correctly...
-- op: remove
-  path: /jobs/name=configure-director/plan/task=configure-director
-
 # Pin pipelines version
 - op: add
   path: /resources/name=pcf-pipelines/source/tag_filter
