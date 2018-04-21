@@ -23,6 +23,10 @@ instance_groups:
     release: instant-https
     properties:
       contact_email: ((contact_email))
+      dns_providers:
+        googlecloud:
+          GCE_PROJECT: ((gce_project))
+          GCE_SERVICE_ACCOUNT_FILE: ((gce_service_account_file))
       proxies:
       - hostnames: ((ci_hostnames))
         acme_url: ((acme_url))
@@ -37,6 +41,7 @@ instance_groups:
         acme_url: ((acme_url))
         websocket: true
         insecure_skip_verify: true
+        dns_provider: googlecloud
       - hostnames: ((harbor_hostnames))
         backends: ((harbor_backends))
         acme_url: ((acme_url))
