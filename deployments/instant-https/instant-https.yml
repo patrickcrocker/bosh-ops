@@ -1,5 +1,10 @@
 # Generated file - do not edit directly!
 ---
+addons:
+- jobs:
+  - name: bpm
+    release: bpm
+  name: bpm
 instance_groups:
 - azs:
   - z1
@@ -8,6 +13,10 @@ instance_groups:
   - name: proxy
     properties:
       contact_email: ((contact_email))
+      dns_providers:
+        googlecloud:
+          GCE_PROJECT: ((gce_project))
+          GCE_SERVICE_ACCOUNT_FILE: ((gce_service_account_file))
       proxies:
       - acme_url: ((acme_url))
         backends: ((ci_backends))
@@ -19,21 +28,23 @@ instance_groups:
         insecure_skip_verify: true
       - acme_url: ((acme_url))
         backends: ((pas_backends))
+        dns_provider: googlecloud
         hostnames: ((pas_hostnames))
         insecure_skip_verify: true
         websocket: true
-      - acme_url: ((acme_url))
-        backends: ((harbor_backends))
-        hostnames: ((harbor_hostnames))
-        insecure_skip_verify: true
     release: instant-https
   name: https_proxy
   networks:
   - name: default
+  persistent_disk: 10240
   stemcell: default
   vm_type: micro
 name: instant-https
 releases:
+- name: bpm
+  sha1: f2bd126b17b3591160f501d88d79ccf0aba1ae54
+  url: git+https://github.com/cloudfoundry-incubator/bpm-release
+  version: 0.5.0
 - name: instant-https
   version: latest
 stemcells:
