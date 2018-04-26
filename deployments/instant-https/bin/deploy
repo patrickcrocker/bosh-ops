@@ -1,10 +1,18 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
-# Deploy instant-https
+# To generate a manifest with variable interpolation placeholders intact,
+# suitable to be committed to source control
 
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+manifest="${repo}/deployments/instant-https/instant-https.yml"
+
+bosh -e prod interpolate "${repo}/deployments/instant-https/templates/instant-https.yml" \
+  > "$manifest"
+
+echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
+echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d instant-https \
   --vars-file "${base}/bosh-secrets/vars-instant-https.yml" \
