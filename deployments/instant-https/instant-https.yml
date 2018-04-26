@@ -19,10 +19,6 @@ instance_groups:
           GCE_SERVICE_ACCOUNT_FILE: ((gce_service_account_file))
       proxies:
       - acme_url: ((acme_url))
-        backends: ((ci_backends))
-        hostnames: ((ci_hostnames))
-        websocket: true
-      - acme_url: ((acme_url))
         backends: ((opsman_backends))
         hostnames: ((opsman_hostnames))
         insecure_skip_verify: true
@@ -38,7 +34,7 @@ instance_groups:
   - name: default
   persistent_disk: 10240
   stemcell: default
-  vm_type: micro
+  vm_type: micro.ram
 name: instant-https
 releases:
 - name: bpm

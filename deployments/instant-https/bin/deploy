@@ -6,9 +6,28 @@ set -euo pipefail
 
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+
+# make sure we have instant-https-deployment
+if [[ ! -d "${repo}/tmp/instant-https-deployment" ]] ; then
+  pushd ${repo}/tmp > /dev/null
+    git clone https://github.com/nulldriver/instant-https-deployment.git &> /dev/null
+  popd > /dev/null
+fi
+
+# checkout specific version of instant-https-deployment
+REF="62e189b08a044f3e848f5132a31ef3b862319751"
+echo "Checking out to instant-https-deployment to ref: ${REF}"
+
+pushd ${repo}/tmp/concourse-deployment > /dev/null
+  git fetch &> /dev/null
+  git checkout ${REF} &> /dev/null
+  git log -1 --pretty=oneline
+popd > /dev/null
+
+# Generated manifest
 manifest="${repo}/deployments/instant-https/instant-https.yml"
 
-bosh -e prod interpolate "${repo}/deployments/instant-https/templates/instant-https.yml" \
+bosh -e prod interpolate "${repo}/tmp/instant-https-deployment/instant-https.yml" \
   > "$manifest"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
@@ -16,7 +35,7 @@ echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d instant-https \
   --vars-file "${base}/bosh-secrets/vars-instant-https.yml" \
-  "${repo}/deployments/instant-https/instant-https.yml" \
+  "${manifest}" \
   "$@"
 
 echo "Finished deploying: instant-https"
