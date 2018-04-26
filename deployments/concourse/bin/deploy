@@ -24,6 +24,9 @@ pushd ${repo}/tmp/concourse-deployment > /dev/null
   git log -1 --pretty=oneline
 popd > /dev/null
 
+# Generated manifest
+manifest="${repo}/deployments/concourse/concourse.yml"
+
 bosh -e prod interpolate "${repo}/tmp/concourse-deployment/cluster/concourse.yml" \
   -l "${repo}/tmp/concourse-deployment/versions.yml" \
   -l "${repo}/deployments/concourse/ops-files/authorized_github_teams.yml" \
@@ -32,13 +35,14 @@ bosh -e prod interpolate "${repo}/tmp/concourse-deployment/cluster/concourse.yml
   -o "${repo}/tmp/concourse-deployment/cluster/operations/scale.yml" \
   -o "${repo}/deployments/concourse/ops-files/concourse.yml" \
   -o "${repo}/deployments/concourse/ops-files/credhub.yml" \
-   > "${repo}/deployments/concourse/concourse.yml"
+   > "${manifest}"
 
-echo "Generated manifest: ${repo}/deployments/concourse/concourse.yml"
+echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
+echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d concourse \
   --vars-file "${base}/bosh-secrets/vars-concourse.yml" \
-  "${repo}/deployments/concourse/concourse.yml" \
+  "${manifest}" \
   "$@"
 
 echo "Finished deploying: concourse"
