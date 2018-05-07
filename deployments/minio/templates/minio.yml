@@ -1,0 +1,43 @@
+---
+name: minio
+
+releases:
+- name: "minio"
+  version: "2018-03-19T19-22-06Z"
+  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2018-03-19T19-22-06Z"
+  sha1: "b48291ed0f253c15e28f6974f27fdce55de44e81"
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3468.latest
+
+instance_groups:
+- name: minio
+  azs: [z1]
+  instances: 1
+  vm_type: micro
+  stemcell: default
+  persistent_disk_type: 51200
+  networks:
+  - name: default
+  jobs:
+  - name: minio-server
+    release: minio
+    templates:
+    - name: minio-server
+    properties:
+      credential:
+        accesskey: ((minio_basic_auth.username))
+        secretkey: ((minio_basic_auth.password))
+      port: 9000
+
+variables:
+- name: minio_basic_auth
+  type: user
+
+update:
+  canaries: 1
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
+  max_in_flight: 1
