@@ -1,23 +1,11 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
-# To generate a manifest with variable interpolation placeholders intact,
-# suitable to be committed to source control
-
-base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
-manifest="${repo}/deployments/minio/minio.yml"
 
-bosh -e prod interpolate "${repo}/deployments/minio/templates/minio.yml" \
-  > "${manifest}"
-
-echo -e "# Generated file - do not edit directly!\n---\n$(cat ${manifest})" > "${manifest}"
-echo "Generating manifest: ${manifest}"
-
-# Deploy instant-https
+# Deploy minio
 bosh -e prod deploy -d minio \
-  --vars-file "${base}/bosh-secrets/vars-minio.yml" \
-  "${manifest}" \
+  "${repo}/deployments/minio/minio.yml" \
   "$@"
 
 echo "Finished deploying: minio"
