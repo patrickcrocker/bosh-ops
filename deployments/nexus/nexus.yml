@@ -16,7 +16,7 @@ instance_groups:
 - name: nexus
   instances: 1
   vm_type: micro
-  persist_disk: default
+  persistent_disk_type: 20480
   stemcell: default
   azs: [z1]
   networks:
