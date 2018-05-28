@@ -28,6 +28,7 @@ popd > /dev/null
 manifest="${repo}/deployments/instant-https/instant-https.yml"
 
 bosh -e prod interpolate "${repo}/tmp/instant-https-deployment/instant-https.yml" \
+  -o "${repo}/deployments/instant-https/ops-files/instant-https.yml" \
   > "$manifest"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
