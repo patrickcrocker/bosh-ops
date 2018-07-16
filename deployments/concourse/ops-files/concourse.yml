@@ -2,7 +2,7 @@
 # Misc
 - type: replace
   path: /stemcells/0/version
-  value: 3541.latest
+  value: 3586.latest
 
 - type: replace
   path: /instance_groups/name=worker/jobs/name=garden/properties/garden/dns_servers?
