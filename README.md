@@ -84,8 +84,7 @@ $ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsph
 ```bash
 # Log in to CredHub
 $ credhub login --server https://10.0.8.2:8844 \
-    --ca-cert=<(bosh int bosh-secrets/bosh/creds.yml --path /default_ca/ca) \
-    --ca-cert=<(bosh int bosh-secrets/bosh/creds.yml --path /credhub_ca/ca) \
+    --skip-tls-validation \
     --client-name=credhub-admin \
     --client-secret=$(bosh int bosh-secrets/bosh/creds.yml --path /credhub_admin_client_secret)
 ```
@@ -144,7 +143,7 @@ $ bosh-ops/deployments/concourse/bin/interpolate
 
 # Set CredHub vars
 $ credhub set -n /bosh/concourse/credhub_tls -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca)
-$ credhub set -n /bosh/concourse/github_client -t user -z 'some-user' -w 'some-pass' # github auth client_id & client_secretFinished dinner hectic night
+$ credhub set -n /bosh/concourse/github_client -t user -z 'some-user' -w 'some-pass' # github auth client_id & client_secret
 $ credhub set -n /bosh/concourse/uaa_ssl -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca)
 $ credhub set -n /bosh/concourse/uaa_clients_concourse_to_credhub -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
 
