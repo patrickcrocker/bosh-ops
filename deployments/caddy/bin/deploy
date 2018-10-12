@@ -15,7 +15,7 @@ if [[ ! -d "${repo}/tmp/caddy-bosh-release" ]] ; then
 fi
 
 # checkout specific version of caddy-bosh-release
-REF=" v0.2.1"
+REF="v0.2.1"
 echo "Checking out to caddy-bosh-release to ref: ${REF}"
 
 pushd ${repo}/tmp/caddy-bosh-release > /dev/null
