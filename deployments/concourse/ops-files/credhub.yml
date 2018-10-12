@@ -2,10 +2,9 @@
 - type: replace
   path: /instance_groups/name=web/jobs/name=atc/properties/credhub?
   value:
-    url: "https://((credhub_static_ip)):8844/api/"
+    url: ((credhub_url))
     tls:
-      insecure_skip_verify: false
       ca_cert:
         certificate: ((credhub_tls.ca))((uaa_ssl.ca))
-    client_id: concourse_to_credhub
-    client_secret: ((uaa_clients_concourse_to_credhub))
+    client_id: ((credhub_client_id))
+    client_secret: ((credhub_client_secret))

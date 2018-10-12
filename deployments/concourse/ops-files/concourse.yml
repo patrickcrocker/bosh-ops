@@ -1,33 +1,5 @@
 ---
 # Misc
 - type: replace
-  path: /stemcells/0/version
-  value: 3586.latest
-
-- type: replace
   path: /instance_groups/name=worker/jobs/name=garden/properties/garden/dns_servers?
   value: ((internal_dns))
-
-- type: replace
-  path: /instance_groups/name=worker/jobs/name=baggageclaim/properties/driver?
-  value: btrfs
-
-# change AZ
-- type: replace
-  path: /instance_groups/name=web/azs
-  value: ((azs))
-
-- type: replace
-  path: /instance_groups/name=db/azs
-  value: ((azs))
-
-- type: replace
-  path: /instance_groups/name=worker/azs
-  value: ((azs))
-
-# basic auth
-- type: replace
-  path: /variables/-
-  value:
-    name: atc_basic_auth
-    type: user

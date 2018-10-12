@@ -1,29 +1,35 @@
 # Generated file - do not edit directly!
 ---
 instance_groups:
-- azs: ((azs))
-  instances: ((web_instances))
+- azs:
+  - z1
+  instances: 1
   jobs:
   - name: atc
     properties:
-      basic_auth_password: ((atc_basic_auth.password))
-      basic_auth_username: ((atc_basic_auth.username))
+      add_local_users:
+      - ((local_user.username)):((local_user.password))
       credhub:
-        client_id: concourse_to_credhub
-        client_secret: ((uaa_clients_concourse_to_credhub))
+        client_id: ((credhub_client_id))
+        client_secret: ((credhub_client_secret))
         tls:
           ca_cert:
             certificate: ((credhub_tls.ca))((uaa_ssl.ca))
-          insecure_skip_verify: false
-        url: https://((credhub_static_ip)):8844/api/
+        url: ((credhub_url))
       external_url: ((external_url))
       github_auth:
-        authorize:
-        - organization: ((github_org))
-          teams: ((github_teams))
         client_id: ((github_client.username))
         client_secret: ((github_client.password))
       log_level: debug
+      main_team:
+        auth:
+          github:
+            orgs: ((main_team.github_orgs))
+            teams: ((main_team.github_teams))
+            users: ((main_team.github_users))
+          local:
+            users:
+            - ((local_user.username))
       postgresql:
         database: atc
         role:
@@ -42,9 +48,10 @@ instance_groups:
   name: web
   networks:
   - name: ((network_name))
-  stemcell: trusty
+  stemcell: xenial
   vm_type: ((web_vm_type))
-- azs: ((azs))
+- azs:
+  - z1
   instances: 1
   jobs:
   - name: postgres
@@ -61,10 +68,11 @@ instance_groups:
   networks:
   - name: ((network_name))
   persistent_disk_type: ((db_persistent_disk_type))
-  stemcell: trusty
+  stemcell: xenial
   vm_type: ((db_vm_type))
-- azs: ((azs))
-  instances: ((worker_instances))
+- azs:
+  - z1
+  instances: 1
   jobs:
   - consumes:
       baggageclaim:
@@ -77,7 +85,6 @@ instance_groups:
     release: concourse
   - name: baggageclaim
     properties:
-      driver: btrfs
       log_level: debug
     provides:
       baggageclaim:
@@ -93,26 +100,26 @@ instance_groups:
   name: worker
   networks:
   - name: ((network_name))
-  stemcell: trusty
+  stemcell: xenial
   vm_type: ((worker_vm_type))
 name: ((deployment_name))
 releases:
 - name: concourse
-  sha1: 6be91b70ecc7ce233d2aff5d03ed28c8eab3d132
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.14.1
-  version: 3.14.1
+  sha1: 470a6fdd7cb82fc723d7d78930c7d261ca4a6cb4
+  url: https://bosh.io/d/github.com/concourse/concourse?v=4.2.1
+  version: 4.2.1
 - name: garden-runc
-  sha1: be5e6d6a263be1437d99dc5e818deeb8ab2a03a4
-  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.14.0
-  version: 1.14.0
+  sha1: 2a7c813e7e4d862e19334addf022916fb6b91eb0
+  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.16.3
+  version: 1.16.3
 - name: postgres
-  sha1: c1fcec62cb9d2e95e3b191e3c91d238e2b9d23fa
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=28
-  version: "28"
+  sha1: a798999d29b9f5aa12035cff907b26674b491200
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=30
+  version: "30"
 stemcells:
-- alias: trusty
-  os: ubuntu-trusty
-  version: 3586.latest
+- alias: xenial
+  os: ubuntu-xenial
+  version: latest
 update:
   canaries: 1
   canary_watch_time: 1000-60000
@@ -128,5 +135,3 @@ variables:
   type: ssh
 - name: worker_key
   type: ssh
-- name: atc_basic_auth
-  type: user
