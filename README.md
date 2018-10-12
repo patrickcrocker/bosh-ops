@@ -63,12 +63,12 @@ $ bosh-ops/environment/bin/create-env
 
 ## Login to BOSH
 ```bash
-# Configure local alias
-$ bosh alias-env prod -e 10.0.8.2 --ca-cert <(bosh int bosh-secrets/bosh/creds.yml --path /director_ssl/ca)
-
 # Log in to the Director
 $ export BOSH_CLIENT=admin
 $ export BOSH_CLIENT_SECRET=$(bosh int bosh-secrets/bosh/creds.yml --path /admin_password)
+
+# Configure local alias
+$ bosh alias-env prod -e 10.0.8.2 --ca-cert <(bosh int bosh-secrets/bosh/creds.yml --path /director_ssl/ca)
 
 # Verify you are logged in
 $ bosh -e prod env
@@ -76,8 +76,9 @@ $ bosh -e prod env
 # Update cloud config
 $ bosh-ops/environment/bin/update-cloud-config
 
-# Upload a stemcell
-$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-3468.25-vsphere-esxi-ubuntu-trusty-go_agent.tgz
+# Upload some stemcells
+$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-3586.46-vsphere-esxi-ubuntu-trusty-go_agent.tgz
+$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-97.22-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 ```
 
 ## Login to Credhub
@@ -89,32 +90,74 @@ $ credhub login --server https://10.0.8.2:8844 \
     --client-secret=$(bosh int bosh-secrets/bosh/creds.yml --path /credhub_admin_client_secret)
 ```
 
-## Deploy instant-https
-Example `bosh-secrets/vars-instant-https.yml`:
-```yml
----
-# Staging url:
-#acme_url: https://acme-staging.api.letsencrypt.org/directory
-# Production url:
-acme_url: https://acme-v01.api.letsencrypt.org/directory
-contact_email: user@example.com
-ci_hostnames: [ci.example.com]
-ci_backends:
-- "http://192.168.1.10:8080"
-- "http://192.168.1.11:8080"
-opsman_hostnames: [opsman.example.com]
-opsman_backends: ["https://192.168.2.6:443"]
-pas_hostnames:
-- "*.sys.example.com"
-- "*.cfapps.example.com"
-pas_backends:
-- "https://192.168.3.10:443"
-- "https://192.168.3.11:443"
+## Deploy caddy
+Create and upload caddy-bosh-release:
+```bash
+$ git clone https://github.com/dpb587/caddy-bosh-release.git
+$ git -C caddy-bosh-release checkout v0.2.1
+$ bosh create-release --dir=caddy-bosh-release
+$ bosh upload-release --dir=caddy-bosh-release
 ```
 
+Create `bosh-secrets/vars-caddy.yml`:
+```yml
+---
+acme_url: https://acme-v02.api.letsencrypt.org/directory
+contact_email: me@example.com
+env:
+  GCE_PROJECT: sample-project-201802
+  GCE_SERVICE_ACCOUNT_FILE: |
+    {
+      "type": "sample_account",
+      "project_id": "sample-project-201802",
+      "private_key_id": "sample4c02016ac2d8abf5b1577993ded31626a8",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIE...k8LAVeB==\n-----END PRIVATE KEY-----\n",
+      "client_email": "instant-https@sample-project-201802.iam.gserviceaccount.com",
+      "client_id": "sample4c02016ac2d8abf",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://accounts.google.com/o/oauth2/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/instant-https%sample-project-201802.iam.gserviceaccount.com"
+    }
+caddyfile: |
+  (wildcard_cert) {
+    tls {
+      dns googlecloud
+      wildcard
+    }
+  }
+  ci.example.com {
+    import wildcard_cert
+    log / /var/vcap/sys/log/proxy/ci.access.log "{combined} {scheme} {host}"
+    proxy / http://10.0.10.10:8080 {
+      websocket
+      transparent
+    }
+  }
+  opsman.example.com {
+    import wildcard_cert
+    log / /var/vcap/sys/log/proxy/opsman.access.log "{combined} {scheme} {host}"
+    proxy / https://10.0.20.10:443 {
+      transparent
+      insecure_skip_verify
+    }
+  }
+  *.cfapps.example.com *.run.example.com *.login.run.example.com *.uaa.run.example.com {
+    log / /var/vcap/sys/log/proxy/pas.access.log "{combined} {scheme} {host}"
+    proxy / https://10.0.30.10:443 {
+      transparent
+      websocket
+      insecure_skip_verify
+    }
+    tls {
+      dns googlecloud
+    }
+  }
+```
+
+Deploy:
 ```bash
-# Deploy
-$ bosh-ops/deployments/instant-https/bin/deploy
+$ bosh-ops/deployments/caddy/bin/deploy
 ```
 
 ## Deploy Concourse
@@ -138,14 +181,13 @@ github_teams: [some-team]
 ```
 
 ```bash
-# Interpolate
-$ bosh-ops/deployments/concourse/bin/interpolate
-
 # Set CredHub vars
+$ credhub generate -n /bosh/concourse/local_user -t user
+$ credhub set -n /bosh/concourse/github_client -t user -z 'client_id' -w 'client_secret' # github auth client_id & client_secret
+$ credhub set -n /bosh/concourse/credhub_client_id -t password -w 'concourse_to_credhub'
+$ credhub set -n /bosh/concourse/credhub_client_secret -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
 $ credhub set -n /bosh/concourse/credhub_tls -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca)
-$ credhub set -n /bosh/concourse/github_client -t user -z 'some-user' -w 'some-pass' # github auth client_id & client_secret
 $ credhub set -n /bosh/concourse/uaa_ssl -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca)
-$ credhub set -n /bosh/concourse/uaa_clients_concourse_to_credhub -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
 
 # Deploy
 $ bosh-ops/deployments/concourse/bin/deploy
@@ -166,5 +208,5 @@ $ credhub set -n /concourse/main/root_ca -t certificate -c <(cat bosh-secrets/ss
 $ credhub set -n /concourse/main/vcenter -t user -z "<some-user>" -w "<some-pass>"
 
 # Set pipeline
-$ bosh-ops/pcf/bin/sp-install-pcf
+$ bosh-ops/pcf/bin/install-pcf
 ```
