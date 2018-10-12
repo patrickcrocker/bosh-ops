@@ -1,16 +1,16 @@
-DROP database account;
-DROP database app_usage_service;
-DROP database autoscale;
-DROP database ccdb;
-DROP database credhub;
-DROP database diego;
-DROP database locket;
-DROP database networkpolicyserver;
-DROP database nfsvolume;
-DROP database notifications;
-DROP database routing;
-DROP database silk;
-DROP database uaa;
+DROP DATABASE IF EXISTS account;
+DROP DATABASE IF EXISTS app_usage_service;
+DROP DATABASE IF EXISTS autoscale;
+DROP DATABASE IF EXISTS ccdb;
+DROP DATABASE IF EXISTS credhub;
+DROP DATABASE IF EXISTS diego;
+DROP DATABASE IF EXISTS locket;
+DROP DATABASE IF EXISTS networkpolicyserver;
+DROP DATABASE IF EXISTS nfsvolume;
+DROP DATABASE IF EXISTS notifications;
+DROP DATABASE IF EXISTS routing;
+DROP DATABASE IF EXISTS silk;
+DROP DATABASE IF EXISTS uaa;
 
 CREATE database account;
 CREATE database app_usage_service;
@@ -25,3 +25,21 @@ CREATE database notifications;
 CREATE database routing;
 CREATE database silk;
 CREATE database uaa;
+
+CREATE USER 'pcfuser'@'%' IDENTIFIED BY 'secret';
+
+GRANT ALL PRIVILEGES ON account.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON app_usage_service.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON autoscale.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON ccdb.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON credhub.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON diego.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON locket.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON networkpolicyserver.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON nfsvolume.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON notifications.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON routing.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON silk.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON uaa.* TO 'pcfuser'@'%';
+
+FLUSH PRIVILEGES;
