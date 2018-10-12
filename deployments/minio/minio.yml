@@ -3,14 +3,14 @@ name: minio
 
 releases:
 - name: "minio"
-  version: "2018-07-10T01-42-11Z"
-  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2018-07-10T01-42-11Z"
-  sha1: "5759f7d82cf2850dc312295982b66c0485323504"
+  version: "2018-10-06T00-15-16Z"
+  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2018-10-06T00-15-16Z"
+  sha1: "54d963ad7f2a30049b40e50e38a48b4caa1f95be"
 
 stemcells:
 - alias: default
-  os: ubuntu-trusty
-  version: 3586.latest
+  os: ubuntu-xenial
+  version: latest
 
 instance_groups:
 - name: minio
