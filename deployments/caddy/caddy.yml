@@ -1,0 +1,35 @@
+# Generated file - do not edit directly!
+---
+instance_groups:
+- azs:
+  - z1
+  instances: 1
+  jobs:
+  - name: caddy
+    properties:
+      acme:
+        ca:
+          url: ((acme_url))
+        email: ((contact_email))
+      caddyfile: ((caddyfile))
+      env: ((env))
+    release: caddy
+  name: caddy
+  networks:
+  - name: default
+  persistent_disk: 1024
+  stemcell: default
+  vm_type: micro
+name: caddy
+releases:
+- name: caddy
+  version: latest
+stemcells:
+- alias: default
+  os: ((os))
+  version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-30000
+  max_in_flight: 1
+  update_watch_time: 1000-30000

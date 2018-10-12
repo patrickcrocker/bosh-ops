@@ -1,0 +1,22 @@
+---
+# Misc
+- type: replace
+  path: /releases/name=caddy/version
+  value: latest
+
+- type: remove
+  path: /releases/name=caddy/url
+
+- type: replace
+  path: /instance_groups/name=caddy/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=caddy/jobs/name=caddy/properties
+  value:
+    acme:
+      ca:
+        url: ((acme_url))
+      email: ((contact_email))
+    caddyfile: ((caddyfile))
+    env: ((env))
