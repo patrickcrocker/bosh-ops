@@ -1,3 +1,5 @@
+# Generated file - do not edit directly!
+---
 cloud_provider:
   cert: ((mbus_bootstrap_ssl))
   mbus: https://mbus:((mbus_bootstrap_password))@((internal_ip)):6868

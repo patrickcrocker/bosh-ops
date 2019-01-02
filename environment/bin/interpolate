@@ -32,6 +32,9 @@ pushd ${repo}/tmp/bosh-deployment > /dev/null
   git log -1 --pretty=oneline
 popd > /dev/null
 
+# Generated manifest
+manifest="${repo}/environment/bosh.yml"
+
 bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
   -o "${repo}/tmp/bosh-deployment/vsphere/cpi.yml" \
   -o "${repo}/tmp/bosh-deployment/jumpbox-user.yml" \
@@ -39,9 +42,10 @@ bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
   -o "${repo}/tmp/bosh-deployment/credhub.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
-   > "${repo}/environment/bosh.yml"
+   > "${manifest}"
 
-echo "Generated bosh manifest: ${repo}/environment/bosh.yml"
+echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
+echo "Generating manifest: $manifest"
 
 bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
