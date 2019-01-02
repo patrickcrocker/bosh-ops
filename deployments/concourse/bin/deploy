@@ -7,18 +7,18 @@ set -euo pipefail
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 
-# make sure we have concourse-deployment
-if [[ ! -d "${repo}/tmp/concourse-deployment" ]] ; then
+# make sure we have concourse-bosh-deployment
+if [[ ! -d "${repo}/tmp/concourse-bosh-deployment" ]] ; then
   pushd ${repo}/tmp > /dev/null
-    git clone https://github.com/concourse/concourse-deployment.git &> /dev/null
+    git clone https://github.com/concourse/concourse-bosh-deployment.git &> /dev/null
   popd > /dev/null
 fi
 
-# checkout specific version of concourse-deployment
-REF="v4.2.1"
-echo "Checking out to concourse-deployment to ref: ${REF}"
+# checkout specific version of concourse-bosh-deployment
+REF="6a61eaaf48f5cb369777acdf74bed2307250df0e" #4.2.2
+echo "Checking out to concourse-bosh-deployment to ref: ${REF}"
 
-pushd ${repo}/tmp/concourse-deployment > /dev/null
+pushd ${repo}/tmp/concourse-bosh-deployment > /dev/null
   git fetch &> /dev/null
   git checkout ${REF} &> /dev/null
   git log -1 --pretty=oneline
@@ -27,11 +27,11 @@ popd > /dev/null
 # Generated manifest
 manifest="${repo}/deployments/concourse/concourse.yml"
 
-bosh -e prod interpolate "${repo}/tmp/concourse-deployment/cluster/concourse.yml" \
-  -l "${repo}/tmp/concourse-deployment/versions.yml" \
-  -o "${repo}/tmp/concourse-deployment/cluster/operations/basic-auth.yml" \
-  -o "${repo}/tmp/concourse-deployment/cluster/operations/github-auth.yml" \
-  -o "${repo}/tmp/concourse-deployment/cluster/operations/scale.yml" \
+bosh -e prod interpolate "${repo}/tmp/concourse-bosh-deployment/cluster/concourse.yml" \
+  -l "${repo}/tmp/concourse-bosh-deployment/versions.yml" \
+  -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/basic-auth.yml" \
+  -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/github-auth.yml" \
+  -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/scale.yml" \
   -o "${repo}/deployments/concourse/ops-files/credhub.yml" \
   -o "${repo}/deployments/concourse/ops-files/concourse.yml" \
    > "${manifest}"
