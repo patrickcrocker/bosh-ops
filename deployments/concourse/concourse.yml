@@ -3,7 +3,7 @@
 instance_groups:
 - azs:
   - z1
-  instances: 1
+  instances: ((web_instances))
   jobs:
   - name: atc
     properties:
@@ -72,7 +72,7 @@ instance_groups:
   vm_type: ((db_vm_type))
 - azs:
   - z1
-  instances: 1
+  instances: ((worker_instances))
   jobs:
   - consumes:
       baggageclaim:
