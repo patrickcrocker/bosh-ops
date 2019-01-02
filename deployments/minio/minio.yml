@@ -3,9 +3,9 @@ name: minio
 
 releases:
 - name: "minio"
-  version: "2018-10-06T00-15-16Z"
-  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2018-10-06T00-15-16Z"
-  sha1: "54d963ad7f2a30049b40e50e38a48b4caa1f95be"
+  version: "2018-12-27T18-33-08Z"
+  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2018-12-27T18-33-08Z"
+  sha1: "db965b98aef2c0dbe8ef8e6f291c5a99ed333678"
 
 stemcells:
 - alias: default
