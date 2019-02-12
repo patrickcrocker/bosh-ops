@@ -18,7 +18,7 @@ instance_groups:
   instances: 1
   vm_type: micro
   stemcell: default
-  persistent_disk_type: 51200
+  persistent_disk_type: 102400
   networks:
   - name: default
   jobs:
