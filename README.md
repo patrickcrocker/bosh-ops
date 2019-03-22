@@ -173,11 +173,15 @@ db_vm_type: micro
 worker_vm_type: micro
 web_instances: 1
 worker_instances: 1
-azs: [z1]
-credhub_static_ip: 10.0.8.6
-internal_dns: [10.0.0.1]
-github_org: some-org
-github_teams: [some-team]
+credhub_url: https://10.0.8.2:8844/api/
+garden_dns_servers:
+- 10.0.0.1
+main_team:
+  github_orgs:
+  - someorg
+  github_teams:
+  - someteam
+  github_users: []
 ```
 
 ```bash

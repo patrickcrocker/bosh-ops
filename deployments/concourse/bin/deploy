@@ -15,7 +15,7 @@ if [[ ! -d "${repo}/tmp/concourse-bosh-deployment" ]] ; then
 fi
 
 # checkout specific version of concourse-bosh-deployment
-REF="6a61eaaf48f5cb369777acdf74bed2307250df0e" #4.2.2
+REF="v5.0.0"
 echo "Checking out to concourse-bosh-deployment to ref: ${REF}"
 
 pushd ${repo}/tmp/concourse-bosh-deployment > /dev/null
@@ -30,10 +30,10 @@ manifest="${repo}/deployments/concourse/concourse.yml"
 bosh -e prod interpolate "${repo}/tmp/concourse-bosh-deployment/cluster/concourse.yml" \
   -l "${repo}/tmp/concourse-bosh-deployment/versions.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/basic-auth.yml" \
+  -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/garden-dns.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/github-auth.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/scale.yml" \
   -o "${repo}/deployments/concourse/ops-files/credhub.yml" \
-  -o "${repo}/deployments/concourse/ops-files/concourse.yml" \
    > "${manifest}"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"

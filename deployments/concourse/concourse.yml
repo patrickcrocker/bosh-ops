@@ -5,7 +5,9 @@ instance_groups:
   - z1
   instances: ((web_instances))
   jobs:
-  - name: atc
+  - name: bpm
+    release: bpm
+  - name: web
     properties:
       add_local_users:
       - ((local_user.username)):((local_user.password))
@@ -20,7 +22,6 @@ instance_groups:
       github_auth:
         client_id: ((github_client.username))
         client_secret: ((github_client.password))
-      log_level: debug
       main_team:
         auth:
           github:
@@ -36,14 +37,10 @@ instance_groups:
           name: concourse
           password: ((postgres_password))
       token_signing_key: ((token_signing_key))
-    release: concourse
-  - name: tsa
-    properties:
-      authorized_keys:
-      - ((worker_key.public_key))
-      host_key: ((tsa_host_key))
-      log_level: debug
-      token_signing_key: ((token_signing_key))
+      worker_gateway:
+        authorized_keys: |
+          ((worker_key.public_key))
+        host_key: ((tsa_host_key))
     release: concourse
   name: web
   networks:
@@ -74,29 +71,14 @@ instance_groups:
   - z1
   instances: ((worker_instances))
   jobs:
-  - consumes:
-      baggageclaim:
-        from: worker-baggageclaim
-    name: worker
+  - name: worker
     properties:
       drain_timeout: 10m
-      tsa:
+      garden:
+        dns_servers: ((garden_dns_servers))
+      worker_gateway:
         worker_key: ((worker_key))
     release: concourse
-  - name: baggageclaim
-    properties:
-      log_level: debug
-    provides:
-      baggageclaim:
-        as: worker-baggageclaim
-    release: concourse
-  - name: garden
-    properties:
-      garden:
-        dns_servers: ((internal_dns))
-        listen_address: 0.0.0.0:7777
-        listen_network: tcp
-    release: garden-runc
   name: worker
   networks:
   - name: ((network_name))
@@ -105,17 +87,17 @@ instance_groups:
 name: ((deployment_name))
 releases:
 - name: concourse
-  sha1: 4107747823b7056c58620c34457746dcedb98cc5
-  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=4.2.2
-  version: 4.2.2
-- name: garden-runc
-  sha1: 2a7c813e7e4d862e19334addf022916fb6b91eb0
-  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.16.3
-  version: 1.16.3
+  sha1: 558aa18093dd1f7d32f3fbb668d49f47a33ad17c
+  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=5.0.0
+  version: 5.0.0
+- name: bpm
+  sha1: 2875a69cae225fa97fe3faae1e9fbacff61e2dc5
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=1.0.3
+  version: 1.0.3
 - name: postgres
-  sha1: a798999d29b9f5aa12035cff907b26674b491200
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=30
-  version: "30"
+  sha1: 3dd10b417b21cfa3257f1cc891e9e46f02fefe16
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=36
+  version: "36"
 stemcells:
 - alias: xenial
   os: ubuntu-xenial
