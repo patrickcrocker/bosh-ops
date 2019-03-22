@@ -3,13 +3,13 @@ name: nexus
 
 releases:
 - name: nexus
-  version: 0.12.1
-  url: https://github.com/making/nexus-boshrelease/releases/download/0.12.1/nexus-boshrelease-0.12.1.tgz
-  sha1: 42fd399f34a4ed116455147e78fdaf6c8b7f8148
+  version: 0.13.0
+  url: https://github.com/making/nexus-boshrelease/releases/download/0.13.0/nexus-boshrelease-0.13.0.tgz
+  sha1: 9e7b17302e56bf360bf56b627d37fe902ed49e1b
 - name: openjdk
-  version: 8.0.1
-  url: https://github.com/making/openjdk-boshrelease/releases/download/8.0.1/openjdk-boshrelease-8.0.1.tgz
-  sha1: d02566fb6d974de4b60bf44dc21e56422c7da3fd
+  version: 8.0.2
+  url: https://github.com/making/openjdk-boshrelease/releases/download/8.0.2/openjdk-boshrelease-8.0.2.tgz
+  sha1: e76b73d2560d143b155e958aa06a2e266e261464
 
 stemcells:
 - alias: default
