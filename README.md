@@ -77,7 +77,7 @@ $ bosh -e prod env
 $ bosh-ops/environment/bin/update-cloud-config
 
 # Upload some stemcells
-$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-97.22-vsphere-esxi-ubuntu-xenial-go_agent.tgz
+$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/250.21/bosh-stemcell-250.21-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 ```
 
 ## Login to Credhub
