@@ -1,5 +1,0 @@
----
-# Misc
-- type: replace
-  path: /stemcells/0/version
-  value: 3586.latest
