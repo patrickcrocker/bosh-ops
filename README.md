@@ -77,7 +77,6 @@ $ bosh -e prod env
 $ bosh-ops/environment/bin/update-cloud-config
 
 # Upload some stemcells
-$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-3586.46-vsphere-esxi-ubuntu-trusty-go_agent.tgz
 $ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-97.22-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 ```
 
@@ -85,7 +84,8 @@ $ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/vsph
 ```bash
 # Log in to CredHub
 $ credhub login --server https://10.0.8.2:8844 \
-    --skip-tls-validation \
+    --ca-cert=<(bosh int bosh-secrets/bosh/creds.yml --path /default_ca/ca) \
+    --ca-cert=<(bosh int bosh-secrets/bosh/creds.yml --path /credhub_ca/ca) \
     --client-name=credhub-admin \
     --client-secret=$(bosh int bosh-secrets/bosh/creds.yml --path /credhub_admin_client_secret)
 ```
