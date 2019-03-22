@@ -3,41 +3,89 @@ name: minio
 
 releases:
 - name: "minio"
-  version: "2018-12-27T18-33-08Z"
-  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2018-12-27T18-33-08Z"
-  sha1: "db965b98aef2c0dbe8ef8e6f291c5a99ed333678"
+  version: "2019-03-20T22-38-47Z"
+  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2019-03-20T22-38-47Z"
+  sha1: "0acf11a824dd9dec1c67457219f108c070e63928"
 
 stemcells:
 - alias: default
   os: ubuntu-xenial
   version: latest
 
+variables:
+- name: minio_accesskey
+  type: password
+- name: minio_secretkey
+  type: password
+
 instance_groups:
 - name: minio
   azs: [z1]
   instances: 1
-  vm_type: micro
-  stemcell: default
-  persistent_disk_type: 102400
-  networks:
-  - name: default
   jobs:
   - name: minio-server
     release: minio
     templates:
     - name: minio-server
+    provides:
+      minio-server: {as: minio-link}
     properties:
       credential:
-        accesskey: ((minio_basic_auth.username))
-        secretkey: ((minio_basic_auth.password))
+        accesskey: ((minio_accesskey))
+        secretkey: ((minio_secretkey))
       port: 9000
+  networks:
+  - name: default
+  vm_type: micro
+  persistent_disk_type: 51200
+  stemcell: default
 
-variables:
-- name: minio_basic_auth
-  type: user
+- name: tests
+  azs: [z1]
+  instances: 1
+  lifecycle: errand
+  post_deploy: true
+  jobs:
+  - name: smoke-tests
+    release: minio
+    templates:
+    - name: smoke-tests
+    consumes:
+      minio: {from: minio-link}
+  networks:
+  - name: default
+  vm_type: micro
+  persistent_disk_type: 2048
+  stemcell: default
+
+- name: bucket-seeding # To create default buckets after manifest-deploy
+  azs: [z1]
+  instances: 1
+  lifecycle: errand
+  post_deploy: true
+  jobs:
+  - name: mc
+    release: minio
+    templates:
+    - name: mc
+    consumes:
+      minio: {from: minio-link}
+    properties:
+      script: |
+        #!/bin/sh
+        mc mb myminio/pcf-buildpacks
+        mc mb myminio/pcf-droplets
+        mc mb myminio/pcf-packages
+        mc mb myminio/pcf-resources
+        mc mb myminio/pcf-backups
+  networks:
+  - name: default
+  vm_type: micro
+  persistent_disk_type: 2048
+  stemcell: default
 
 update:
   canaries: 1
-  canary_watch_time: 1000-60000
-  update_watch_time: 1000-60000
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
   max_in_flight: 1
