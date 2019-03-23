@@ -36,7 +36,7 @@ instance_groups:
     release: bpm
   - name: nats
     release: bosh
-  - name: postgres-9.4
+  - name: postgres-10
     release: bosh
   - name: blobstore
     release: bosh
@@ -339,29 +339,29 @@ networks:
   type: manual
 releases:
 - name: bosh
-  sha1: cee0cef71e41718be9ee646f932aec37580a0200
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-268.4.0-ubuntu-xenial-170.12-20181211-205456-423591735-20181211205502.tgz
-  version: 268.4.0
+  sha1: cf4ee9a06c4af4eefd0a9cd7e5c89dffd251d81a
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-268.7.0-ubuntu-xenial-250.23-20190323-010607-561732219-20190323010615.tgz
+  version: 268.7.0
 - name: bpm
-  sha1: 1cc709f4be6fb2ec7ea3205d81ecad7039a979b4
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-0.12.3-ubuntu-xenial-170.9-20181126-234429-76772131-20181126234436.tgz
+  sha1: 80afb85adb24c71aa594104fb008abc3cbb35219
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-0.12.3-ubuntu-xenial-250.23-20190323-002900-515743269-20190323002908.tgz
   version: 0.12.3
 - name: bosh-vsphere-cpi
-  sha1: 99fc5ad16d6f43727d6191220918bace38bdb0ed
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=51
-  version: "51"
+  sha1: 73f4cd14eef75e037d6ca553ee63d8b55062f0ab
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=52
+  version: "52"
 - name: os-conf
   sha1: 78d79f08ff5001cc2a24f572837c7a9c59a0e796
   url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=18
   version: 18
 - name: uaa
-  sha1: e788ee7c1fce8ab9447e3772e54e11a2d69d475a
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-64.0-ubuntu-xenial-170.9-20181126-235054-308376184-20181126235108.tgz
+  sha1: 1eed036b0867ca63daadb83b334305fe17648acc
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-64.0-ubuntu-xenial-250.23-20190323-004521-959310962-20190323004539.tgz
   version: "64.0"
 - name: credhub
-  sha1: c1759ba08a927cd8b4476baefe5f803cbb95d515
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.0.2-ubuntu-xenial-170.9-20181126-235205-877343813-20181126235215.tgz
-  version: 2.0.2
+  sha1: 496e4ebb1ce73dd460b46b77786cc417a1daa044
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.1.4-ubuntu-xenial-250.23-20190323-003147-254807103-20190323003219.tgz
+  version: 2.1.4
 resource_pools:
 - cloud_properties:
     cpu: 2
@@ -375,8 +375,8 @@ resource_pools:
   name: vms
   network: default
   stemcell:
-    sha1: dff5ee88f85c902389d8f9960e06fdf82b233c1f
-    url: https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=170.9
+    sha1: 9723f506c44f100c949b5bd7734d539168d3696e
+    url: https://s3.amazonaws.com/bosh-core-stemcells/250.23/bosh-stemcell-250.23-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 variables:
 - name: admin_password
   type: password
