@@ -91,14 +91,6 @@ $ credhub login --server https://10.0.8.2:8844 \
 ```
 
 ## Deploy caddy
-Create and upload caddy-bosh-release:
-```bash
-$ git clone https://github.com/dpb587/caddy-bosh-release.git
-$ git -C caddy-bosh-release checkout v0.2.1
-$ bosh create-release --dir=caddy-bosh-release
-$ bosh upload-release --dir=caddy-bosh-release
-```
-
 Create `bosh-secrets/vars-caddy.yml`:
 ```yml
 ---
