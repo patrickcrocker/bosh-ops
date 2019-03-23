@@ -35,8 +35,13 @@ instance_groups:
       nexus:
         heap_size: 768M
         max_direct_memory_size: 512M
+        admin_password: ((admin_password))
   - name: nexus-backup
     release: nexus
+
+variables:
+- name: admin_password
+  type: password
 
 update:
   canaries: 1
