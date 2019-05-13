@@ -15,7 +15,7 @@ if [[ ! -d "${repo}/tmp/caddy-bosh-release" ]] ; then
 fi
 
 # checkout specific version of caddy-bosh-release
-REF="v0.5.0" # <-- match this with ../ops-files/misc.yml !!!!!!!!!!!!!!!!!!!
+REF="v0.6.0" # <-- match this with ../ops-files/misc.yml !!!!!!!!!!!!!!!!!!!
 echo "Checking out to caddy-bosh-release to ref: ${REF}"
 
 pushd ${repo}/tmp/caddy-bosh-release > /dev/null
