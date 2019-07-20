@@ -1,0 +1,18 @@
+# PCF v2.6.0
+Getting buildpacks...
+
+buildpack                position   enabled   locked   filename                                              stack
+staticfile_buildpack     1          true      false    staticfile_buildpack-cached-cflinuxfs3-v1.4.42.zip    cflinuxfs3
+java_buildpack_offline   2          true      false    java-buildpack-offline-cflinuxfs3-v4.18.zip           cflinuxfs3
+ruby_buildpack           3          true      false    ruby_buildpack-cached-cflinuxfs3-v1.7.38.zip          cflinuxfs3
+nginx_buildpack          4          true      false    nginx_buildpack-cached-cflinuxfs3-v1.0.11.zip         cflinuxfs3
+nodejs_buildpack         5          true      false    nodejs_buildpack-cached-cflinuxfs3-v1.6.49.zip        cflinuxfs3
+go_buildpack             6          true      false    go_buildpack-cached-cflinuxfs3-v1.8.39.zip            cflinuxfs3
+r_buildpack              7          true      false    r_buildpack-cached-cflinuxfs3-v1.0.9.zip              cflinuxfs3
+python_buildpack         8          true      false    python_buildpack-cached-cflinuxfs3-v1.6.32.zip        cflinuxfs3
+php_buildpack            9          true      false    php_buildpack-cached-cflinuxfs3-v4.3.76.zip           cflinuxfs3
+dotnet_core_buildpack    10         true      false    dotnet-core_buildpack-cached-cflinuxfs3-v2.2.11.zip   cflinuxfs3
+binary_buildpack         11         true      false    binary_buildpack-cached-cflinuxfs3-v1.0.32.zip        cflinuxfs3
+binary_buildpack         12         true      false    binary_buildpack-cached-windows2012R2-v1.0.32.zip     windows2012R2
+binary_buildpack         13         true      false    binary_buildpack-cached-windows2016-v1.0.32.zip       windows2016
+binary_buildpack         14         true      false    binary_buildpack-cached-windows-v1.0.32.zip           windows
