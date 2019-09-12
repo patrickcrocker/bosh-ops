@@ -87,17 +87,17 @@ instance_groups:
 name: ((deployment_name))
 releases:
 - name: concourse
-  sha1: c7051a773cc33435f7d608a020d8e0765c8faf4a
-  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=5.4.1
-  version: 5.4.1
+  sha1: 4213070d9a08847cda64c5c1e51d462ab9671299
+  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=5.5.1
+  version: 5.5.1
 - name: bpm
-  sha1: c2cceb2d1e271a2f7c5e7c563a7b26f919ebc17a
-  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.0.4
-  version: 1.0.4
+  sha1: b41556af773ea9aec93dd21a9bbf129200849eed
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.3
+  version: 1.1.3
 - name: postgres
-  sha1: 23620deb20c34cefadff74c0e5bfdffaaea1a807
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=38
-  version: "38"
+  sha1: 8ff395540e77a461322a01c41aa68973c10f1ffb
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=39
+  version: "39"
 stemcells:
 - alias: xenial
   os: ubuntu-xenial
