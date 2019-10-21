@@ -1,0 +1,78 @@
+# Generated file - do not edit directly!
+---
+addons:
+- jobs:
+  - name: bpm
+    release: bpm
+  name: bpm
+instance_groups:
+- azs:
+  - z1
+  instances: 1
+  jobs:
+  - name: pxc-mysql
+    properties:
+      admin_password: ((cf_mysql_mysql_admin_password))
+      tls:
+        galera: ((galera_server_certificate))
+        server: ((mysql_server_certificate))
+    release: pxc
+  - name: smoke-tests
+    properties:
+      db_password: ((smoke_tests_db_password))
+    release: pxc
+  - name: smoke-tests-user
+    release: pxc
+  name: mysql
+  networks:
+  - name: default
+  persistent_disk: 10000
+  stemcell: default
+  vm_type: small.disk
+name: pxc
+releases:
+- name: pxc
+  sha1: 810a31360978fb8a420f445d0e73afda5bb7d776
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=0.20.0
+  version: 0.20.0
+- name: bpm
+  sha1: b41556af773ea9aec93dd21a9bbf129200849eed
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.3
+  version: 1.1.3
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
+update:
+  canaries: 1
+  canary_watch_time: 10000-600000
+  max_in_flight: 1
+  update_watch_time: 10000-600000
+variables:
+- name: cf_mysql_mysql_admin_password
+  type: password
+- name: pxc_galera_ca
+  options:
+    common_name: pxc_galera_ca
+    is_ca: true
+  type: certificate
+- name: pxc_server_ca
+  options:
+    common_name: pxc_server_ca
+    is_ca: true
+  type: certificate
+- name: galera_server_certificate
+  options:
+    ca: pxc_galera_ca
+    common_name: galera_server_certificate
+    extended_key_usage:
+    - server_auth
+    - client_auth
+  type: certificate
+- name: mysql_server_certificate
+  options:
+    ca: pxc_server_ca
+    common_name: mysql_server_certificate
+  type: certificate
+- name: smoke_tests_db_password
+  type: password
