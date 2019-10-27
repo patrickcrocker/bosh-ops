@@ -4,9 +4,9 @@
   path: /releases/name=caddy
   value:
     name: caddy
-    version: 0.6.0 # <-- match this with ../bin/deploy !!!!!!!!!!!!!!!!!!!!!!
-    url: "https://bosh.io/d/github.com/dpb587/caddy-bosh-release?v=0.6.0"
-    sha1: "27ea56243236ffe26267092fc672c591930cd0e0"
+    version: 0.7.0 # <-- match this with ../bin/deploy !!!!!!!!!!!!!!!!!!!!!!
+    url: "https://bosh.io/d/github.com/dpb587/caddy-bosh-release?v=0.7.0"
+    sha1: "3602cd1a33f6d6ac49175b70db6ce6b96fa84e20"
 
 - type: replace
   path: /instance_groups/name=caddy/vm_type
