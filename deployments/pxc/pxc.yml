@@ -26,6 +26,8 @@ instance_groups:
   name: mysql
   networks:
   - name: default
+    static_ips:
+    - ((static_ip))
   persistent_disk: 10000
   stemcell: default
   vm_type: small.disk

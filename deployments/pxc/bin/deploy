@@ -36,6 +36,7 @@ echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$ma
 echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d pxc \
+  --vars-file "${base}/bosh-secrets/vars-pxc.yml" \
   "${manifest}" \
   "$@"
 

@@ -23,3 +23,7 @@
   path: /instance_groups/name=mysql/azs
   value:
     - z1
+
+- type: replace
+  path: /instance_groups/name=mysql/networks/name=default/static_ips?
+  value: [((static_ip))]
