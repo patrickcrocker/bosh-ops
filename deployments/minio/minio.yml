@@ -3,9 +3,9 @@ name: minio
 
 releases:
 - name: "minio"
-  version: "2019-10-02T21-19-38Z"
-  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2019-10-02T21-19-38Z"
-  sha1: "3fd0575fa6e62f3fd993a4e3476623d0ecbb1413"
+  version: "2019-10-12T01-39-57Z"
+  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2019-10-12T01-39-57Z"
+  sha1: "91fa5e22e9aaaebe9f86e4a08f252c33eac6bbb9"
 
 stemcells:
 - alias: default
@@ -36,6 +36,8 @@ instance_groups:
       port: 9000
   networks:
   - name: default
+    static_ips:
+    - ((web_ip))
   vm_type: micro
   persistent_disk_type: 51200
   stemcell: default
