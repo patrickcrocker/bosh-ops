@@ -25,7 +25,8 @@ instance_groups:
   azs: [z1]
   networks:
   - name: default
-#    static_ips: [((internal_ip))]
+    static_ips:
+    - ((web_ip))
   jobs:
   - name: java
     release: openjdk
