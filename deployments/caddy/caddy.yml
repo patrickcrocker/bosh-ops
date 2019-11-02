@@ -17,6 +17,8 @@ instance_groups:
   name: caddy
   networks:
   - name: default
+    static_ips:
+    - ((caddy_ip))
   persistent_disk: 1024
   stemcell: default
   vm_type: micro
