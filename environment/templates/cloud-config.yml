@@ -3,6 +3,7 @@
 #   network_name
 #   internal_gw
 #   internal_cidr
+#   internal_static_ips
 ---
 azs:
 - name: z1
@@ -104,11 +105,8 @@ networks:
     gateway: ((internal_gw))
     range: ((internal_cidr))
     reserved: []
-    static: []
+    static: ((internal_static_ips))
   type: manual
-# vm_extensions:
-# - cloud_properties: {}
-#   name: public_ip
 vm_types:
 - cloud_properties:
     cpu: 1

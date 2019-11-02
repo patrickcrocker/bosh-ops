@@ -32,7 +32,7 @@ pushd ${repo}/tmp/bosh-deployment > /dev/null
   git log -1 --pretty=oneline
 popd > /dev/null
 
-# Generated manifest
+# Generate manifest
 manifest="${repo}/environment/bosh.yml"
 
 bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
@@ -46,10 +46,14 @@ bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
    > "${manifest}"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
-echo "Generating manifest: $manifest"
+echo "Generated manifest: $manifest"
+
+# Generate cloudconfig
+cloudconfig="${repo}/environment/cloud-config.yml"
 
 bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
-  > "${repo}/environment/cloud-config.yml"
+  > "${cloudconfig}"
 
-echo "Generated cloud config : ${repo}/environment/cloud-config.yml"
+echo -e "# Generated file - do not edit directly!\n---\n$(cat $cloudconfig)" > "$cloudconfig"
+echo "Generated cloud config : $cloudconfig"
