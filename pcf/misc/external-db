@@ -1,3 +1,10 @@
+# credhub get -n /bosh/pxc/cf_mysql_mysql_admin_password
+# bosh -d pxc ssh mysql
+# sudo mysql -u root -p --socket=/var/vcap/data/sys/run/pxc-mysql/mysqld.sock
+
+CREATE USER 'pcf'@'10.0.%.%' IDENTIFIED BY '**********************';
+
+DROP DATABASE IF EXISTS bosh_director;
 DROP DATABASE IF EXISTS account;
 DROP DATABASE IF EXISTS app_usage_service;
 DROP DATABASE IF EXISTS autoscale;
@@ -12,6 +19,7 @@ DROP DATABASE IF EXISTS routing;
 DROP DATABASE IF EXISTS silk;
 DROP DATABASE IF EXISTS uaa;
 
+CREATE database bosh_director;
 CREATE database account;
 CREATE database app_usage_service;
 CREATE database autoscale;
@@ -26,20 +34,19 @@ CREATE database routing;
 CREATE database silk;
 CREATE database uaa;
 
-CREATE USER 'pcfuser'@'%' IDENTIFIED BY 'secret';
-
-GRANT ALL PRIVILEGES ON account.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON app_usage_service.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON autoscale.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON ccdb.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON credhub.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON diego.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON locket.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON networkpolicyserver.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON nfsvolume.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON notifications.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON routing.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON silk.* TO 'pcfuser'@'%';
-GRANT ALL PRIVILEGES ON uaa.* TO 'pcfuser'@'%';
+GRANT ALL PRIVILEGES ON bosh_director.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON account.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON app_usage_service.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON autoscale.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON ccdb.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON credhub.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON diego.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON locket.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON networkpolicyserver.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON nfsvolume.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON notifications.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON routing.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON silk.* TO 'pcf'@'10.0.%.%';
+GRANT ALL PRIVILEGES ON uaa.* TO 'pcf'@'10.0.%.%';
 
 FLUSH PRIVILEGES;
