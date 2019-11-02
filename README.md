@@ -77,7 +77,7 @@ $ bosh -e prod env
 $ bosh-ops/environment/bin/update-cloud-config
 
 # Upload some stemcells
-$ bosh -e prod upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/250.21/bosh-stemcell-250.21-vsphere-esxi-ubuntu-xenial-go_agent.tgz
+$ bosh -e prod upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/456.40/bosh-stemcell-456.40-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 ```
 
 ## Login to Credhub
@@ -178,12 +178,10 @@ main_team:
 
 ```bash
 # Set CredHub vars
-$ credhub generate -n /bosh/concourse/local_user -t user
 $ credhub set -n /bosh/concourse/github_client -t user -z 'client_id' -w 'client_secret' # github auth client_id & client_secret
 $ credhub set -n /bosh/concourse/credhub_client_id -t password -w 'concourse_to_credhub'
-$ credhub set -n /bosh/concourse/credhub_client_secret -t password -w $(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)
-$ credhub set -n /bosh/concourse/credhub_tls -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca)
-$ credhub set -n /bosh/concourse/uaa_ssl -t certificate -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca)
+$ credhub set -n /bosh/concourse/credhub_client_secret -t password -w "$(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)"
+$ credhub set -n /bosh/concourse/credhub_ca_cert -t value -v "$(bosh int bosh-secrets/bosh/creds.yml --path /credhub_ca/ca)"
 
 # Deploy
 $ bosh-ops/deployments/concourse/bin/deploy
