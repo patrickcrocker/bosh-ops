@@ -181,7 +181,12 @@ main_team:
 $ credhub set -n /bosh/concourse/github_client -t user -z 'client_id' -w 'client_secret' # github auth client_id & client_secret
 $ credhub set -n /bosh/concourse/credhub_client_id -t password -w 'concourse_to_credhub'
 $ credhub set -n /bosh/concourse/credhub_client_secret -t password -w "$(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)"
-$ credhub set -n /bosh/concourse/credhub_ca_cert -t value -v "$(bosh int bosh-secrets/bosh/creds.yml --path /credhub_ca/ca)"
+$ credhub set -n /bosh/concourse/credhub_tls -t certificate \
+              -r <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/ca) \
+              -c <(bosh int bosh-secrets/bosh/creds.yml --path /credhub_tls/certificate)
+$ credhub set -n /bosh/concourse/uaa_ssl -t certificate \
+              -r <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/ca) \
+              -c <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/certificate)
 
 # Deploy
 $ bosh-ops/deployments/concourse/bin/deploy
