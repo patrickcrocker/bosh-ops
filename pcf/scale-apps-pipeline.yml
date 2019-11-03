@@ -30,13 +30,28 @@ jobs:
         memory: 512MB
       - command: scale
         space: system
+        app_name: apps-manager-js-blue
+        instances: 1
+      - command: scale
+        space: system
         app_name: apps-manager-js-green
+        instances: 1
+      - command: scale
+        space: system
+        app_name: p-invitations-blue
+        instances: 1
+      - command: scale
+        space: system
+        app_name: p-invitations-green
+        instances: 1
+      - command: scale
+        space: system
+        app_name: search-server-blue
         instances: 1
       - command: scale
         space: system
         app_name: search-server-green
         instances: 1
-        memory: 256MB
 
 resources:
 - name: nulldriver
