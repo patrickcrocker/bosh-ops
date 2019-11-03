@@ -35,6 +35,7 @@ bosh -e prod interpolate "${repo}/tmp/concourse-bosh-deployment/cluster/concours
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/garden-dns.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/github-auth.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/credhub.yml" \
+  -o "${repo}/deployments/concourse/ops-files/credhub.yml" \
   -o "${repo}/deployments/concourse/ops-files/variables.yml" \
    > "${manifest}"
 

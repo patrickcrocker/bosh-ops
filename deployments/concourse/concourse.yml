@@ -16,7 +16,7 @@ instance_groups:
         client_secret: ((credhub_client_secret))
         tls:
           ca_cert:
-            certificate: ((credhub_ca_cert))
+            certificate: ((credhub_tls.ca))((uaa_ssl.ca))
         url: ((credhub_url))
       external_url: ((external_url))
       github_auth:
