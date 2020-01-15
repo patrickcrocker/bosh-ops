@@ -16,7 +16,7 @@ if [[ ! -d "${repo}/tmp/pxc-release" ]] ; then
 fi
 
 # checkout specific version of pxc-release
-REF="v0.20.0"
+REF="v0.22.0"
 echo "Checking out to pxc-release to ref: ${REF}"
 
 pushd ${repo}/tmp/pxc-release > /dev/null
