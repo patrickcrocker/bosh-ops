@@ -3,9 +3,9 @@ name: minio
 
 releases:
 - name: "minio"
-  version: "2019-10-12T01-39-57Z"
-  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2019-10-12T01-39-57Z"
-  sha1: "91fa5e22e9aaaebe9f86e4a08f252c33eac6bbb9"
+  version: "2020-01-03T19-12-21Z"
+  url: "https://bosh.io/d/github.com/minio/minio-boshrelease?v=2020-01-03T19-12-21Z"
+  sha1: "7fef7c67840d5a61bc38512b01122d0873de016e"
 
 stemcells:
 - alias: default
@@ -58,6 +58,8 @@ instance_groups:
   - name: default
   vm_type: micro
   persistent_disk_type: 2048
+  env:
+    persistent_disk_fs: xfs
   stemcell: default
 
 - name: bucket-seeding # To create default buckets after manifest-deploy
