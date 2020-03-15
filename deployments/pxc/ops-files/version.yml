@@ -27,3 +27,55 @@
 - type: replace
   path: /instance_groups/name=mysql/networks/name=default/static_ips?
   value: [((static_ip))]
+
+# - type: replace
+#   path: /variables/-
+#   value:
+#     name: pcf_password
+#     type: password
+#
+# - type: replace
+#   path: /instance_groups/name=mysql/jobs/name=pxc-mysql/properties/seeded_databases?
+#   value:
+#     - name: bosh_director
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: account
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: app_usage_service
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: autoscale
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: ccdb
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: credhub
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: diego
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: locket
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: networkpolicyserver
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: nfsvolume
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: notifications
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: routing
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: silk
+#       username: pcf_user
+#       password: ((pcf_password))
+#     - name: uaa
+#       username: pcf_user
+#       password: ((pcf_password))
