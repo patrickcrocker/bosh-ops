@@ -1,8 +1,7 @@
 # Generated file - do not edit directly!
 ---
 instance_groups:
-- azs:
-  - z1
+- azs: ((azs))
   instances: ((web_instances))
   jobs:
   - name: bpm
@@ -49,8 +48,7 @@ instance_groups:
     - ((web_ip))
   stemcell: xenial
   vm_type: ((web_vm_type))
-- azs:
-  - z1
+- azs: ((azs))
   instances: 1
   jobs:
   - name: postgres
@@ -69,8 +67,7 @@ instance_groups:
   persistent_disk_type: ((db_persistent_disk_type))
   stemcell: xenial
   vm_type: ((db_vm_type))
-- azs:
-  - z1
+- azs: ((azs))
   instances: ((worker_instances))
   jobs:
   - name: worker
@@ -89,9 +86,9 @@ instance_groups:
 name: ((deployment_name))
 releases:
 - name: concourse
-  sha1: 66b8a0d51b0436bd615eb9b99fc5d3963dd87efa
-  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=5.8.0
-  version: 5.8.0
+  sha1: 476ede4062acab307440d8539d6270b2e8fb4c6d
+  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=5.8.1
+  version: 5.8.1
 - name: bpm
   sha1: 5bad6161dbbcf068830a100b6a76056fe3b99bc8
   url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.6
