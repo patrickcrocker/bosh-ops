@@ -1,8 +1,21 @@
 #! /usr/bin/env bash
-set -euo pipefail
+set -eu
+set -o pipefail
 
 # To generate a manifest with variable interpolation placeholders intact,
 # suitable to be committed to source control
+
+function get_yaml_value() {
+  local file=${1:?file null or not set}
+  local key=${2:?key null or not set}
+
+  if ! yq_cli=$(command -v yq); then
+    echo "unable to locate yq binary (https://github.com/mikefarah/yq)"
+    exit 1
+  fi
+
+  "$yq_cli" read "$file" "$key"
+}
 
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
@@ -15,7 +28,7 @@ if [[ ! -d "${repo}/tmp/caddy-bosh-release" ]] ; then
 fi
 
 # checkout specific version of caddy-bosh-release
-REF="v0.7.0" # <-- match this with ../ops-files/misc.yml !!!!!!!!!!!!!!!!!!!
+REF="v$(get_yaml_value "${repo}/deployments/caddy/versions.yml" 'caddy_version')"
 echo "Checking out to caddy-bosh-release to ref: ${REF}"
 
 pushd ${repo}/tmp/caddy-bosh-release > /dev/null
@@ -36,6 +49,7 @@ echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d caddy \
   --vars-file "${base}/bosh-secrets/vars-caddy.yml" \
+  --vars-file "${repo}/deployments/caddy/versions.yml" \
   "${manifest}" \
   "$@"
 
