@@ -25,9 +25,9 @@ instance_groups:
 name: caddy
 releases:
 - name: caddy
-  sha1: ((caddy_sha1))
-  url: https://bosh.io/d/github.com/dpb587/caddy-bosh-release?v=((caddy_version))
-  version: ((caddy_version))
+  sha1: 3602cd1a33f6d6ac49175b70db6ce6b96fa84e20
+  url: https://bosh.io/d/github.com/dpb587/caddy-bosh-release?v=0.7.0
+  version: 0.7.0
 stemcells:
 - alias: default
   os: ((os))

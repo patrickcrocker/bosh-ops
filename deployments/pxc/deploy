@@ -41,6 +41,7 @@ popd > /dev/null
 manifest="${repo}/deployments/pxc/pxc.yml"
 
 bosh -e prod interpolate "${repo}/tmp/pxc-release/pxc-deployment.yml" \
+  -l "${repo}/deployments/pxc/versions.yml" \
   -o "${repo}/deployments/pxc/operations.yml" \
    > "${manifest}"
 
@@ -48,8 +49,7 @@ echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$ma
 echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d pxc \
-  --vars-file "${base}/bosh-secrets/vars-pxc.yml" \
-  --vars-file "${repo}/deployments/pxc/versions.yml" \
+  -l "${base}/bosh-secrets/vars-pxc.yml" \
   "${manifest}" \
   "$@"
 

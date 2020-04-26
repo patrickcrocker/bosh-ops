@@ -55,7 +55,7 @@ echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$ma
 echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d concourse \
-  --vars-file "${base}/bosh-secrets/vars-concourse.yml" \
+  -l "${base}/bosh-secrets/vars-concourse.yml" \
   "${manifest}" \
   "$@"
 

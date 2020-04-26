@@ -5,8 +5,8 @@ base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 bosh -e prod deploy -d nexus \
-  --vars-file "${base}/bosh-secrets/vars-nexus.yml" \
-  --vars-file "${repo}/deployments/nexus/versions.yml" \
+  -l "${base}/bosh-secrets/vars-nexus.yml" \
+  -l "${repo}/deployments/nexus/versions.yml" \
   "${repo}/deployments/nexus/nexus.yml" \
   "$@"
 
