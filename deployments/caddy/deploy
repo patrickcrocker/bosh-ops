@@ -10,7 +10,7 @@ function get_yaml_value() {
   local key=${2:?key null or not set}
 
   if ! yq_cli=$(command -v yq); then
-    echo "unable to locate yq binary (https://github.com/mikefarah/yq)"
+    echo "unable to locate yq binary (https://github.com/mikefarah/yq)" >&2
     exit 1
   fi
 
