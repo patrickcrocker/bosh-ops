@@ -8,3 +8,9 @@
     tls:
       ca_cert:
         certificate: ((credhub_tls.ca))((uaa_ssl.ca))
+
+- type: replace
+  path: /variables/-
+  value:
+    name: local_user
+    type: user

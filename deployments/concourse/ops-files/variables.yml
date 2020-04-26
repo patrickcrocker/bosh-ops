@@ -1,6 +1,0 @@
----
-- type: replace
-  path: /variables/-
-  value:
-    name: local_user
-    type: user
