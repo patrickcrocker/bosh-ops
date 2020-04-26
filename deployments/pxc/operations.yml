@@ -2,18 +2,18 @@
 - type: replace
   path: /releases/name=pxc
   value:
-    name: "pxc"
-    version: "0.24.0"
-    url: "https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=0.24.0"
-    sha1: "f2a479ab18e7327d67705bb54111b9a0f8ffcba3"
+    name: pxc
+    version: ((pxc_version))
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=((pxc_version))
+    sha1: ((pxc_sha1))
 
 - type: replace
   path: /releases/name=bpm
   value:
-    name: "bpm"
-    version: "1.1.7"
-    url: "https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.7"
-    sha1: "e7d474c3a205fa4438ea5a60d3b59479939163aa"
+    name: bpm
+    version: ((bpm_version))
+    url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=((bpm_version))
+    sha1: ((bpm_sha1))
 
 - type: replace
   path: /instance_groups/name=mysql/vm_type
