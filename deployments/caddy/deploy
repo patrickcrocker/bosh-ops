@@ -4,8 +4,8 @@ set -euo pipefail
 # To generate a manifest with variable interpolation placeholders intact,
 # suitable to be committed to source control
 
-base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
-repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 # make sure we have caddy-bosh-release
 if [[ ! -d "${repo}/tmp/caddy-bosh-release" ]] ; then
@@ -28,7 +28,7 @@ popd > /dev/null
 manifest="${repo}/deployments/caddy/caddy.yml"
 
 bosh -e prod interpolate "${repo}/tmp/caddy-bosh-release/manifests/caddy.yml" \
-  -o "${repo}/deployments/caddy/ops-files/misc.yml" \
+  -o "${repo}/deployments/caddy/operations.yml" \
   > "$manifest"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
