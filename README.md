@@ -149,7 +149,7 @@ caddyfile: |
 
 Deploy:
 ```bash
-$ bosh-ops/deployments/caddy/bin/deploy
+$ bosh-ops/deployments/caddy/deploy
 ```
 
 ## Deploy Concourse
@@ -189,23 +189,8 @@ $ credhub set -n /bosh/concourse/uaa_ssl -t certificate \
               -c <(bosh int bosh-secrets/bosh/creds.yml --path /uaa_ssl/certificate)
 
 # Deploy
-$ bosh-ops/deployments/concourse/bin/deploy
+$ bosh-ops/deployments/concourse/deploy
 
 # Login to Concourse
 $ fly -t prod login -c https://ci.example.com
-```
-
-## PCF Pipelines
-```bash
-# Set pipeline credentials
-$ credhub generate -n /concourse/main/git_key -t ssh # upload git_key.public_key to GitHub
-$ credhub set -n /concourse/main/opsman -t user -z "<some-user>" -w "<some-pass>"
-$ credhub set -n /concourse/main/opsman_decrypt_password -t password -w "<some-pass>"
-$ credhub set -n /concourse/main/opsman_vm -t user -z "ubuntu" -w "<some-pass>"
-$ credhub set -n /concourse/main/pivnet_api_token -t password -w "<pivnet-api-token>"
-$ credhub set -n /concourse/main/root_ca -t certificate -c <(cat bosh-secrets/ssl/root-ca.pem)
-$ credhub set -n /concourse/main/vcenter -t user -z "<some-user>" -w "<some-pass>"
-
-# Set pipeline
-$ bosh-ops/pcf/bin/install-pcf
 ```
