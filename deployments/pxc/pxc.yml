@@ -13,6 +13,49 @@ instance_groups:
   - name: pxc-mysql
     properties:
       admin_password: ((cf_mysql_mysql_admin_password))
+      seeded_databases:
+      - name: bosh_director
+        password: ((pcf_password))
+        username: pcf_user
+      - name: account
+        password: ((pcf_password))
+        username: pcf_user
+      - name: app_usage_service
+        password: ((pcf_password))
+        username: pcf_user
+      - name: autoscale
+        password: ((pcf_password))
+        username: pcf_user
+      - name: ccdb
+        password: ((pcf_password))
+        username: pcf_user
+      - name: credhub
+        password: ((pcf_password))
+        username: pcf_user
+      - name: diego
+        password: ((pcf_password))
+        username: pcf_user
+      - name: locket
+        password: ((pcf_password))
+        username: pcf_user
+      - name: networkpolicyserver
+        password: ((pcf_password))
+        username: pcf_user
+      - name: nfsvolume
+        password: ((pcf_password))
+        username: pcf_user
+      - name: notifications
+        password: ((pcf_password))
+        username: pcf_user
+      - name: routing
+        password: ((pcf_password))
+        username: pcf_user
+      - name: silk
+        password: ((pcf_password))
+        username: pcf_user
+      - name: uaa
+        password: ((pcf_password))
+        username: pcf_user
       tls:
         galera: ((galera_server_certificate))
         server: ((mysql_server_certificate))
@@ -77,4 +120,6 @@ variables:
     common_name: mysql_server_certificate
   type: certificate
 - name: smoke_tests_db_password
+  type: password
+- name: pcf_password
   type: password
