@@ -17,8 +17,8 @@ function get_yaml_value() {
   "$yq_cli" read "$file" "$key"
 }
 
-base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
-repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 # make sure we have pxc-release
 if [[ ! -d "${repo}/tmp/pxc-release" ]] ; then

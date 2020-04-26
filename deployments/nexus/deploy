@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
-base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../.." && pwd )"
-repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 bosh -e prod deploy -d nexus \
   --vars-file "${base}/bosh-secrets/vars-nexus.yml" \
