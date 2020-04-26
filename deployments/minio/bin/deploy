@@ -7,6 +7,7 @@ repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 # Deploy minio
 bosh -e prod deploy -d minio \
   --vars-file "${base}/bosh-secrets/vars-minio.yml" \
+  --vars-file "${repo}/deployments/minio/versions.yml" \
   "${repo}/deployments/minio/minio.yml" \
   "$@"
 
