@@ -1,79 +1,59 @@
+# Generated file - do not edit directly!
 ---
-name: minio
-
-releases:
-- name: minio
-  version: ((minio_version))
-  url: https://bosh.io/d/github.com/minio/minio-boshrelease?v=((minio_version))
-  sha1: ((minio_sha1))
-
-stemcells:
-- alias: default
-  os: ubuntu-xenial
-  version: latest
-
-variables:
-- name: minio_accesskey
-  type: password
-- name: minio_secretkey
-  type: password
-
 instance_groups:
-- name: minio
-  azs: [z1]
+- azs:
+  - z1
   instances: 1
   jobs:
   - name: minio-server
-    release: minio
-    templates:
-    - name: minio-server
-    provides:
-      minio-server: {as: minio-link}
     properties:
       credential:
         accesskey: ((minio_accesskey))
         secretkey: ((minio_secretkey))
       port: 9000
+    provides:
+      minio-server:
+        as: minio-link
+    release: minio
+    templates:
+    - name: minio-server
+  name: minio
   networks:
   - name: default
     static_ips:
     - ((web_ip))
-  vm_type: micro
   persistent_disk_type: 51200
   stemcell: default
-
-- name: tests
-  azs: [z1]
+  vm_type: micro
+- azs:
+  - z1
+  env:
+    persistent_disk_fs: xfs
   instances: 1
-  lifecycle: errand
-  post_deploy: true
   jobs:
-  - name: smoke-tests
+  - consumes:
+      minio:
+        from: minio-link
+    name: smoke-tests
     release: minio
     templates:
     - name: smoke-tests
-    consumes:
-      minio: {from: minio-link}
+  lifecycle: errand
+  name: tests
   networks:
   - name: default
-  vm_type: micro
   persistent_disk_type: 2048
-  env:
-    persistent_disk_fs: xfs
-  stemcell: default
-
-- name: bucket-seeding # To create default buckets after manifest-deploy
-  azs: [z1]
-  instances: 1
-  lifecycle: errand
   post_deploy: true
+  stemcell: default
+  vm_type: micro
+- azs:
+  - z1
+  instances: 1
   jobs:
-  - name: mc
-    release: minio
-    templates:
-    - name: mc
-    consumes:
-      minio: {from: minio-link}
+  - consumes:
+      minio:
+        from: minio-link
+    name: mc
     properties:
       script: |
         #!/bin/sh
@@ -83,14 +63,34 @@ instance_groups:
         mc mb myminio/pcf-droplets
         mc mb myminio/pcf-packages
         mc mb myminio/pcf-resources
+    release: minio
+    templates:
+    - name: mc
+  lifecycle: errand
+  name: bucket-seeding
   networks:
   - name: default
-  vm_type: micro
   persistent_disk_type: 2048
+  post_deploy: true
   stemcell: default
-
+  vm_type: micro
+name: minio
+releases:
+- name: minio
+  sha1: 2fdba492f72d19c22ac288db0af6f92f827594f2
+  url: https://bosh.io/d/github.com/minio/minio-boshrelease?v=2020-05-01T22-19-14Z
+  version: 2020-05-01T22-19-14Z
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
 update:
   canaries: 1
   canary_watch_time: 1000-30000
-  update_watch_time: 1000-30000
   max_in_flight: 1
+  update_watch_time: 1000-30000
+variables:
+- name: minio_accesskey
+  type: password
+- name: minio_secretkey
+  type: password

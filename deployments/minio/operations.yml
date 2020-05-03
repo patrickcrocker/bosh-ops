@@ -1,0 +1,46 @@
+- type: replace
+  path: /name
+  value: minio
+
+- type: replace
+  path: /releases/name=minio
+  value:
+    name: minio
+    version: ((minio_version))
+    url: https://bosh.io/d/github.com/minio/minio-boshrelease?v=((minio_version))
+    sha1: ((minio_sha1))
+
+- type: replace
+  path: /stemcells/alias=default/os
+  value: ubuntu-xenial
+
+- type: replace
+  path: /instance_groups/name=minio/networks/name=default/static_ips?
+  value: [((web_ip))]
+
+- type: replace
+  path: /instance_groups/name=minio/persistent_disk_type
+  value: 51200
+
+- type: replace
+  path: /instance_groups/name=minio/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=tests/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=bucket-seeding/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=bucket-seeding/jobs/name=mc/properties/script
+  value: |
+    #!/bin/sh
+    mc mb myminio/pcf-backups
+    mc mb myminio/pcf-bosh
+    mc mb myminio/pcf-buildpacks
+    mc mb myminio/pcf-droplets
+    mc mb myminio/pcf-packages
+    mc mb myminio/pcf-resources
