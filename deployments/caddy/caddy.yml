@@ -11,14 +11,112 @@ instance_groups:
         ca:
           url: ((acme_url))
         email: ((contact_email))
-      caddyfile: ((caddyfile))
+      caddyfile: |
+        (wildcard_cert) {
+          tls {
+            dns ((dns_provider))
+            wildcard
+          }
+        }
+        ci.nulldriver.com {
+          import wildcard_cert
+          log / /var/vcap/sys/log/caddy/ci.access.log "{combined} {scheme} {host}"
+          proxy / http://((concourse_web_ip)):8080 {
+            websocket
+            transparent
+          }
+        }
+        nexus.nulldriver.com {
+          import wildcard_cert
+          log / /var/vcap/sys/log/caddy/nexus.access.log "{combined} {scheme} {host}"
+          proxy / http://((nexus_web_ip)):8081 {
+            transparent
+          }
+        }
+        docker.nulldriver.com {
+          import wildcard_cert
+          log / /var/vcap/sys/log/caddy/nexus.access.log "{combined} {scheme} {host}"
+          proxy / http://((nexus_web_ip)):18090 {
+            transparent
+          }
+        }
+        *.s3.nulldriver.com s3.nulldriver.com {
+          log / /var/vcap/sys/log/caddy/minio.access.log "{combined} {scheme} {host}"
+          proxy / http://((minio_web_ip)):9000 {
+            transparent
+          }
+          tls {
+            dns googlecloud
+          }
+        }
+        opsman.nulldriver.com {
+          import wildcard_cert
+          log / /var/vcap/sys/log/caddy/opsman.access.log "{combined} {scheme} {host}"
+          proxy / https://((opsman_web_ip)):443 {
+            transparent
+            insecure_skip_verify
+          }
+        }
+        *.cfapps.nulldriver.com *.run.nulldriver.com *.login.run.nulldriver.com *.uaa.run.nulldriver.com {
+          log / /var/vcap/sys/log/caddy/pas.access.log "{combined} {scheme} {host}"
+          proxy / http://((tas_router_ip)):80 {
+            transparent
+            websocket
+          }
+          tls {
+            dns googlecloud
+          }
+        }
+        harbor.pks.nulldriver.com {
+          import wildcard_cert
+          log / /var/vcap/sys/log/caddy/harbor.access.log "{combined} {scheme} {host}"
+          proxy / https://((harbor_web_ip)):443 {
+            transparent
+            insecure_skip_verify
+          }
+        }
+        *.pks.nulldriver.com:8443 {
+          log / /var/vcap/sys/log/caddy/pks-httpsca.access.log "{combined} {scheme} {host}"
+          proxy / https://((pks_api_ip)):8443 {
+            transparent
+            insecure_skip_verify
+          }
+          tls {
+            dns googlecloud
+          }
+        }
+        *.pks.nulldriver.com:9021 {
+          log / /var/vcap/sys/log/caddy/pks-api.access.log "{combined} {scheme} {host}"
+          proxy / https://((pks_api_ip)):9021 {
+            transparent
+            insecure_skip_verify
+          }
+          tls {
+            dns googlecloud
+          }
+        }
+        alpha-cluster.pks.nulldriver.com:8443 {
+          import wildcard_cert
+          log / /var/vcap/sys/log/caddy/pks-alpha-cluster.access.log "{combined} {scheme} {host}"
+          proxy / https://((cluster1_api_ip)):8443 {
+            transparent
+            insecure_skip_verify
+          }
+        }
+        patrickcrocker.com www.patrickcrocker.com {
+          log / /var/vcap/sys/log/caddy/patrickcrocker.access.log "{combined} {scheme} {host}"
+          proxy / http://((tas_router_ip)):80 {
+            transparent
+            websocket
+          }
+        }
       env: ((env))
     release: caddy
   name: caddy
   networks:
   - name: default
     static_ips:
-    - ((caddy_ip))
+    - ((caddy_web_ip))
   persistent_disk: 1024
   stemcell: default
   vm_type: micro

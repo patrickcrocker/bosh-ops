@@ -43,6 +43,7 @@ manifest="${repo}/deployments/caddy/caddy.yml"
 bosh -e prod interpolate "${repo}/tmp/caddy-bosh-release/manifests/caddy.yml" \
   -o "${repo}/deployments/caddy/operations.yml" \
   -l "${repo}/deployments/caddy/versions.yml" \
+  -l "${repo}/deployments/caddy/Caddyfile.yml" \
   > "$manifest"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
@@ -50,6 +51,7 @@ echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d caddy \
   -l "${base}/bosh-secrets/vars-caddy.yml" \
+  -l "${base}/bosh-secrets/vars-static-ips.yml" \
   "${manifest}" \
   "$@"
 

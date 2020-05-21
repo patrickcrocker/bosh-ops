@@ -24,4 +24,4 @@
 
 - type: replace
   path: /instance_groups/name=caddy/networks/name=default/static_ips?
-  value: [((caddy_ip))]
+  value: [((caddy_web_ip))]
