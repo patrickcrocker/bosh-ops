@@ -45,7 +45,7 @@ instance_groups:
   networks:
   - name: ((network_name))
     static_ips:
-    - ((web_ip))
+    - ((concourse_web_ip))
   stemcell: xenial
   vm_type: ((web_vm_type))
 - azs: ((azs))

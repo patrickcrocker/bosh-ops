@@ -14,3 +14,7 @@
   value:
     name: local_user
     type: user
+
+- type: replace
+  path: /instance_groups/name=web/networks/0/static_ips?
+  value: [((concourse_web_ip))]
