@@ -26,7 +26,7 @@ instance_groups:
   networks:
   - name: default
     static_ips:
-    - ((web_ip))
+    - ((nexus_web_ip))
   jobs:
   - name: java
     release: openjdk
