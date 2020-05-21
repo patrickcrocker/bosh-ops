@@ -16,7 +16,7 @@
 
 - type: replace
   path: /instance_groups/name=minio/networks/name=default/static_ips?
-  value: [((web_ip))]
+  value: [((minio_web_ip))]
 
 - type: replace
   path: /instance_groups/name=minio/persistent_disk_type

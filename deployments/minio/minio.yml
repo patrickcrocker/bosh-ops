@@ -21,7 +21,7 @@ instance_groups:
   networks:
   - name: default
     static_ips:
-    - ((web_ip))
+    - ((minio_web_ip))
   persistent_disk_type: 51200
   stemcell: default
   vm_type: micro
