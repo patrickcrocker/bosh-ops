@@ -70,7 +70,7 @@ instance_groups:
   networks:
   - name: default
     static_ips:
-    - ((static_ip))
+    - ((pxc_db_ip))
   persistent_disk: 10000
   stemcell: default
   vm_type: small.disk
