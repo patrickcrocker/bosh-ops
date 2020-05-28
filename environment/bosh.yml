@@ -9,7 +9,6 @@ cloud_provider:
     blobstore:
       path: /var/vcap/micro_bosh/data/cache
       provider: local
-    ntp: ((ntp_servers))
     vcenter:
       address: ((vcenter_ip))
       datacenters:
@@ -119,7 +118,7 @@ instance_groups:
             scope: ""
             secret: ((hm_password))
           uaa_admin:
-            authorities: clients.read,clients.write,clients.secret,uaa.admin,scim.read,scim.write,password.write
+            authorities: uaa.admin
             authorized-grant-types: client_credentials
             override: true
             scope: ""
@@ -166,6 +165,21 @@ instance_groups:
           password: ((postgres_password))
           tag: admin
         tls: disabled
+    release: uaa
+  - name: bbr-uaadb
+    properties:
+      release_level_backup: true
+      uaadb:
+        address: 127.0.0.1
+        databases:
+        - name: uaa
+          tag: uaa
+        db_scheme: postgresql
+        port: 5432
+        roles:
+        - name: postgres
+          password: ((postgres_password))
+          tag: admin
     release: uaa
   - name: credhub
     properties:
@@ -232,6 +246,7 @@ instance_groups:
                   ca: ((blobstore_ca.certificate))
               user: agent
             provider: dav
+          ntp: ((internal_ntp))
       mbus: nats://nats:((nats_password))@((internal_ip)):4222
     blobstore:
       address: ((internal_ip))
@@ -314,7 +329,6 @@ instance_groups:
           certificate: ((nats_server_tls.certificate))
           private_key: ((nats_server_tls.private_key))
       user: nats
-    ntp: ((ntp_servers))
     postgres:
       adapter: postgres
       additional_databases:
@@ -353,29 +367,29 @@ networks:
   type: manual
 releases:
 - name: bosh
-  sha1: 33d372002bd84b8ea8095f3a1c0354cf51527c74
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-270.7.0-ubuntu-xenial-456.30-20191008-184323-54400337-20191008184329.tgz
-  version: 270.7.0
+  sha1: fc546d88917624622e07a877b6551a76e9ede10a
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-271.0.0-ubuntu-xenial-621.74-20200505-210926-508546884-20200505210927.tgz
+  version: 271.0.0
 - name: bpm
-  sha1: a55d53d7181c04fa42cd8d7a7eaab37f4c7be3b2
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-1.1.3-ubuntu-xenial-456.30-20191008-184159-992149987-20191008184206.tgz
-  version: 1.1.3
+  sha1: 287f6826c12a06c88311c16ff586df781d1e24af
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-1.1.8-ubuntu-xenial-621.74-20200505-210132-37136147-20200505210133.tgz
+  version: 1.1.8
 - name: bosh-vsphere-cpi
-  sha1: dc04b664641e95c045e93d84a0444ea8f7d0cae0
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=53.0.1
-  version: 53.0.1
+  sha1: 5a02a1f7025e865e7cb62087797e20b2daef70f9
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=53.0.11
+  version: 53.0.11
 - name: os-conf
-  sha1: 7579a96515b265c6d828924bf4f5fae115798199
-  url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=21.0.0
-  version: 21.0.0
+  sha1: 6946056ad69ae378cb89c9ef76daf66370a7dc6a
+  url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.0.0
+  version: 22.0.0
 - name: uaa
-  sha1: c7ea2629d904569b78bf280951050919c3dcc238
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-74.2.0-ubuntu-xenial-456.30-20191008-184223-40907563-20191008184244.tgz
-  version: 74.2.0
+  sha1: bc7b3cedb4d1f65790a5cff4939e9a1016e76ee0
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-74.19.0-ubuntu-xenial-621.74-20200526-232810-890973895-20200526232813.tgz
+  version: 74.19.0
 - name: credhub
-  sha1: b3238eae8f6964d28dc1ddfe2aea3d44d0590a55
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.5.6-ubuntu-xenial-456.30-20191008-183650-249522281-20191008183656.tgz
-  version: 2.5.6
+  sha1: ec537deb0dd18aeb8210f65aacabeaed2cde8505
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.6.0-ubuntu-xenial-621.74-20200505-210029-517188173-20200505210030.tgz
+  version: 2.6.0
 resource_pools:
 - cloud_properties:
     cpu: 2
@@ -383,14 +397,19 @@ resource_pools:
     ram: 4096
   env:
     bosh:
+      blobstores:
+      - options:
+          blobstore_path: /var/vcap/micro_bosh/data/cache
+        provider: local
       mbus:
         cert: ((mbus_bootstrap_ssl))
+      ntp: ((internal_ntp))
       password: '*'
   name: vms
   network: default
   stemcell:
-    sha1: 48bd8339640ea3fc71c9ec12add7c1ea571848a0
-    url: https://s3.amazonaws.com/bosh-core-stemcells/456.30/bosh-stemcell-456.30-vsphere-esxi-ubuntu-xenial-go_agent.tgz
+    sha1: 0d927b9c5f79b369e646f5c835e33496bf7356c5
+    url: https://bosh-core-stemcells.s3-accelerate.amazonaws.com/621.74/bosh-stemcell-621.74-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 variables:
 - name: admin_password
   type: password

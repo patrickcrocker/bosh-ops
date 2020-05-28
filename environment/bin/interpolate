@@ -23,7 +23,7 @@ if [[ ! -d "${repo}/tmp/bosh-deployment" ]] ; then
 fi
 
 # checkout specific version of bosh-deployment
-BOSH_REF="270.7.0"
+BOSH_REF="f8d4b602475e651b24db8a550d915ff86bd62e66" # May 26, 2020
 echo "Checking out to bosh-deployment to ref: ${BOSH_REF}"
 
 pushd ${repo}/tmp/bosh-deployment > /dev/null
@@ -41,6 +41,7 @@ bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
   -o "${repo}/tmp/bosh-deployment/uaa.yml" \
   -o "${repo}/tmp/bosh-deployment/credhub.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
+  -o "${repo}/tmp/bosh-deployment/misc/ntp.yml" \
   -o "${repo}/environment/ops-files/cert-duration.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
    > "${manifest}"
