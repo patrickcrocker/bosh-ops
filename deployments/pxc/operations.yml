@@ -79,3 +79,6 @@
     - name: uaa
       username: pcf_user
       password: ((pcf_password))
+    - name: scheduler_broker
+      username: pcf_user
+      password: ((pcf_password))

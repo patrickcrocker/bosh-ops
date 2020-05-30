@@ -56,6 +56,9 @@ instance_groups:
       - name: uaa
         password: ((pcf_password))
         username: pcf_user
+      - name: scheduler_broker
+        password: ((pcf_password))
+        username: pcf_user
       tls:
         galera: ((galera_server_certificate))
         server: ((mysql_server_certificate))
