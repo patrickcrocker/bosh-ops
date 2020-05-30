@@ -50,6 +50,7 @@ echo "Generating manifest: $manifest"
 
 bosh -e prod deploy -d minio \
   -l "${base}/bosh-secrets/vars-static-ips.yml" \
+  -l "${base}/bosh-secrets/vars-minio.yml" \
   "${manifest}" \
   "$@"
 

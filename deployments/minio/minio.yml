@@ -10,6 +10,8 @@ instance_groups:
       credential:
         accesskey: ((minio_accesskey))
         secretkey: ((minio_secretkey))
+      envs: |
+        export MINIO_DOMAIN=((minio_domain))
       port: 9000
     provides:
       minio-server:

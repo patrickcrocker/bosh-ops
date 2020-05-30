@@ -27,6 +27,11 @@
   value: micro
 
 - type: replace
+  path: /instance_groups/name=minio/jobs/name=minio-server/properties/envs?
+  value: |
+    export MINIO_DOMAIN=((minio_domain))
+
+- type: replace
   path: /instance_groups/name=tests/vm_type
   value: micro
 
