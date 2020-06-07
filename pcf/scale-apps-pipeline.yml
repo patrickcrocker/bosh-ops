@@ -5,14 +5,14 @@ jobs:
   - put: nulldriver
     params:
       commands:
-      - command: scale
-        space: notifications-with-ui
-        app_name: notifications
-        instances: 1
-      - command: scale
-        space: notifications-with-ui
-        app_name: notifications-ui
-        instances: 1
+      # - command: scale
+      #   space: notifications-with-ui
+      #   app_name: notifications
+      #   instances: 1
+      # - command: scale
+      #   space: notifications-with-ui
+      #   app_name: notifications-ui
+      #   instances: 1
       - command: scale
         space: system
         app_name: app-usage-scheduler
@@ -40,6 +40,15 @@ jobs:
         space: system
         app_name: search-server-green
         instances: 1
+      # - command: scale
+      #   space: scheduler
+      #   app_name: scheduler
+      #   instances: 1
+      #   memory: 1GB
+      # - command: scale
+      #   space: scheduler
+      #   app_name: scheduler-broker
+      #   instances: 1
 
 resources:
 - name: nulldriver
