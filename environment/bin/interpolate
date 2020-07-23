@@ -23,7 +23,7 @@ if [[ ! -d "${repo}/tmp/bosh-deployment" ]] ; then
 fi
 
 # checkout specific version of bosh-deployment
-BOSH_REF="37f7b1c0a017901b2fda2365445a7048f6399f68" # June 5, 2020
+BOSH_REF="47a92f553e10f54b61d9b6f771a2a3d40a110105" # July 20, 2020
 echo "Checking out to bosh-deployment to ref: ${BOSH_REF}"
 
 pushd ${repo}/tmp/bosh-deployment > /dev/null
