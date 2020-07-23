@@ -123,9 +123,9 @@ instance_groups:
 name: caddy
 releases:
 - name: caddy
-  sha1: 3602cd1a33f6d6ac49175b70db6ce6b96fa84e20
-  url: https://bosh.io/d/github.com/dpb587/caddy-bosh-release?v=0.7.0
-  version: 0.7.0
+  sha1: 910f3cca68ceb68041f87c784a0128c15d039f08
+  url: https://bosh.io/d/github.com/dpb587/caddy-bosh-release?v=0.7.1
+  version: 0.7.1
 stemcells:
 - alias: default
   os: ((os))
