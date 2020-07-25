@@ -59,7 +59,7 @@ instance_groups:
         }
         *.cfapps.nulldriver.com *.run.nulldriver.com *.login.run.nulldriver.com *.uaa.run.nulldriver.com {
           log / /var/vcap/sys/log/caddy/pas.access.log "{combined} {scheme} {host}"
-          proxy / http://((tas_router_ip)):80 {
+          proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
             transparent
             websocket
           }
@@ -105,7 +105,7 @@ instance_groups:
         }
         patrickcrocker.com www.patrickcrocker.com {
           log / /var/vcap/sys/log/caddy/patrickcrocker.access.log "{combined} {scheme} {host}"
-          proxy / http://((tas_router_ip)):80 {
+          proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
             transparent
             websocket
           }
