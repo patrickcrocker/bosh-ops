@@ -10,7 +10,7 @@
 
 - type: replace
   path: /instance_groups/name=caddy/vm_type
-  value: micro
+  value: caddy.server
 
 - type: replace
   path: /instance_groups/name=caddy/jobs/name=caddy/properties

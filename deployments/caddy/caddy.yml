@@ -119,7 +119,7 @@ instance_groups:
     - ((caddy_web_ip))
   persistent_disk: 1024
   stemcell: default
-  vm_type: micro
+  vm_type: caddy.server
 name: caddy
 releases:
 - name: caddy

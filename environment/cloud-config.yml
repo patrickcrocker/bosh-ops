@@ -223,3 +223,8 @@ vm_types:
     disk: 65536
     ram: 4096
   name: ci.worker
+- cloud_properties:
+    cpu: 2
+    disk: 8192
+    ram: 2048
+  name: caddy.server
