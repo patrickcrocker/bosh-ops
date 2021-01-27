@@ -110,6 +110,13 @@ instance_groups:
             websocket
           }
         }
+        albums.patrickcrocker.com {
+          log / /var/vcap/sys/log/caddy/albums.access.log "{combined} {scheme} {host}"
+          proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
+            transparent
+            websocket
+          }
+        }
       env: ((env))
     release: caddy
   name: caddy
