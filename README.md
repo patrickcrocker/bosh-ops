@@ -177,7 +177,7 @@ main_team:
 
 ```bash
 # Set CredHub vars
-$ credhub set -n /bosh/concourse/github_client -t user -z 'client_id' -w 'client_secret' # github auth client_id & client_secret
+$ credhub set -n /bosh/concourse/github_client -t user -z 'your GitHub oAuth client_id' -w 'your GitHub oAuth client_secret' # https://github.com/settings/applications/new
 $ credhub set -n /bosh/concourse/credhub_client_id -t password -w 'concourse_to_credhub'
 $ credhub set -n /bosh/concourse/credhub_client_secret -t password -w "$(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)"
 $ credhub set -n /bosh/concourse/credhub_tls -t certificate \
@@ -191,5 +191,7 @@ $ credhub set -n /bosh/concourse/uaa_ssl -t certificate \
 $ bosh-ops/deployments/concourse/deploy
 
 # Login to Concourse
-$ fly -t prod login -c https://ci.example.com
+$ fly -t main login -c https://ci.nulldriver.com \
+      -u "$(credhub get -n /bosh/concourse/local_user --key username)" \
+      -p "$(credhub get -n /bosh/concourse/local_user --key password)"
 ```
