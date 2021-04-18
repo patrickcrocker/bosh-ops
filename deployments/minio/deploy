@@ -40,7 +40,7 @@ popd > /dev/null
 # Generated manifest
 manifest="${repo}/deployments/minio/minio.yml"
 
-bosh -e prod interpolate "${repo}/tmp/minio-boshrelease/manifests/manifest-fs-example.yml" \
+bosh interpolate "${repo}/tmp/minio-boshrelease/manifests/manifest-fs-example.yml" \
   -o "${repo}/deployments/minio/operations.yml" \
   -l "${repo}/deployments/minio/versions.yml" \
   > "$manifest"
@@ -48,7 +48,7 @@ bosh -e prod interpolate "${repo}/tmp/minio-boshrelease/manifests/manifest-fs-ex
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
 echo "Generating manifest: $manifest"
 
-bosh -e prod deploy -d minio \
+bosh deploy -d minio \
   -l "${base}/bosh-secrets/vars-static-ips.yml" \
   -l "${base}/bosh-secrets/vars-minio.yml" \
   "${manifest}" \

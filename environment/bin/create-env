@@ -24,7 +24,7 @@ base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 echo "Deploying BOSH"
-bosh -e prod create-env --vars-env BOSHOPS \
+bosh create-env --vars-env BOSHOPS \
   --state "${base}/bosh-secrets/bosh/state.json" \
   --vars-store "${base}/bosh-secrets/bosh/creds.yml" \
   --vars-file  "${base}/bosh-secrets/vars.yml" \

@@ -66,18 +66,17 @@ $ bosh-ops/environment/bin/create-env
 # Log in to the Director
 $ export BOSH_CLIENT=admin
 $ export BOSH_CLIENT_SECRET=$(bosh int bosh-secrets/bosh/creds.yml --path /admin_password)
-
-# Configure local alias
-$ bosh alias-env prod -e 10.0.8.2 --ca-cert <(bosh int bosh-secrets/bosh/creds.yml --path /director_ssl/ca)
+$ export BOSH_CA_CERT=$(bosh int bosh-secrets/bosh/creds.yml --path /director_ssl/ca)
+$ export BOSH_ENVIRONMENT=10.0.8.2
 
 # Verify you are logged in
-$ bosh -e prod env
+$ bosh env
 
 # Update cloud config
 $ bosh-ops/environment/bin/update-cloud-config
 
 # Upload some stemcells
-$ bosh -e prod upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/456.40/bosh-stemcell-456.40-vsphere-esxi-ubuntu-xenial-go_agent.tgz
+$ bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/621.117/bosh-stemcell-621.117-vsphere-esxi-ubuntu-xenial-go_agent.tgz
 ```
 
 ## Login to Credhub
