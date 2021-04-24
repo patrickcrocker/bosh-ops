@@ -54,42 +54,6 @@ caddyfile: |
       dns googlecloud
     }
   }
-  harbor.pks.nulldriver.com {
-    import wildcard_cert
-    log / /var/vcap/sys/log/caddy/harbor.access.log "{combined} {scheme} {host}"
-    proxy / https://((harbor_web_ip)):443 {
-      transparent
-      insecure_skip_verify
-    }
-  }
-  *.pks.nulldriver.com:8443 {
-    log / /var/vcap/sys/log/caddy/pks-httpsca.access.log "{combined} {scheme} {host}"
-    proxy / https://((pks_api_ip)):8443 {
-      transparent
-      insecure_skip_verify
-    }
-    tls {
-      dns googlecloud
-    }
-  }
-  *.pks.nulldriver.com:9021 {
-    log / /var/vcap/sys/log/caddy/pks-api.access.log "{combined} {scheme} {host}"
-    proxy / https://((pks_api_ip)):9021 {
-      transparent
-      insecure_skip_verify
-    }
-    tls {
-      dns googlecloud
-    }
-  }
-  alpha-cluster.pks.nulldriver.com:8443 {
-    import wildcard_cert
-    log / /var/vcap/sys/log/caddy/pks-alpha-cluster.access.log "{combined} {scheme} {host}"
-    proxy / https://((cluster1_api_ip)):8443 {
-      transparent
-      insecure_skip_verify
-    }
-  }
   patrickcrocker.com www.patrickcrocker.com {
     log / /var/vcap/sys/log/caddy/patrickcrocker.access.log "{combined} {scheme} {host}"
     proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
