@@ -40,6 +40,7 @@ instance_groups:
         authorized_keys: |
           ((worker_key.public_key))
         host_key: ((tsa_host_key))
+      x_frame_options: sameorigin
     release: concourse
   name: web
   networks:
