@@ -176,8 +176,13 @@ main_team:
 ```
 
 ```bash
+# Create an OAuth application on GitHub:
+#   Single user: https://github.com/settings/applications/new
+#   or...
+#   Organization: https://github.com/organizations/YOUR_ORG_NAME/settings/applications/new
+
 # Set CredHub vars
-$ credhub set -n /bosh/concourse/github_client -t user -z 'your GitHub oAuth client_id' -w 'your GitHub oAuth client_secret' # https://github.com/settings/applications/new
+$ credhub set -n /bosh/concourse/github_client -t user -z 'your generated GitHub OAuth client_id' -w 'your generated GitHub oAuth client_secret'
 $ credhub set -n /bosh/concourse/credhub_client_id -t password -w 'concourse_to_credhub'
 $ credhub set -n /bosh/concourse/credhub_client_secret -t password -w "$(bosh int bosh-secrets/bosh/creds.yml --path /uaa_clients_concourse_to_credhub)"
 $ credhub set -n /bosh/concourse/credhub_tls -t certificate \
@@ -191,7 +196,7 @@ $ credhub set -n /bosh/concourse/uaa_ssl -t certificate \
 $ bosh-ops/deployments/concourse/deploy
 
 # Login to Concourse
-$ fly -t main login -c https://ci.nulldriver.com \
+$ fly -t main login -c https://ci.example.com \
       -u "$(credhub get -n /bosh/concourse/local_user --key username)" \
       -p "$(credhub get -n /bosh/concourse/local_user --key password)"
 ```
