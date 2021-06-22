@@ -12,7 +12,7 @@
 
 - type: replace
   path: /stemcells/alias=default/os
-  value: ubuntu-xenial
+  value: ubuntu-bionic
 
 - type: replace
   path: /instance_groups/name=minio/networks/name=default/static_ips?
