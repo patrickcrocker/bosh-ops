@@ -16,6 +16,10 @@
     sha1: ((bpm_sha1))
 
 - type: replace
+  path: /stemcells/alias=default/os
+  value: ubuntu-bionic
+
+- type: replace
   path: /instance_groups/name=mysql/vm_type
   value: small.disk
 
