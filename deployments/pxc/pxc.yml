@@ -80,13 +80,13 @@ instance_groups:
 name: pxc
 releases:
 - name: pxc
-  sha1: 120e34ff5188277d2fee171fad66d26f62e73b58
-  url: https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=0.34.0
-  version: 0.34.0
+  sha1: c06158b26672d844e00f2f55ec6e39906dfd5b8a
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=0.35.0
+  version: 0.35.0
 - name: bpm
-  sha1: dcf0582d838a73de29da273552ae79ac3098ee8b
-  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.9
-  version: 1.1.9
+  sha1: 502e9446fa34accaf122ad2b28b6ffa543d5bbca
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.12
+  version: 1.1.12
 stemcells:
 - alias: default
   os: ubuntu-xenial
