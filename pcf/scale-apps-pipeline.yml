@@ -1,3 +1,4 @@
+# fly -t cloudops sp -p scale-apps -c scale-apps-pipeline.yml
 ---
 jobs:
 - name: scale-apps
@@ -58,6 +59,7 @@ resources:
     username: ((cf.username))
     password: ((cf.password))
     org: system
+    cf_cli_version: 7
 
 resource_types:
 - name: cf-cli-resource
