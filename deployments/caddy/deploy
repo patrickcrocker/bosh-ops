@@ -14,7 +14,12 @@ function get_yaml_value() {
     exit 1
   fi
 
-  "$yq_cli" read "$file" "$key"
+  if [[ "$(yq --version)" != *"version 4"* ]]; then
+    echo "yq v4 is required (found $(yq --version))" >&2
+    exit 12
+  fi
+
+  "$yq_cli" "$key" "$file"
 }
 
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
