@@ -33,7 +33,7 @@ if [[ ! -d "${repo}/tmp/minio-boshrelease" ]] ; then
 fi
 
 # checkout specific version of minio-boshrelease
-REF="RELEASE.$(get_yaml_value "${repo}/deployments/minio/versions.yml" 'minio_version')"
+REF="RELEASE.$(get_yaml_value "${repo}/deployments/minio/versions.yml" '.minio_version')"
 echo "Checking out to minio-boshrelease to ref: ${REF}"
 
 pushd ${repo}/tmp/minio-boshrelease > /dev/null

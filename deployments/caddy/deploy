@@ -33,7 +33,7 @@ if [[ ! -d "${repo}/tmp/caddy-bosh-release" ]] ; then
 fi
 
 # checkout specific version of caddy-bosh-release
-REF="v$(get_yaml_value "${repo}/deployments/caddy/versions.yml" 'caddy_version')"
+REF="v$(get_yaml_value "${repo}/deployments/caddy/versions.yml" '.caddy_version')"
 echo "Checking out to caddy-bosh-release to ref: ${REF}"
 
 pushd ${repo}/tmp/caddy-bosh-release > /dev/null
