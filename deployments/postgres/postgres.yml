@@ -1,0 +1,47 @@
+---
+name: postgres
+
+releases:
+- name: postgres
+  version: ((postgres_version))
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=((postgres_version))
+  sha1: ((postgres_sha1))
+
+stemcells:
+- alias: default
+  os: ubuntu-bionic
+  version: latest
+
+instance_groups:
+- name: postgres
+  instances: 1
+  vm_type: micro
+  persistent_disk_type: 20480
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: default
+    static_ips:
+    - ((postgres_db_ip))
+  jobs:
+  - name: postgres
+    properties:
+      databases:
+        port: 5432
+        roles:
+          - name: backstage
+            password: ((backstage_password))
+            permissions:
+            - CREATEDB
+    release: postgres
+
+variables:
+- name: backstage_password
+  type: password
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000

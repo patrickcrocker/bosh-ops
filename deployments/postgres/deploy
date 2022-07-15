@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+bosh deploy -d postgres \
+  -l "${base}/bosh-secrets/vars-static-ips.yml" \
+  -l "${repo}/deployments/postgres/versions.yml" \
+  "${repo}/deployments/postgres/postgres.yml" \
+  "$@"
+
+echo "Finished deploying: postgres"
