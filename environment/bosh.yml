@@ -35,7 +35,7 @@ instance_groups:
     release: bpm
   - name: nats
     release: bosh
-  - name: postgres-10
+  - name: postgres
     release: bosh
   - name: blobstore
     release: bosh
@@ -117,6 +117,12 @@ instance_groups:
             override: true
             scope: ""
             secret: ((hm_password))
+          nats:
+            authorities: bosh.admin
+            authorized-grant-types: client_credentials
+            override: true
+            scope: ""
+            secret: ((nats_sync_password))
           uaa_admin:
             authorities: uaa.admin
             authorized-grant-types: client_credentials
@@ -247,7 +253,7 @@ instance_groups:
               user: agent
             provider: dav
           ntp: ((internal_ntp))
-      mbus: nats://nats:((nats_password))@((internal_ip)):4222
+      mbus: nats://((internal_ip)):4222
     blobstore:
       address: ((internal_ip))
       agent:
@@ -293,6 +299,7 @@ instance_groups:
       generate_vm_passwords: true
       local_dns:
         enabled: true
+        use_dns_addresses: true
       name: ((director_name))
       ssl:
         cert: ((director_ssl.certificate))
@@ -313,6 +320,12 @@ instance_groups:
       resurrector_enabled: true
     nats:
       address: ((internal_ip))
+      director_account:
+        ca_cert: ((director_ssl.ca))
+        client_id: nats
+        client_secret: ((nats_sync_password))
+        password: ((nats_sync_password))
+        user: nats
       password: ((nats_password))
       tls:
         ca: ((nats_server_tls.ca))
@@ -367,29 +380,29 @@ networks:
   type: manual
 releases:
 - name: bosh
-  sha1: 32351b7c77ffcdf8c57f5c093a193ed5ae46c4e0
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-271.13.0-ubuntu-bionic-1.36-20211022-093604-60979294-20211022093606.tgz
-  version: 271.13.0
+  sha1: 19f14c8ecf1077ef610b522db1ea40a811e62910
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-275.0.0-ubuntu-jammy-1.18-20221011-182831-523446151-20221011182832.tgz
+  version: 275.0.0
 - name: bpm
-  sha1: 1623862fc4bf55be23fe632ab98b80b4550eea88
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-1.1.15-ubuntu-bionic-1.36-20211022-093236-455531982-20211022093238.tgz
-  version: 1.1.15
+  sha1: 4f4189c689e8dd1e79a8f2ecd9268213debd7e1b
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-1.1.19-ubuntu-jammy-1.18-20220921-141403-765942818-20220921141405.tgz
+  version: 1.1.19
 - name: bosh-vsphere-cpi
-  sha1: b59b606b3598106348883dada93ab3519cefeaa9
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=70
-  version: 70
+  sha1: 280237db744620a49779eda12fd64914f3e860c9
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=81
+  version: 81
 - name: os-conf
   sha1: 386293038ae3d00813eaa475b4acf63f8da226ef
   url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2
   version: 22.1.2
 - name: uaa
-  sha1: b02e931f00bb99cfc7a34bb396617b35f7b59262
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-75.8.0-ubuntu-bionic-1.36-20211022-092938-571666658-20211022092942.tgz
-  version: 75.8.0
+  sha1: d095d3ed9084b6a059d232403e6f6c5802dc3c13
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-76.1.0-ubuntu-jammy-1.18-20220929-214833-545234357-20220929214836.tgz
+  version: 76.1.0
 - name: credhub
-  sha1: 5a6a1e20d9182022a2882a540fe0d59c37123e9a
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.9.0-ubuntu-bionic-1.36-20211022-092912-424347591-20211022092913.tgz
-  version: 2.9.0
+  sha1: 38b4747fd7d144a438aedc74056a6440b286691e
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.12.10-ubuntu-jammy-1.18-20221006-215747-09234458-20221006215748.tgz
+  version: 2.12.10
 resource_pools:
 - cloud_properties:
     cpu: 2
@@ -408,8 +421,8 @@ resource_pools:
   name: vms
   network: default
   stemcell:
-    sha1: 4cf0de2078b94dfdeb01ac6e3af7a32c31df5171
-    url: https://storage.googleapis.com/bosh-core-stemcells/1.36/bosh-stemcell-1.36-vsphere-esxi-ubuntu-bionic-go_agent.tgz
+    sha1: e889844e15eec560512e0d1ea0cdc6ab300b8795
+    url: https://storage.googleapis.com/bosh-core-stemcells/1.18/bosh-stemcell-1.18-vsphere-esxi-ubuntu-jammy-go_agent.tgz
 variables:
 - name: admin_password
   type: password
@@ -422,6 +435,8 @@ variables:
 - name: mbus_bootstrap_password
   type: password
 - name: nats_password
+  type: password
+- name: nats_sync_password
   type: password
 - name: postgres_password
   type: password
