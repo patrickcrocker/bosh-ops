@@ -6,15 +6,15 @@ set -o pipefail
 # suitable to be committed to source control
 
 function get_yaml_value() {
-  local file=${1:?file null or not set}
-  local key=${2:?key null or not set}
+  local key=${1:?key null or not set}
+  local file=${2:?file null or not set}
 
   if ! yq_cli=$(command -v yq); then
     echo "unable to locate yq binary (https://github.com/mikefarah/yq)" >&2
     exit 1
   fi
 
-  if [[ "$(yq --version)" != *"version 4"* ]]; then
+  if [[ "$(yq --version)" != *"version v4"* ]]; then
     echo "yq v4 is required (found $(yq --version))" >&2
     exit 12
   fi
@@ -33,7 +33,7 @@ if [[ ! -d "${repo}/tmp/caddy-bosh-release" ]] ; then
 fi
 
 # checkout specific version of caddy-bosh-release
-REF="v$(get_yaml_value "${repo}/deployments/caddy/versions.yml" '.caddy_version')"
+REF="v$(get_yaml_value '.caddy_version' "${repo}/deployments/caddy/versions.yml")"
 echo "Checking out to caddy-bosh-release to ref: ${REF}"
 
 pushd ${repo}/tmp/caddy-bosh-release > /dev/null
