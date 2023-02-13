@@ -285,7 +285,6 @@ instance_groups:
         adapter: postgres
         database: bosh
         host: 127.0.0.1
-        listen_address: 127.0.0.1
         password: ((postgres_password))
         user: postgres
       default_ssh_options:
@@ -380,29 +379,29 @@ networks:
   type: manual
 releases:
 - name: bosh
-  sha1: 19f14c8ecf1077ef610b522db1ea40a811e62910
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-275.0.0-ubuntu-jammy-1.18-20221011-182831-523446151-20221011182832.tgz
-  version: 275.0.0
+  sha1: 06b4b8bdf9fc8984f35e9bd2f027878d9c4b0796
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-277.1.0-ubuntu-jammy-1.83-20230209-003758-868678928-20230209003802.tgz
+  version: 277.1.0
 - name: bpm
-  sha1: 4f4189c689e8dd1e79a8f2ecd9268213debd7e1b
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-1.1.19-ubuntu-jammy-1.18-20220921-141403-765942818-20220921141405.tgz
-  version: 1.1.19
+  sha1: d0fad95129872d632ba336d474f2c85c6ba267c9
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bpm-1.1.21-ubuntu-jammy-1.83-20230209-003704-701831797-20230209003708.tgz
+  version: 1.1.21
 - name: bosh-vsphere-cpi
-  sha1: 280237db744620a49779eda12fd64914f3e860c9
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=81
-  version: 81
+  sha1: d309ba04389d7dc9b69e3a3e11015261e72ab232
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=89
+  version: 89
 - name: os-conf
   sha1: 386293038ae3d00813eaa475b4acf63f8da226ef
   url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2
   version: 22.1.2
 - name: uaa
-  sha1: d095d3ed9084b6a059d232403e6f6c5802dc3c13
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-76.1.0-ubuntu-jammy-1.18-20220929-214833-545234357-20220929214836.tgz
-  version: 76.1.0
+  sha1: 1fc4b3d3e2d22cba981fa0563b484db31d0d6b0a
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/uaa-76.5.0-ubuntu-jammy-1.83-20230209-002825-781530381-20230209002828.tgz
+  version: 76.5.0
 - name: credhub
-  sha1: 38b4747fd7d144a438aedc74056a6440b286691e
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.12.10-ubuntu-jammy-1.18-20221006-215747-09234458-20221006215748.tgz
-  version: 2.12.10
+  sha1: 9562fc0f6e9553b1dffa2730d09187184d0cea08
+  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/credhub-2.12.19-ubuntu-jammy-1.83-20230209-002522-033375853-20230209002523.tgz
+  version: 2.12.19
 resource_pools:
 - cloud_properties:
     cpu: 2
@@ -421,8 +420,8 @@ resource_pools:
   name: vms
   network: default
   stemcell:
-    sha1: e889844e15eec560512e0d1ea0cdc6ab300b8795
-    url: https://storage.googleapis.com/bosh-core-stemcells/1.18/bosh-stemcell-1.18-vsphere-esxi-ubuntu-jammy-go_agent.tgz
+    sha1: 839d039b206472c066e440ff356ab92a2d52381e
+    url: https://storage.googleapis.com/bosh-core-stemcells/1.83/bosh-stemcell-1.83-vsphere-esxi-ubuntu-jammy-go_agent.tgz
 variables:
 - name: admin_password
   type: password
