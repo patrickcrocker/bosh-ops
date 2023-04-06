@@ -29,7 +29,7 @@ caddyfile: |
   }
   *.s3.nulldriver.com s3.nulldriver.com {
     log / /var/vcap/sys/log/caddy/minio.access.log "{combined} {scheme} {host}"
-    proxy / http://((minio_web_ip)):9000 {
+    proxy / http://((minio_web_ip)):9001 {
       transparent
     }
     tls {

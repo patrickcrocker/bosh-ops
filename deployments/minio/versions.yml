@@ -1,2 +1,4 @@
-minio_version: 2021-06-09T18-51-39Z
-minio_sha1: 2a499dcf622f9d51339cc7d20df161fc659005ba
+minio_tag: 2023-03-24T21-41-23Z
+minio_version: 2023-03-24T21-41-23Z.final.1
+minio_release_url: https://github.com/kinjelom/minio-boshrelease/releases/download/2023-03-24T21-41-23Z/minio-boshrelease-2023-03-24T21-41-23Z.final.1.tgz
+minio_sha1: 58130dbe93855111fd303cd1bfaaa47b4dadbcd0

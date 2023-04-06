@@ -28,17 +28,17 @@ repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 # make sure we have minio-boshrelease
 if [[ ! -d "${repo}/tmp/minio-boshrelease" ]] ; then
   pushd ${repo}/tmp > /dev/null
-    git clone https://github.com/minio/minio-boshrelease.git &> /dev/null
+    git clone https://github.com/kinjelom/minio-boshrelease.git
   popd > /dev/null
 fi
 
 # checkout specific version of minio-boshrelease
-REF="RELEASE.$(get_yaml_value '.minio_version' "${repo}/deployments/minio/versions.yml")"
+REF="$(get_yaml_value '.minio_tag' "${repo}/deployments/minio/versions.yml")"
 echo "Checking out to minio-boshrelease to ref: ${REF}"
 
 pushd ${repo}/tmp/minio-boshrelease > /dev/null
-  git fetch &> /dev/null
-  git checkout ${REF} &> /dev/null
+  git fetch
+  git checkout ${REF}
   git log -1 --pretty=oneline
 popd > /dev/null
 

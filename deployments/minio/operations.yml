@@ -7,7 +7,7 @@
   value:
     name: minio
     version: ((minio_version))
-    url: https://bosh.io/d/github.com/minio/minio-boshrelease?v=((minio_version))
+    url: ((minio_release_url))
     sha1: ((minio_sha1))
 
 - type: replace
@@ -43,9 +43,9 @@
   path: /instance_groups/name=bucket-seeding/jobs/name=mc/properties/script
   value: |
     #!/bin/sh
-    mc mb myminio/pcf-backups
-    mc mb myminio/pcf-bosh
-    mc mb myminio/pcf-buildpacks
-    mc mb myminio/pcf-droplets
-    mc mb myminio/pcf-packages
-    mc mb myminio/pcf-resources
+    mc mb myminio/cf-backups
+    mc mb myminio/cf-bosh
+    mc mb myminio/cf-buildpacks
+    mc mb myminio/cf-droplets
+    mc mb myminio/cf-packages
+    mc mb myminio/cf-resources
