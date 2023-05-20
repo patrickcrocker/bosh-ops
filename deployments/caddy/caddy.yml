@@ -49,17 +49,9 @@ instance_groups:
             dns googlecloud
           }
         }
-        opsman.nulldriver.com {
-          import wildcard_cert
-          log / /var/vcap/sys/log/caddy/opsman.access.log "{combined} {scheme} {host}"
-          proxy / https://((opsman_web_ip)):443 {
-            transparent
-            insecure_skip_verify
-          }
-        }
         *.cfapps.nulldriver.com *.run.nulldriver.com *.login.run.nulldriver.com *.uaa.run.nulldriver.com {
           log / /var/vcap/sys/log/caddy/pas.access.log "{combined} {scheme} {host}"
-          proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
+          proxy / http://((router_static_ips.0)):80 http://((router_static_ips.1)):80 http://((router_static_ips.2)):80 {
             transparent
             websocket
           }
@@ -69,14 +61,7 @@ instance_groups:
         }
         patrickcrocker.com www.patrickcrocker.com {
           log / /var/vcap/sys/log/caddy/patrickcrocker.access.log "{combined} {scheme} {host}"
-          proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
-            transparent
-            websocket
-          }
-        }
-        albums.patrickcrocker.com {
-          log / /var/vcap/sys/log/caddy/albums.access.log "{combined} {scheme} {host}"
-          proxy / http://((tas_router_ip_0)):80 http://((tas_router_ip_1)):80 http://((tas_router_ip_2)):80 {
+          proxy / http://((router_static_ips.0)):80 http://((router_static_ips.1)):80 http://((router_static_ips.2)):80 {
             transparent
             websocket
           }
