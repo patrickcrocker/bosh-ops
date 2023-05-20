@@ -15,8 +15,8 @@ stemcells:
 instance_groups:
 - name: postgres
   instances: 1
-  vm_type: micro
-  persistent_disk_type: 20480
+  vm_type: postgres.server
+  persistent_disk_type: 20GB
   stemcell: default
   azs: [z1]
   networks:
