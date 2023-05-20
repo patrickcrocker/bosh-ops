@@ -20,11 +20,11 @@
 
 - type: replace
   path: /instance_groups/name=minio/persistent_disk_type
-  value: 51200
+  value: 50GB
 
 - type: replace
   path: /instance_groups/name=minio/vm_type
-  value: micro
+  value: minio.server
 
 - type: replace
   path: /instance_groups/name=minio/jobs/name=minio-server/properties/envs?
@@ -33,11 +33,11 @@
 
 - type: replace
   path: /instance_groups/name=tests/vm_type
-  value: micro
+  value: minio.server
 
 - type: replace
   path: /instance_groups/name=bucket-seeding/vm_type
-  value: micro
+  value: minio.server
 
 - type: replace
   path: /instance_groups/name=bucket-seeding/jobs/name=mc/properties/script

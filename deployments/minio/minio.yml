@@ -23,9 +23,9 @@ instance_groups:
   - name: default
     static_ips:
     - ((minio_web_ip))
-  persistent_disk_type: 51200
+  persistent_disk_type: 50GB
   stemcell: default
-  vm_type: micro
+  vm_type: minio.server
 - azs:
   - z1
   env:
@@ -45,7 +45,7 @@ instance_groups:
   - name: default
   post_deploy: true
   stemcell: default
-  vm_type: micro
+  vm_type: minio.server
 - azs:
   - z1
   instances: 1
@@ -72,7 +72,7 @@ instance_groups:
   - name: default
   post_deploy: true
   stemcell: default
-  vm_type: micro
+  vm_type: minio.server
 name: minio
 releases:
 - name: minio
