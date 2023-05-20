@@ -23,7 +23,7 @@ if [[ ! -d "${repo}/tmp/bosh-deployment" ]] ; then
 fi
 
 # checkout specific version of bosh-deployment
-BOSH_REF="76e131ff592f3328a0657fe754e6a205aa3d7d57" # Apr 1, 2023
+BOSH_REF="47574066afa3dc1211642ff422e623d7ffed2b14" # May 11, 2023
 echo "Checking out to bosh-deployment to ref: ${BOSH_REF}"
 
 pushd ${repo}/tmp/bosh-deployment > /dev/null
@@ -49,12 +49,3 @@ bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
 echo "Generated manifest: $manifest"
 
-# Generate cloudconfig
-cloudconfig="${repo}/environment/cloud-config.yml"
-
-bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
-  -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
-  > "${cloudconfig}"
-
-echo -e "# Generated file - do not edit directly!\n---\n$(cat $cloudconfig)" > "$cloudconfig"
-echo "Generated cloud config : $cloudconfig"

@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+set -euo pipefail
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+echo "Updating Runtime Config"
+bosh update-runtime-config \
+  --vars-file "${base}/bosh-secrets/vars.yml" \
+  "${repo}/tmp/bosh-deployment/runtime-configs/dns.yml"

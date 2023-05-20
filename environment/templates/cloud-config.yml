@@ -10,89 +10,7 @@ azs:
   cloud_properties:
     datacenters:
     - clusters: [((vcenter_cluster)): {}]
-compilation:
-  workers: 4
-  reuse_compilation_vms: true
-  az: z1
-  vm_type: large.cpu
-  network: default
-disk_types:
-- cloud_properties:
-    type: thin
-  disk_size: 1024
-  name: "1024"
-- cloud_properties:
-    type: thin
-  disk_size: 2048
-  name: "2048"
-- cloud_properties:
-    type: thin
-  disk_size: 5120
-  name: "5120"
-- cloud_properties:
-    type: thin
-  disk_size: 10240
-  name: "10240"
-- cloud_properties:
-    type: thin
-  disk_size: 20480
-  name: "20480"
-- cloud_properties:
-    type: thin
-  disk_size: 30720
-  name: "30720"
-- cloud_properties:
-    type: thin
-  disk_size: 51200
-  name: "51200"
-- cloud_properties:
-    type: thin
-  disk_size: 76800
-  name: "76800"
-- cloud_properties:
-    type: thin
-  disk_size: 102400
-  name: "102400"
-- cloud_properties:
-    type: thin
-  disk_size: 153600
-  name: "153600"
-- cloud_properties:
-    type: thin
-  disk_size: 204800
-  name: "204800"
-- cloud_properties:
-    type: thin
-  disk_size: 307200
-  name: "307200"
-- cloud_properties:
-    type: thin
-  disk_size: 512000
-  name: "512000"
-- cloud_properties:
-    type: thin
-  disk_size: 768000
-  name: "768000"
-- cloud_properties:
-    type: thin
-  disk_size: 1048576
-  name: "1048576"
-- cloud_properties:
-    type: thin
-  disk_size: 2097152
-  name: "2097152"
-- cloud_properties:
-    type: thin
-  disk_size: 5242880
-  name: "5242880"
-- cloud_properties:
-    type: thin
-  disk_size: 10485760
-  name: "10485760"
-- cloud_properties:
-    type: thin
-  disk_size: 16777216
-  name: "16777216"
+
 networks:
 - name: default
   subnets:
@@ -100,136 +18,201 @@ networks:
     - z1
     cloud_properties:
       name: ((network_name))
-    dns:
-    - 8.8.8.8
+    dns: ((internal_dns))
     gateway: ((internal_gw))
     range: ((internal_cidr))
     reserved: []
-    static: ((internal_static_ips))
+    static: ((static_ips))
   type: manual
+- name: cf-deployment
+  subnets:
+  - azs:
+    - z1
+    cloud_properties:
+      name: ((cf_deployment_network_name))
+    dns: ((cf_deployment_internal_dns))
+    gateway: ((cf_deployment_internal_gw))
+    range: ((cf_deployment_internal_cidr))
+    reserved: []
+    static: ((cf_deployment_static_ips))
+  type: manual
+
+disk_types:
+- name: 5GB
+  disk_size: 5120
+  cloud_properties:
+    type: thin
+- name: 10GB
+  disk_size: 10240
+  cloud_properties:
+    type: thin
+- name: 20GB
+  disk_size: 20480
+  cloud_properties:
+    type: thin
+- name: 50GB
+  disk_size: 51200
+  cloud_properties:
+    type: thin
+- name: 100GB
+  disk_size: 102400
+  cloud_properties:
+    type: thin
+
 vm_types:
-- cloud_properties:
-    cpu: 1
-    disk: 8192
-    ram: 512
-  name: nano
-- cloud_properties:
-    cpu: 1
-    disk: 8192
-    ram: 1024
-  name: micro
-- cloud_properties:
-    cpu: 2
-    disk: 8192
-    ram: 1024
-  name: micro.ram
-- cloud_properties:
-    cpu: 1
-    disk: 8192
-    ram: 2048
-  name: small
-- cloud_properties:
-    cpu: 1
-    disk: 16384
-    ram: 2048
-  name: small.disk
-- cloud_properties:
-    cpu: 2
-    disk: 8192
-    ram: 4096
-  name: medium
-- cloud_properties:
-    cpu: 1
-    disk: 8192
-    ram: 8192
-  name: medium.mem
-- cloud_properties:
-    cpu: 2
-    disk: 32768
-    ram: 4096
-  name: medium.disk
-- cloud_properties:
+- name: bosh.worker
+  cloud_properties:
     cpu: 4
-    disk: 8192
-    ram: 2048
-  name: medium.cpu
-- cloud_properties:
-    cpu: 2
-    disk: 16384
-    ram: 8192
-  name: large
-- cloud_properties:
-    cpu: 1
-    disk: 16384
-    ram: 16384
-  name: large.mem
-- cloud_properties:
-    cpu: 2
-    disk: 65536
-    ram: 8192
-  name: large.disk
-- cloud_properties:
-    cpu: 4
-    disk: 16384
     ram: 4096
-  name: large.cpu
-- cloud_properties:
-    cpu: 4
-    disk: 32768
-    ram: 16384
-  name: xlarge
-- cloud_properties:
+    disk: 16384
+- name: caddy.server
+  cloud_properties:
     cpu: 2
-    disk: 32768
+    ram: 2048
+    disk: 8192
+
+- name: minimal
+  cloud_properties:
+    cpu: 1
+    ram: 4096
+    disk: 10240
+- name: small
+  cloud_properties:
+    cpu: 2
+    ram: 8192
+    disk: 10240
+- name: small-highmem
+  cloud_properties:
+    cpu: 4
     ram: 32768
-  name: xlarge.mem
-- cloud_properties:
-    cpu: 4
-    disk: 131072
-    ram: 16384
-  name: xlarge.disk
-- cloud_properties:
-    cpu: 8
-    disk: 32768
-    ram: 8192
-  name: xlarge.cpu
-- cloud_properties:
-    cpu: 8
-    disk: 65536
-    ram: 32768
-  name: 2xlarge
-- cloud_properties:
-    cpu: 4
-    disk: 65536
-    ram: 65536
-  name: 2xlarge.mem
-- cloud_properties:
-    cpu: 8
-    disk: 262144
-    ram: 32768
-  name: 2xlarge.disk
-- cloud_properties:
-    cpu: 16
-    disk: 65536
-    ram: 16384
-  name: 2xlarge.cpu
-- cloud_properties:
+    disk: 10240
+
+- name: cf.api
+  cloud_properties:
     cpu: 1
-    disk: 8192
     ram: 1024
-  name: ci.web
-- cloud_properties:
+    disk: 8192
+- name: cf.cc-worker
+  cloud_properties:
     cpu: 1
-    disk: 8192
     ram: 1024
-  name: ci.db
-- cloud_properties:
-    cpu: 4
-    disk: 65536
-    ram: 4096
-  name: ci.worker
-- cloud_properties:
+    disk: 8192
+- name: cf.credhub
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.database
+  cloud_properties:
     cpu: 2
+    ram: 8192
+    disk: 10240
+- name: cf.diego-api
+  cloud_properties:
+    cpu: 1
+    ram: 1024
     disk: 8192
+- name: cf.diego-cell
+  cloud_properties:
+    cpu: 4
+    ram: 32768
+    disk: 10240
+- name: cf.doppler
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.log-api
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.log-cache
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.nats
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.rotate-cc-database-key
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.router
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.scheduler
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.smoke-tests
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: cf.uaa
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+
+- name: concourse.web
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: concourse.db
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: concourse.worker
+  cloud_properties:
+    cpu: 4
+    ram: 4096
+    disk: 65536
+- name: minio.server
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: nexus.server
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: postgres.server
+  cloud_properties:
+    cpu: 1
+    ram: 1024
+    disk: 8192
+- name: pxc.server
+  cloud_properties:
+    cpu: 1
     ram: 2048
-  name: caddy.server
+    disk: 16384
+
+vm_extensions:
+- name: cf-router-network-properties
+- name: cf-tcp-router-network-properties
+- name: diego-ssh-proxy-network-properties
+- name: 50GB_ephemeral_disk
+  cloud_properties:
+    disk: 51200
+- name: 100GB_ephemeral_disk
+  cloud_properties:
+    disk: 102400
+
+compilation:
+  workers: 4
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: bosh.worker
+  network: default

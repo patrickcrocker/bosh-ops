@@ -1,18 +1,17 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
-# Usage:
-#
-# First, generate a cloud config, without variables interpolated, via:
-#
-#   $ ./bin/interpolate
-#
-# Then:
-#
-#   $ ./bin/update-cloud-config
-
 base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+cloudconfig="${repo}/environment/cloud-config.yml"
+
+bosh interpolate "${repo}/environment/templates/cloud-config.yml" \
+  -o "${repo}/tmp/bosh-deployment/misc/dns.yml" \
+  > "${cloudconfig}"
+
+echo -e "# Generated file - do not edit directly!\n---\n$(cat $cloudconfig)" > "$cloudconfig"
+echo "Generated cloud config: $cloudconfig"
 
 echo "Updating Cloud Config"
 bosh update-cloud-config \
