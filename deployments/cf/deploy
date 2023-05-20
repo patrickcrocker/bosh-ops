@@ -50,6 +50,7 @@ bosh interpolate "${repo}/tmp/cf-deployment/cf-deployment.yml" \
   -o "${repo}/tmp/cf-deployment/operations/rename-network-and-deployment.yml" \
   -o "${repo}/tmp/cf-deployment/operations/scale-to-one-az.yml" \
   -o "${repo}/tmp/cf-deployment/operations/set-router-static-ips.yml" \
+  -o "${repo}/tmp/cf-deployment/operations/stop-skipping-tls-validation.yml" \
   -o "${repo}/deployments/cf/operations.yml" \
    > "${manifest}"
 

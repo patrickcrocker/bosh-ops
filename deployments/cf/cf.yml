@@ -350,7 +350,6 @@ instance_groups:
         client: cf_smoke_tests
         client_secret: ((uaa_clients_cf_smoke_tests_secret))
         org: cf_smoke_tests_org
-        skip_ssl_validation: true
         space: cf_smoke_tests_space
     release: cf-smoke-tests
   - name: cf-cli-8-linux
@@ -1035,8 +1034,7 @@ instance_groups:
         route_services_secret: ((router_route_services_secret))
       routing_api:
         enabled: true
-      ssl:
-        skip_cert_verify: true
+      ssl: {}
       system_domain: ((system_domain))
       uaa:
         ca_cert: ((uaa_ssl.ca))
@@ -1323,8 +1321,7 @@ instance_groups:
           tag: admin
       routing_api:
         enabled: true
-      ssl:
-        skip_cert_verify: true
+      ssl: {}
       system_domain: ((system_domain))
       uaa:
         ca_cert: ((uaa_ssl.ca))
@@ -2012,8 +2009,7 @@ instance_groups:
             key: ((loggregator_tls_tc.private_key))
         uaa:
           client_secret: ((uaa_clients_doppler_secret))
-      ssl:
-        skip_cert_verify: true
+      ssl: {}
       system_domain: ((system_domain))
       uaa:
         ca_cert: ((uaa_ssl.ca))
