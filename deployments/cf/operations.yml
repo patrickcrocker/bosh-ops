@@ -1,0 +1,87 @@
+# Network
+- type: replace
+  path: /instance_groups/name=router/networks/name=default/name
+  value: ((network_name))
+
+# Scale
+- type: replace
+  path: /instance_groups/name=router/instances
+  value: 3
+- type: remove
+  path: /instance_groups/name=tcp-router
+
+# # VM Types
+# - type: replace
+#   path: /instance_groups/name=api/vm_type
+#   value: cf.api
+#   # value: small
+
+# - type: replace
+#   path: /instance_groups/name=cc-worker/vm_type
+#   value: cf.cc-worker
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=credhub/vm_type
+#   value: cf.credhub
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=database/vm_type
+#   value: cf.database
+#   # value: small
+
+# - type: replace
+#   path: /instance_groups/name=diego-api/vm_type
+#   value: cf.diego-api
+#   # value: small
+
+# - type: replace
+#   path: /instance_groups/name=diego-cell/vm_type
+#   value: cf.diego-cell
+#   # value: small-highmem
+
+# - type: replace
+#   path: /instance_groups/name=doppler/vm_type
+#   value: cf.doppler
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=log-api/vm_type
+#   value: cf.log-api
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=log-cache/vm_type
+#   value: cf.log-cache
+#   # value: small-highmem
+
+# - type: replace
+#   path: /instance_groups/name=nats/vm_type
+#   value: cf.nats
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=rotate-cc-database-key/vm_type
+#   value: cf.rotate-cc-database-key
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=router/vm_type
+#   value: cf.router
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=scheduler/vm_type
+#   value: cf.scheduler
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=smoke-tests/vm_type
+#   value: cf.smoke-tests
+#   # value: minimal
+
+# - type: replace
+#   path: /instance_groups/name=uaa/vm_type
+#   value: cf.uaa
+#   # value: small
