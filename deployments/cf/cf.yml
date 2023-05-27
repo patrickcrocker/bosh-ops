@@ -345,7 +345,7 @@ instance_groups:
         enabled: true
       smoke_tests:
         api: https://api.((system_domain))
-        apps_domain: ((smoke_test_app_domain))
+        apps_domain: ((system_domain))
         cf_dial_timeout_in_seconds: 300
         client: cf_smoke_tests
         client_secret: ((uaa_clients_cf_smoke_tests_secret))
@@ -858,7 +858,10 @@ instance_groups:
   jobs:
   - name: cloud_controller_ng
     properties:
-      app_domains: ((app_domains))
+      app_domains:
+      - ((system_domain))
+      - internal: true
+        name: apps.internal
       app_ssh:
         host_key_fingerprint: ((diego_ssh_proxy_host_key.public_key_fingerprint))
       cc:
@@ -1808,7 +1811,7 @@ instance_groups:
   vm_type: minimal
 - azs:
   - z1
-  instances: 1
+  instances: 3
   jobs:
   - name: bosh-dns-adapter
     properties:

@@ -46,7 +46,6 @@ popd > /dev/null
 manifest="${repo}/deployments/cf/cf.yml"
 
 bosh interpolate "${repo}/tmp/cf-deployment/cf-deployment.yml" \
-  -o "${repo}/tmp/cf-deployment/operations/override-app-domains.yml" \
   -o "${repo}/tmp/cf-deployment/operations/rename-network-and-deployment.yml" \
   -o "${repo}/tmp/cf-deployment/operations/scale-to-one-az.yml" \
   -o "${repo}/tmp/cf-deployment/operations/set-router-static-ips.yml" \
