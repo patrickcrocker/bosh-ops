@@ -55,7 +55,6 @@ bosh interpolate "${repo}/tmp/concourse-bosh-deployment/cluster/concourse.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/github-auth.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/credhub.yml" \
   -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/x-frame-options-sameorigin.yml" \
-  -o "${repo}/tmp/concourse-bosh-deployment/cluster/operations/update-stemcell.yml" \
   -o "${repo}/deployments/concourse/operations.yml" \
    > "${manifest}"
 

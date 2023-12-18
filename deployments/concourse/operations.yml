@@ -18,6 +18,3 @@
 - type: replace
   path: /instance_groups/name=web/networks/0/static_ips?
   value: [((concourse_web_ip))]
-
-- type: remove
-  path: /stemcells/alias=bionic

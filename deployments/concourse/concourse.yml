@@ -47,7 +47,7 @@ instance_groups:
   - name: ((network_name))
     static_ips:
     - ((concourse_web_ip))
-  stemcell: ((stemcell_alias))
+  stemcell: jammy
   vm_type: ((web_vm_type))
 - azs: ((azs))
   instances: 1
@@ -66,7 +66,7 @@ instance_groups:
   networks:
   - name: ((network_name))
   persistent_disk_type: ((db_persistent_disk_type))
-  stemcell: ((stemcell_alias))
+  stemcell: jammy
   vm_type: ((db_vm_type))
 - azs: ((azs))
   instances: ((worker_instances))
@@ -82,25 +82,25 @@ instance_groups:
   name: worker
   networks:
   - name: ((network_name))
-  stemcell: ((stemcell_alias))
+  stemcell: jammy
   vm_type: ((worker_vm_type))
 name: ((deployment_name))
 releases:
 - name: concourse
-  sha1: 9879a5c3820b63ecdb98bba8d32e502cca6b0d27
-  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=7.9.1
-  version: 7.9.1
+  sha1: f5a83f741cd07b1fa42df8324af18c9d30d629b0
+  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=7.11.0
+  version: 7.11.0
 - name: bpm
-  sha1: e8abe19ec186962828de843f8f281cddb6141904
-  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.21
-  version: 1.1.21
+  sha1: c9a78a6aa9f53dcc63d2b2fa9273520871c9f1b3
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.2.9
+  version: 1.2.9
 - name: postgres
-  sha1: 582b1de9522077102dfa44ff7164cd8f499dbfc8
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=44
-  version: "44"
+  sha1: 94b7f6c79d0d3d867358c3ebdf8bb47cf62db7eb
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=47
+  version: "47"
 stemcells:
-- alias: ((stemcell_alias))
-  os: ((stemcell_os))
+- alias: jammy
+  os: ubuntu-jammy
   version: latest
 update:
   canaries: 1
