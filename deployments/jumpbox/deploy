@@ -1,0 +1,62 @@
+#! /usr/bin/env bash
+set -eu
+set -o pipefail
+
+# To generate a manifest with variable interpolation placeholders intact,
+# suitable to be committed to source control
+
+function get_yaml_value() {
+  local key=${1:?key null or not set}
+  local file=${2:?file null or not set}
+
+  if ! yq_cli=$(command -v yq); then
+    echo "unable to locate yq binary (https://github.com/mikefarah/yq)" >&2
+    exit 1
+  fi
+
+  if [[ "$(yq --version)" != *"version v4"* ]]; then
+    echo "yq v4 is required (found $(yq --version))" >&2
+    exit 12
+  fi
+
+  "$yq_cli" "$key" "$file"
+}
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+# make sure we have jumpbox-boshrelease
+if [[ ! -d "${repo}/tmp/jumpbox-boshrelease" ]] ; then
+  pushd ${repo}/tmp > /dev/null
+    git clone https://github.com/cloudfoundry-community/jumpbox-boshrelease.git &> /dev/null
+  popd > /dev/null
+fi
+
+# checkout specific version of jumpbox-boshrelease
+REF="v$(get_yaml_value '.version' "${repo}/deployments/jumpbox/versions.yml")"
+echo "Checking out to jumpbox-boshrelease to ref: ${REF}"
+
+pushd ${repo}/tmp/jumpbox-boshrelease > /dev/null
+  git fetch &> /dev/null
+  git checkout ${REF} &> /dev/null
+  git log -1 --pretty=oneline
+popd > /dev/null
+
+# Generated manifest
+manifest="${repo}/deployments/jumpbox/jumpbox.yml"
+
+bosh interpolate "${repo}/tmp/jumpbox-boshrelease/manifests/jumpbox.yml" \
+  -l "${repo}/deployments/jumpbox/versions.yml" \
+   > "${manifest}"
+
+echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
+echo "Generating manifest: $manifest"
+
+bosh deploy -d jumpbox \
+  -l "${base}/bosh-secrets/vars-jumpbox.yml" \
+  -l "${base}/bosh-secrets/vars-static-ips.yml" \
+  -o "${repo}/deployments/jumpbox/operations.yml" \
+  "${manifest}" \
+  "$@"
+
+echo "Finished deploying: jumpbox"

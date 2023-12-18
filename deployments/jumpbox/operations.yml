@@ -1,0 +1,16 @@
+- type: replace
+  path: /instance_groups/name=jumpbox/vm_resources/ephemeral_disk_size
+  value: 20480
+
+- type: replace
+  path: /instance_groups/name=jumpbox/networks/0/static_ips?
+  value: [((jumpbox_ip))]
+
+- type: replace
+  path: /instance_groups/name=jumpbox/jobs/name=jumpbox/properties?/jumpbox?/users?/-
+  value:
+    name: ((jumpbox_user_name))
+    shell: /bin/bash
+    sudo: true
+    ssh_keys:
+      - ((jumpbox_user_ssh_key))

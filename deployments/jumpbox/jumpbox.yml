@@ -1,0 +1,38 @@
+# Generated file - do not edit directly!
+---
+instance_groups:
+- azs:
+  - z1
+  env:
+    bosh:
+      remove_dev_tools: false
+  instances: 1
+  jobs:
+  - name: jumpbox
+    release: jumpbox
+  - name: inventory
+    release: jumpbox
+  name: jumpbox
+  networks:
+  - name: default
+  stemcell: default
+  vm_resources:
+    cpu: 2
+    ephemeral_disk_size: 40960
+    ram: 2048
+name: jumpbox
+releases:
+- name: jumpbox
+  sha1: f824e44d3d4b2a569591309f4d0187fe0c7c5bf2
+  url: https://github.com/cloudfoundry-community/jumpbox-boshrelease/releases/download/v5.0.0/jumpbox-5.0.0.tgz
+  version: 5.0.0
+stemcells:
+- alias: default
+  os: ubuntu-jammy
+  version: latest
+update:
+  canaries: 0
+  canary_watch_time: 1000-120000
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 1000-120000
