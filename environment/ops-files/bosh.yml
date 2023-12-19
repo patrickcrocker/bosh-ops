@@ -13,3 +13,7 @@
   value:
     name: uaa_clients_concourse_to_credhub
     type: password
+
+- type: replace
+  path: /disk_pools/name=disks/disk_size
+  value: 102400
