@@ -13,12 +13,6 @@
 - type: remove
   path: /instance_groups/name=tcp-router
 
-- type: remove
-  path: /instance_groups/name=api/jobs/name=java-buildpack
-
-- type: remove
-  path: /instance_groups/name=api/jobs/name=go-buildpack
-
 # # VM Types
 # - type: replace
 #   path: /instance_groups/name=api/vm_type
