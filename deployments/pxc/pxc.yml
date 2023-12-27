@@ -59,6 +59,12 @@ instance_groups:
       - name: scheduler_broker
         password: ((pcf_password))
         username: pcf_user
+      seeded_users:
+        smoke-tests-user:
+          host: any
+          password: ((smoke_tests_db_password))
+          role: schema-admin
+          schema: pxc_release_test_db
       tls:
         galera: ((galera_server_certificate))
         server: ((mysql_server_certificate))
@@ -67,8 +73,6 @@ instance_groups:
     properties:
       db_password: ((smoke_tests_db_password))
     release: pxc
-  - name: smoke-tests-user
-    release: pxc
   name: mysql
   networks:
   - name: default
@@ -76,25 +80,26 @@ instance_groups:
     - ((pxc_db_ip))
   persistent_disk: 10000
   stemcell: default
-  vm_type: small.disk
+  vm_type: pxc.server
 name: pxc
 releases:
 - name: pxc
-  sha1: 526751fd60912322aafbb2b25f744b732501493f
-  url: https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=0.39.0
-  version: 0.39.0
+  sha1: ed84a099dc0a70c910d2cdb57b4c53ce225d434f
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/pxc-release?v=1.0.21
+  version: 1.0.21
 - name: bpm
-  sha1: 0d48aa01a65b947b97570234eb2401e821a8bd35
-  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.1.15
-  version: 1.1.15
+  sha1: aff9f4397c931c7b9cdb992c62d3f3f629756198
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.2.12
+  version: 1.2.12
 stemcells:
 - alias: default
-  os: ubuntu-bionic
+  os: ubuntu-jammy
   version: latest
 update:
   canaries: 1
   canary_watch_time: 10000-600000
   max_in_flight: 1
+  serial: false
   update_watch_time: 10000-600000
 variables:
 - name: cf_mysql_mysql_admin_password
@@ -119,6 +124,8 @@ variables:
   type: certificate
 - name: mysql_server_certificate
   options:
+    alternative_names:
+    - localhost
     ca: pxc_server_ca
     common_name: mysql_server_certificate
   type: certificate
