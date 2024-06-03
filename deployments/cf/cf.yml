@@ -484,6 +484,9 @@ instance_groups:
         format:
           timestamp: rfc3339
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -763,6 +766,9 @@ instance_groups:
         admin_users:
         - password: ((blobstore_admin_users_password))
           username: blobstore-user
+        public_tls:
+          cert: ((blobstore_public.certificate))
+          private_key: ((blobstore_public.private_key))
         secure_link:
           secret: ((blobstore_secure_link_secret))
         tls:
@@ -784,10 +790,11 @@ instance_groups:
       route_registrar:
         routes:
         - name: blobstore
-          port: 8080
           registration_interval: 20s
+          server_cert_domain_san: blobstore.((system_domain))
           tags:
             component: blobstore
+          tls_port: 8081
           uris:
           - blobstore.((system_domain))
     release: routing
@@ -812,7 +819,7 @@ instance_groups:
       app_domains: ((app_domains))
       app_ssh:
         host_key_fingerprint: ((diego_ssh_proxy_host_key.public_key_fingerprint))
-      build: v35.3.0
+      build: v40.14.0
       cc:
         buildpacks:
           blobstore_type: webdav
@@ -840,11 +847,9 @@ instance_groups:
           droplet_destinations:
             cflinuxfs4: /home/vcap
             windows: /Users/vcap
-            windows2016: /Users/vcap
           lifecycle_bundles:
             buildpack/cflinuxfs4: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             buildpack/windows: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
-            buildpack/windows2016: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             docker: docker_app_lifecycle/docker_app_lifecycle.tgz
         droplets:
           blobstore_type: webdav
@@ -973,7 +978,7 @@ instance_groups:
           cloud_controller_username_lookup:
             secret: ((uaa_clients_cloud_controller_username_lookup_secret))
         url: https://uaa.((system_domain))
-      version: 35
+      version: 40
     provides:
       cloud_controller:
         as: cloud_controller
@@ -1058,6 +1063,9 @@ instance_groups:
         format:
           timestamp: rfc3339
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -1190,11 +1198,9 @@ instance_groups:
           droplet_destinations:
             cflinuxfs4: /home/vcap
             windows: /Users/vcap
-            windows2016: /Users/vcap
           lifecycle_bundles:
             buildpack/cflinuxfs4: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             buildpack/windows: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
-            buildpack/windows2016: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             docker: docker_app_lifecycle/docker_app_lifecycle.tgz
         droplets:
           blobstore_type: webdav
@@ -1306,6 +1312,9 @@ instance_groups:
         format:
           timestamp: rfc3339
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -1332,11 +1341,9 @@ instance_groups:
           droplet_destinations:
             cflinuxfs4: /home/vcap
             windows: /Users/vcap
-            windows2016: /Users/vcap
           lifecycle_bundles:
             buildpack/cflinuxfs4: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             buildpack/windows: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
-            buildpack/windows2016: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             docker: docker_app_lifecycle/docker_app_lifecycle.tgz
         droplets:
           blobstore_type: webdav
@@ -1410,11 +1417,9 @@ instance_groups:
           droplet_destinations:
             cflinuxfs4: /home/vcap
             windows: /Users/vcap
-            windows2016: /Users/vcap
           lifecycle_bundles:
             buildpack/cflinuxfs4: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             buildpack/windows: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
-            buildpack/windows2016: buildpack_app_lifecycle/buildpack_app_lifecycle.tgz
             docker: docker_app_lifecycle/docker_app_lifecycle.tgz
         mutual_tls:
           ca_cert: ((cc_tls.ca))
@@ -1499,6 +1504,9 @@ instance_groups:
         format:
           timestamp: rfc3339
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -1799,6 +1807,9 @@ instance_groups:
         format:
           timestamp: rfc3339
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -1837,6 +1848,9 @@ instance_groups:
         format:
           timestamp: rfc3339
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -1860,6 +1874,9 @@ instance_groups:
       client_cert: ((network_policy_client.certificate))
       client_key: ((network_policy_client.private_key))
       loggregator:
+        app_metric_exclusion_filter:
+        - absolute_entitlement
+        - absolute_usage
         ca_cert: ((loggregator_tls_agent.ca))
         cert: ((loggregator_tls_agent.certificate))
         key: ((loggregator_tls_agent.private_key))
@@ -2073,133 +2090,133 @@ instance_groups:
   - name: ((network_name))
   stemcell: default
   vm_type: minimal
-manifest_version: v35.3.0
+manifest_version: v40.14.0
 name: ((deployment_name))
 releases:
 - name: binary-buildpack
-  sha1: 50eb4a7c8fb7bea1c93cb520c3cd7df7940de262
-  url: https://bosh.io/d/github.com/cloudfoundry/binary-buildpack-release?v=1.1.8
-  version: 1.1.8
+  sha1: 14a97ac4bc7422bfa583db75ae23554b7f040a74
+  url: https://bosh.io/d/github.com/cloudfoundry/binary-buildpack-release?v=1.1.12
+  version: 1.1.12
 - name: bpm
-  sha1: aff9f4397c931c7b9cdb992c62d3f3f629756198
-  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.2.12
-  version: 1.2.12
+  sha1: 8052def173f1e1d87dcbbce353dd2e6d1df96177
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.2.19
+  version: 1.2.19
 - name: capi
-  sha1: 57e3a3d274fc304014f6a43bd56bdd439cc9851c
-  url: https://bosh.io/d/github.com/cloudfoundry/capi-release?v=1.167.0
-  version: 1.167.0
+  sha1: 77dd093f0c3e171e2e5198c94e38c3b3d153ed53
+  url: https://bosh.io/d/github.com/cloudfoundry/capi-release?v=1.182.0
+  version: 1.182.0
 - name: cf-networking
-  sha1: fc04ebd7dae98662348fb57b32163ad02c290a3c
-  url: https://bosh.io/d/github.com/cloudfoundry/cf-networking-release?v=3.39.0
-  version: 3.39.0
+  sha1: 28ae3c49a0509d0899353273059d122529e632dc
+  url: https://bosh.io/d/github.com/cloudfoundry/cf-networking-release?v=3.46.0
+  version: 3.46.0
 - name: cf-smoke-tests
-  sha1: 46a8c2f4fb5242df8b2b3c886723726c5a2eac7d
-  url: https://bosh.io/d/github.com/cloudfoundry/cf-smoke-tests-release?v=42.0.118
-  version: 42.0.118
+  sha1: a02481272db3c15f2f8406e615c298e73797bdba
+  url: https://bosh.io/d/github.com/cloudfoundry/cf-smoke-tests-release?v=42.0.148
+  version: 42.0.148
 - name: cflinuxfs4
-  sha1: 40029b7fb7e6fc31bc9241a70dd3a1812db17e2b
-  url: https://bosh.io/d/github.com/cloudfoundry/cflinuxfs4-release?v=1.61.0
-  version: 1.61.0
+  sha1: 35fc004408a2c5fac0012ed84943cba240c34f25
+  url: https://bosh.io/d/github.com/cloudfoundry/cflinuxfs4-release?v=1.98.0
+  version: 1.98.0
 - name: credhub
-  sha1: e321fa02d379935e7e99439db588ca28624b60a6
-  url: https://bosh.io/d/github.com/pivotal-cf/credhub-release?v=2.12.55
-  version: 2.12.55
+  sha1: 7ce94a3786d3b0bc13b54bc21f047e0557783a47
+  url: https://bosh.io/d/github.com/pivotal-cf/credhub-release?v=2.12.75
+  version: 2.12.75
 - name: diego
-  sha1: b2b41911f6f7689e5129c97cab0c4cd4f74c9b65
-  url: https://bosh.io/d/github.com/cloudfoundry/diego-release?v=2.87.0
-  version: 2.87.0
+  sha1: c5cdb3ef88a5211a3a0e50890deff9481e6bec5b
+  url: https://bosh.io/d/github.com/cloudfoundry/diego-release?v=2.100.0
+  version: 2.100.0
 - name: dotnet-core-buildpack
-  sha1: 15b94896d9ddba8ecff4bb3ad0136046de8f3f03
-  url: https://bosh.io/d/github.com/cloudfoundry/dotnet-core-buildpack-release?v=2.4.18
-  version: 2.4.18
+  sha1: b17d25c66090cabc14ae0fdbdcafdce74db9fa3f
+  url: https://bosh.io/d/github.com/cloudfoundry/dotnet-core-buildpack-release?v=2.4.28
+  version: 2.4.28
 - name: garden-runc
-  sha1: 44f9dd415bad3c5b79ac54cb3d74a0e342729144
-  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.47.0
-  version: 1.47.0
+  sha1: 727479842888aa9752b0f556702d987424ef7254
+  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.53.0
+  version: 1.53.0
 - name: go-buildpack
-  sha1: 8ec7c62b91e520091a169be5f50cb455cc6196aa
-  url: https://bosh.io/d/github.com/cloudfoundry/go-buildpack-release?v=1.10.14
-  version: 1.10.14
+  sha1: 20f45cad398f3eab829aa216b882c0f27ac51587
+  url: https://bosh.io/d/github.com/cloudfoundry/go-buildpack-release?v=1.10.19
+  version: 1.10.19
 - name: java-buildpack
-  sha1: d05daf5812612e78aafc4a54508259fd3e4fbd24
-  url: https://bosh.io/d/github.com/cloudfoundry/java-buildpack-release?v=4.63.1
-  version: 4.63.1
+  sha1: 39cf6dadbf5f902c8b40c76fe45fd8f9003a3c46
+  url: https://bosh.io/d/github.com/cloudfoundry/java-buildpack-release?v=4.70.0
+  version: 4.70.0
 - name: loggregator
-  sha1: ce8bd2a8518452ce9f1257bbab2abab724da7ab9
-  url: https://bosh.io/d/github.com/cloudfoundry/loggregator-release?v=107.0.11
-  version: 107.0.11
+  sha1: 6a41e9642d8e3cd6191c0b54e7678719800b2826
+  url: https://bosh.io/d/github.com/cloudfoundry/loggregator-release?v=107.0.14
+  version: 107.0.14
 - name: nats
-  sha1: a50b3552ed37a416a75947f6f201e65360251db3
-  url: https://bosh.io/d/github.com/cloudfoundry/nats-release?v=56.14.0
-  version: 56.14.0
+  sha1: 945d4fe29150cb8091a21f295a6a163b735b5dd4
+  url: https://bosh.io/d/github.com/cloudfoundry/nats-release?v=56.19.0
+  version: 56.19.0
 - name: nginx-buildpack
-  sha1: 20857e976e63eeb1427727462ac7d9a7359f0d7f
-  url: https://bosh.io/d/github.com/cloudfoundry/nginx-buildpack-release?v=1.2.8
-  version: 1.2.8
+  sha1: f96f4a188c6e8c1c7e548760da26baaf4ed950ee
+  url: https://bosh.io/d/github.com/cloudfoundry/nginx-buildpack-release?v=1.2.14
+  version: 1.2.14
 - name: r-buildpack
-  sha1: 7c69e82a75984ecafd37e8ef9001553ef25486d4
-  url: https://bosh.io/d/github.com/cloudfoundry/r-buildpack-release?v=1.2.7
-  version: 1.2.7
+  sha1: e7b8c156dcdbd9e84fe50b9e439834aeb617144d
+  url: https://bosh.io/d/github.com/cloudfoundry/r-buildpack-release?v=1.2.12
+  version: 1.2.12
 - name: nodejs-buildpack
-  sha1: 6e8fc7089b73507c7d16348520d9e503cdb4aa50
-  url: https://bosh.io/d/github.com/cloudfoundry/nodejs-buildpack-release?v=1.8.20
-  version: 1.8.20
+  sha1: cd68a8e077cc8a010927f0f426782824abcd31d5
+  url: https://bosh.io/d/github.com/cloudfoundry/nodejs-buildpack-release?v=1.8.25
+  version: 1.8.25
 - name: php-buildpack
-  sha1: e1f6d9c520c83f8cef54c8b476bafe759451e6ec
-  url: https://bosh.io/d/github.com/cloudfoundry/php-buildpack-release?v=4.6.13
-  version: 4.6.13
+  sha1: 52606e82f48f07d838a93bdd811c8c9036bfbe5c
+  url: https://bosh.io/d/github.com/cloudfoundry/php-buildpack-release?v=4.6.19
+  version: 4.6.19
 - name: pxc
-  sha1: ed84a099dc0a70c910d2cdb57b4c53ce225d434f
-  url: https://bosh.io/d/github.com/cloudfoundry/pxc-release?v=1.0.21
-  version: 1.0.21
+  sha1: f80440917c86a6c3fc96dbdb2dccb2c6c3439e1d
+  url: https://bosh.io/d/github.com/cloudfoundry/pxc-release?v=1.0.28
+  version: 1.0.28
 - name: python-buildpack
-  sha1: 192f3cb029a1820703aed59ebb51a498e9e63eb5
-  url: https://bosh.io/d/github.com/cloudfoundry/python-buildpack-release?v=1.8.16
-  version: 1.8.16
+  sha1: c0a16536d9b56887f80e52a0e6c0bec501cc426a
+  url: https://bosh.io/d/github.com/cloudfoundry/python-buildpack-release?v=1.8.25
+  version: 1.8.25
 - name: routing
-  sha1: 6aa8f4ec29b9aac34c5f2f14157a929d315bb833
-  url: https://bosh.io/d/github.com/cloudfoundry/routing-release?v=0.285.0
-  version: 0.285.0
+  sha1: f65dfe377269b712db1b24df102b605b73391fcb
+  url: https://bosh.io/d/github.com/cloudfoundry/routing-release?v=0.298.0
+  version: 0.298.0
 - name: ruby-buildpack
-  sha1: e260dbba44c7d9e62f802e49926d9fd13fbd889e
-  url: https://bosh.io/d/github.com/cloudfoundry/ruby-buildpack-release?v=1.10.6
-  version: 1.10.6
+  sha1: f71c2ed493cc31b3ba9f38af4cd12ee395c51427
+  url: https://bosh.io/d/github.com/cloudfoundry/ruby-buildpack-release?v=1.10.15
+  version: 1.10.15
 - name: silk
-  sha1: 3419e17301ebf2a7d62d390a3833a7f3385c9e6d
-  url: https://bosh.io/d/github.com/cloudfoundry/silk-release?v=3.39.0
-  version: 3.39.0
+  sha1: 868ed3c5f61e9ffb2d2b4bd044e8eeddcc1bfd1d
+  url: https://bosh.io/d/github.com/cloudfoundry/silk-release?v=3.46.0
+  version: 3.46.0
 - name: staticfile-buildpack
-  sha1: 2a2630ddeda9d627a4b5fd9c25de5962fd21084a
-  url: https://bosh.io/d/github.com/cloudfoundry/staticfile-buildpack-release?v=1.6.8
-  version: 1.6.8
+  sha1: 7fa2ce8cb85931b551d8bd53baa6e068ced64e1a
+  url: https://bosh.io/d/github.com/cloudfoundry/staticfile-buildpack-release?v=1.6.13
+  version: 1.6.13
 - name: statsd-injector
-  sha1: 630ced288c13f9d546e0e5044ff9b19c6c9b395a
-  url: https://bosh.io/d/github.com/cloudfoundry/statsd-injector-release?v=1.11.37
-  version: 1.11.37
+  sha1: eaa5e465d8310113ae90bc9b7d956319f1315d14
+  url: https://bosh.io/d/github.com/cloudfoundry/statsd-injector-release?v=1.11.40
+  version: 1.11.40
 - name: uaa
-  sha1: 742e4651057fee06152419da60bff4672ad1866f
-  url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=76.27.0
-  version: 76.27.0
+  sha1: 2880e700842c87d6ae615a9b41e152d0091fc3bd
+  url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=77.9.0
+  version: 77.9.0
 - name: loggregator-agent
-  sha1: d50545b098b5edadd86dff4a7db267539cae6f6a
-  url: https://bosh.io/d/github.com/cloudfoundry/loggregator-agent-release?v=7.7.3
-  version: 7.7.3
+  sha1: 4a65bd6a4e5585025fb1c24d7698057a091e1b50
+  url: https://bosh.io/d/github.com/cloudfoundry/loggregator-agent-release?v=8.1.1
+  version: 8.1.1
 - name: log-cache
-  sha1: 2d5cab1b4b74422ae2fcf9c62fad7e48dc6cccca
-  url: https://bosh.io/d/github.com/cloudfoundry/log-cache-release?v=3.0.9
-  version: 3.0.9
+  sha1: 49e40454c467ac76224565cce7d51739af9a96d1
+  url: https://bosh.io/d/github.com/cloudfoundry/log-cache-release?v=3.0.11
+  version: 3.0.11
 - name: bosh-dns-aliases
   sha1: 55b3dced813ff9ed92a05cda02156e4b5604b273
   url: https://bosh.io/d/github.com/cloudfoundry/bosh-dns-aliases-release?v=0.0.4
   version: 0.0.4
 - name: cf-cli
-  sha1: d6278637373c15a1ed2c469758837e54cf81356a
-  url: https://bosh.io/d/github.com/bosh-packages/cf-cli-release?v=1.56.0
-  version: 1.56.0
+  sha1: 19fc1dcd4cb5dcc4df42e42317afd175dcb91903
+  url: https://bosh.io/d/github.com/bosh-packages/cf-cli-release?v=1.63.0
+  version: 1.63.0
 stemcells:
 - alias: default
   os: ubuntu-jammy
-  version: "1.329"
+  version: "1.445"
 update:
   canaries: 1
   canary_watch_time: 30000-1200000
@@ -2390,6 +2407,14 @@ variables:
     - blobstore.service.cf.internal
     ca: service_cf_internal_ca
     common_name: blobstore.service.cf.internal
+  type: certificate
+  update_mode: converge
+- name: blobstore_public
+  options:
+    alternative_names:
+    - blobstore.((system_domain))
+    ca: service_cf_internal_ca
+    common_name: blobstore.((system_domain))
   type: certificate
   update_mode: converge
 - name: diego_auctioneer_client
@@ -2795,6 +2820,13 @@ variables:
     - gorouter.service.cf.internal
     ca: service_cf_internal_ca
     common_name: gorouter_lb_health_tls
+  type: certificate
+- name: tcp_router_lb_health_tls
+  options:
+    alternative_names:
+    - tcp-router.service.cf.internal
+    ca: service_cf_internal_ca
+    common_name: tcp_router_lb_health_tls
   type: certificate
 - name: credhub_ca
   options:
