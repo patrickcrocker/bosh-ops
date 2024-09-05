@@ -23,9 +23,9 @@ instance_groups:
 name: jumpbox
 releases:
 - name: jumpbox
-  sha1: f824e44d3d4b2a569591309f4d0187fe0c7c5bf2
-  url: https://github.com/cloudfoundry-community/jumpbox-boshrelease/releases/download/v5.0.0/jumpbox-5.0.0.tgz
-  version: 5.0.0
+  sha1: 37711c2d66ef574a304280e2f538df05712439f8
+  url: https://github.com/cloudfoundry-community/jumpbox-boshrelease/releases/download/v5.0.2/jumpbox-5.0.2.tgz
+  version: 5.0.2
 stemcells:
 - alias: default
   os: ubuntu-jammy
