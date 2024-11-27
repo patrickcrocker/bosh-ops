@@ -141,8 +141,8 @@ vm_types:
   name: cf.log-cache
 - cloud_properties:
     cpu: 1
-    disk: 8192
-    ram: 1024
+    disk: 30720
+    ram: 8192
   name: cf.nats
 - cloud_properties:
     cpu: 1

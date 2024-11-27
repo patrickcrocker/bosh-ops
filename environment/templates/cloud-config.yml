@@ -135,8 +135,8 @@ vm_types:
 - name: cf.nats
   cloud_properties:
     cpu: 1
-    ram: 1024
-    disk: 8192
+    ram: 8192
+    disk: 30720
 - name: cf.rotate-cc-database-key
   cloud_properties:
     cpu: 1
