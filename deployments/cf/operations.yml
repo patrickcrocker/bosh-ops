@@ -59,10 +59,9 @@
 #   value: cf.log-cache
 #   # value: small-highmem
 
-# - type: replace
-#   path: /instance_groups/name=nats/vm_type
-#   value: cf.nats
-#   # value: minimal
+- type: replace
+  path: /instance_groups/name=nats/vm_type
+  value: cf.nats
 
 # - type: replace
 #   path: /instance_groups/name=rotate-cc-database-key/vm_type
