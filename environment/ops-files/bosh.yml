@@ -16,4 +16,4 @@
 
 - type: replace
   path: /disk_pools/name=disks/disk_size
-  value: 102400
+  value: 153600
