@@ -45,7 +45,6 @@ bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/certificate-duration/bosh.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/certificate-duration/credhub.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/certificate-duration/uaa.yml" \
-  -o "${repo}/environment/ops-files/cert-duration.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
    > "${manifest}"
 
