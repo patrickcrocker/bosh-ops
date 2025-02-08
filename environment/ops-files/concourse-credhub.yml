@@ -1,0 +1,16 @@
+# https://blog.mimacom.com/deploying-concourse-with-bosh/
+- type: replace
+  path: /instance_groups/name=bosh/jobs/name=uaa/properties/uaa/clients/concourse_to_credhub?
+  value:
+    override: true
+    authorized-grant-types: client_credentials
+    scope: ""
+    authorities: credhub.read,credhub.write
+    access-token-validity: 3600
+    secret: ((uaa_clients_concourse_to_credhub))
+
+- type: replace
+  path: /variables/-
+  value:
+    name: uaa_clients_concourse_to_credhub
+    type: password
