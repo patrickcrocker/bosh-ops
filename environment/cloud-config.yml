@@ -71,7 +71,7 @@ vm_extensions:
 vm_types:
 - cloud_properties:
     cpu: 4
-    disk: 16384
+    disk: 20480
     ram: 4096
   name: bosh.worker
 - cloud_properties:

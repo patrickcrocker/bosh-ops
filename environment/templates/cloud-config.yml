@@ -64,7 +64,7 @@ vm_types:
   cloud_properties:
     cpu: 4
     ram: 4096
-    disk: 16384
+    disk: 20480
 - name: caddy.server
   cloud_properties:
     cpu: 2
