@@ -440,7 +440,7 @@ variables:
 - name: default_ca
   options:
     common_name: ca
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     is_ca: true
   type: certificate
 - name: mbus_bootstrap_ssl
@@ -449,7 +449,7 @@ variables:
     - ((internal_ip))
     ca: default_ca
     common_name: ((internal_ip))
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
   type: certificate
 - name: director_ssl
   options:
@@ -457,12 +457,12 @@ variables:
     - ((internal_ip))
     ca: default_ca
     common_name: ((internal_ip))
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
   type: certificate
 - name: nats_ca
   options:
     common_name: default.nats-ca.bosh-internal
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     is_ca: true
   type: certificate
 - name: nats_server_tls
@@ -471,7 +471,7 @@ variables:
     - ((internal_ip))
     ca: nats_ca
     common_name: default.nats.bosh-internal
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     extended_key_usage:
     - server_auth
   type: certificate
@@ -479,7 +479,7 @@ variables:
   options:
     ca: nats_ca
     common_name: default.director.bosh-internal
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     extended_key_usage:
     - client_auth
   type: certificate
@@ -487,14 +487,14 @@ variables:
   options:
     ca: nats_ca
     common_name: default.hm.bosh-internal
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     extended_key_usage:
     - client_auth
   type: certificate
 - name: blobstore_ca
   options:
     common_name: default.blobstore-ca.bosh-internal
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     is_ca: true
   type: certificate
 - name: blobstore_server_tls
@@ -503,7 +503,7 @@ variables:
     - ((internal_ip))
     ca: blobstore_ca
     common_name: ((internal_ip))
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
   type: certificate
 - name: jumpbox_ssh
   type: ssh
@@ -519,7 +519,7 @@ variables:
     - ((internal_ip))
     ca: default_ca
     common_name: ((internal_ip))
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
   type: certificate
 - name: uaa_service_provider_ssl
   options:
@@ -527,14 +527,14 @@ variables:
     - ((internal_ip))
     ca: default_ca
     common_name: ((internal_ip))
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
   type: certificate
 - name: credhub_cli_user_password
   type: password
 - name: credhub_ca
   options:
     common_name: CredHub CA
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
     is_ca: true
   type: certificate
 - name: credhub_tls
@@ -543,7 +543,7 @@ variables:
     - ((internal_ip))
     ca: credhub_ca
     common_name: ((internal_ip))
-    duration: ((cert_duration))
+    duration: ((certificate_duration))
   type: certificate
 - name: credhub_encryption_password
   type: password
