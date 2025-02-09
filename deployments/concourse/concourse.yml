@@ -87,17 +87,17 @@ instance_groups:
 name: ((deployment_name))
 releases:
 - name: concourse
-  sha1: c0b566627e3f8890fec9e4ebeea25921a6932d47
-  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=7.11.2
-  version: 7.11.2
+  sha1: 25d8ffa6aa9edbc0f84727fd2277ffa50303d428
+  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=7.12.1
+  version: 7.12.1
 - name: bpm
-  sha1: 00e12a2c7e9389320999f99cf74061bbd08f3770
-  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.2.16
-  version: 1.2.16
+  sha1: 4087c7774fb5975bf074f3900d5a6a3dc6b1738e
+  url: https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.4.12
+  version: 1.4.12
 - name: postgres
-  sha1: eeb3df0d6d8bb174a83d19fcdbac8dd4ed33e73d
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=48
-  version: "48"
+  sha1: c04b19c87f03a4a73c17add1013ed864aeca5af9
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=53.0.1
+  version: 53.0.1
 stemcells:
 - alias: jammy
   os: ubuntu-jammy
