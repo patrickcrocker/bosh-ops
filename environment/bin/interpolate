@@ -46,6 +46,7 @@ bosh interpolate "${repo}/tmp/bosh-deployment/bosh.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/certificate-duration/credhub.yml" \
   -o "${repo}/tmp/bosh-deployment/misc/certificate-duration/uaa.yml" \
   -o "${repo}/environment/ops-files/bosh.yml" \
+  -o "${repo}/environment/ops-files/concourse-credhub.yml" \
    > "${manifest}"
 
 echo -e "# Generated file - do not edit directly!\n---\n$(cat $manifest)" > "$manifest"
