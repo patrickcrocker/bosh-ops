@@ -947,6 +947,7 @@ instance_groups:
           name: cflinuxfs4
         staging_upload_password: ((cc_staging_upload_password))
         staging_upload_user: staging_user
+        temporary_enable_v2: true
         temporary_use_logcache: true
       ccdb:
         address: sql-db.service.cf.internal

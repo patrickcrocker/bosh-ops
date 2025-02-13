@@ -51,6 +51,7 @@ bosh interpolate "${repo}/tmp/cf-deployment/cf-deployment.yml" \
   -o "${repo}/tmp/cf-deployment/operations/set-router-static-ips.yml" \
   -o "${repo}/tmp/cf-deployment/operations/stop-skipping-tls-validation.yml" \
   -o "${repo}/tmp/cf-deployment/operations/override-app-domains.yml" \
+  -o "${repo}/tmp/cf-deployment/operations/enable-v2-api.yml" \
   -o "${repo}/deployments/cf/operations.yml" \
    > "${manifest}"
 
