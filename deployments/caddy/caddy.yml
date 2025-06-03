@@ -59,6 +59,13 @@ instance_groups:
             dns googlecloud
           }
         }
+        nulldriver.com news.nulldriver.com {
+          log / /var/vcap/sys/log/caddy/patrickcrocker.access.log "{combined} {scheme} {host}"
+          proxy / http://((router_static_ips.0)):80 http://((router_static_ips.1)):80 http://((router_static_ips.2)):80 {
+            transparent
+            websocket
+          }
+        }
         patrickcrocker.com www.patrickcrocker.com {
           log / /var/vcap/sys/log/caddy/patrickcrocker.access.log "{combined} {scheme} {host}"
           proxy / http://((router_static_ips.0)):80 http://((router_static_ips.1)):80 http://((router_static_ips.2)):80 {
